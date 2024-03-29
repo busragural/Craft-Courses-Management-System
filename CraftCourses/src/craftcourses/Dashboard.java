@@ -29,6 +29,7 @@ public class Dashboard extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         dashboardPanel = new javax.swing.JPanel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         teacherOpPanel = new javax.swing.JPanel();
@@ -37,7 +38,7 @@ public class Dashboard extends javax.swing.JFrame {
         addTeacherButton = new javax.swing.JButton();
         deleteTeacherButton = new javax.swing.JButton();
         updateTeacherButton = new javax.swing.JButton();
-        showLessonsButton = new javax.swing.JButton();
+        addDetailsButton = new javax.swing.JButton();
         deleteTeacherButton2 = new javax.swing.JButton();
         lessonOpPanel = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -54,13 +55,40 @@ public class Dashboard extends javax.swing.JFrame {
         updateTraineeButton = new javax.swing.JButton();
         showOldCoursesButton = new javax.swing.JButton();
         courseOpPanel = new javax.swing.JPanel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        lessonsTable1 = new javax.swing.JTable();
+        addCourseButton = new javax.swing.JButton();
+        deleteCourseButton = new javax.swing.JButton();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
+        salesPanel = new javax.swing.JPanel();
+        chooseDateLabel = new javax.swing.JLabel();
+        weekComboBox = new javax.swing.JComboBox<>();
+        mailLabel = new javax.swing.JLabel();
+        mailField = new javax.swing.JTextField();
+        showNameButton = new javax.swing.JButton();
+        nameSurnameLabel = new javax.swing.JLabel();
+        nameSurnameField = new javax.swing.JTextField();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        choosenCraftList = new javax.swing.JList<>();
+        expLabel1 = new javax.swing.JLabel();
+        maxBudgetLabel = new javax.swing.JLabel();
+        budgetField = new javax.swing.JTextField();
+        feeLabel2 = new javax.swing.JLabel();
+        searchButton = new javax.swing.JButton();
+        jScrollPane8 = new javax.swing.JScrollPane();
+        coursesTable = new javax.swing.JTable();
+        paymentButton = new javax.swing.JButton();
+        cashRadioButton = new javax.swing.JRadioButton();
+        cardRadioButton = new javax.swing.JRadioButton();
+        expLabel2 = new javax.swing.JLabel();
         employeeOpPanel = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         employeesTable = new javax.swing.JTable();
         addEmployeeButton = new javax.swing.JButton();
         updateEmployeeButton = new javax.swing.JButton();
         deleteEmployeeButton = new javax.swing.JButton();
-        deleteEmployeeButton1 = new javax.swing.JButton();
+        logoutButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -161,15 +189,15 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
-        showLessonsButton.setBackground(new java.awt.Color(153, 181, 155));
-        showLessonsButton.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
-        showLessonsButton.setForeground(new java.awt.Color(35, 39, 42));
-        showLessonsButton.setText("Branşlar");
-        showLessonsButton.setBorder(null);
-        showLessonsButton.setBorderPainted(false);
-        showLessonsButton.addActionListener(new java.awt.event.ActionListener() {
+        addDetailsButton.setBackground(new java.awt.Color(153, 181, 155));
+        addDetailsButton.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
+        addDetailsButton.setForeground(new java.awt.Color(35, 39, 42));
+        addDetailsButton.setText("Detay Ekle");
+        addDetailsButton.setBorder(null);
+        addDetailsButton.setBorderPainted(false);
+        addDetailsButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                showLessonsButtonActionPerformed(evt);
+                addDetailsButtonActionPerformed(evt);
             }
         });
 
@@ -197,7 +225,7 @@ public class Dashboard extends javax.swing.JFrame {
                     .addComponent(addTeacherButton, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(updateTeacherButton, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(deleteTeacherButton, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(showLessonsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(addDetailsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(deleteTeacherButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(106, 106, 106))
         );
@@ -216,7 +244,7 @@ public class Dashboard extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(deleteTeacherButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(showLessonsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(addDetailsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(deleteTeacherButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(72, Short.MAX_VALUE))
@@ -230,7 +258,7 @@ public class Dashboard extends javax.swing.JFrame {
         lessonsTable.setBackground(new java.awt.Color(153, 181, 155));
         lessonsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"1", "mert kurnaz", "dfnkjdf", null},
+                {"1", "mert kurnaz", null, null},
                 {null, null, null, null},
                 {null, null, null, null},
                 {null, null, null, null},
@@ -257,11 +285,11 @@ public class Dashboard extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "Ders ID", "Ders Adı", "Ders Günü", "Ders Ücreti"
+                "Ders ID", "Ders Adı", "Açıklama", "Zaman"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -488,18 +516,366 @@ public class Dashboard extends javax.swing.JFrame {
 
         courseOpPanel.setBackground(new java.awt.Color(249, 249, 249));
 
+        lessonsTable1.setBackground(new java.awt.Color(153, 181, 155));
+        lessonsTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {"1", "mert kurnaz", "dfnkjdf", null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Kurs ID", "Ders Adı", "Kurs Zamanı", "Kurs Ücreti"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane5.setViewportView(lessonsTable1);
+
+        addCourseButton.setBackground(new java.awt.Color(125, 218, 114));
+        addCourseButton.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
+        addCourseButton.setForeground(new java.awt.Color(35, 39, 42));
+        addCourseButton.setText("Kurs Oluştur");
+        addCourseButton.setBorder(null);
+        addCourseButton.setBorderPainted(false);
+        addCourseButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addCourseButtonActionPerformed(evt);
+            }
+        });
+
+        deleteCourseButton.setBackground(new java.awt.Color(153, 181, 155));
+        deleteCourseButton.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
+        deleteCourseButton.setForeground(new java.awt.Color(35, 39, 42));
+        deleteCourseButton.setText("Kayıt Sil");
+        deleteCourseButton.setBorder(null);
+        deleteCourseButton.setBorderPainted(false);
+        deleteCourseButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteCourseButtonActionPerformed(evt);
+            }
+        });
+
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jTextArea1.setText("buraya kurs secince kurs icindeki\ndersleri ve ogretmenleri gosterme\nbutonu falan ekleyebiliriz ama \nsimdilik kalsin acil degil\n");
+        jScrollPane6.setViewportView(jTextArea1);
+
         javax.swing.GroupLayout courseOpPanelLayout = new javax.swing.GroupLayout(courseOpPanel);
         courseOpPanel.setLayout(courseOpPanelLayout);
         courseOpPanelLayout.setHorizontalGroup(
             courseOpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1000, Short.MAX_VALUE)
+            .addGroup(courseOpPanelLayout.createSequentialGroup()
+                .addGap(37, 37, 37)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 514, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 126, Short.MAX_VALUE)
+                .addGroup(courseOpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(addCourseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(deleteCourseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(89, 89, 89))
         );
         courseOpPanelLayout.setVerticalGroup(
             courseOpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 565, Short.MAX_VALUE)
+            .addGroup(courseOpPanelLayout.createSequentialGroup()
+                .addGroup(courseOpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(courseOpPanelLayout.createSequentialGroup()
+                        .addGap(68, 68, 68)
+                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(courseOpPanelLayout.createSequentialGroup()
+                        .addGap(108, 108, 108)
+                        .addComponent(addCourseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(deleteCourseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(56, 56, 56)
+                        .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(70, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("KURS İŞLEMLERİ", courseOpPanel);
+
+        salesPanel.setBackground(new java.awt.Color(249, 249, 249));
+
+        chooseDateLabel.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
+        chooseDateLabel.setForeground(new java.awt.Color(51, 50, 44));
+        chooseDateLabel.setText("Kurs zamanını seçiniz:");
+        chooseDateLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        weekComboBox.setBackground(new java.awt.Color(153, 181, 155));
+        weekComboBox.setForeground(new java.awt.Color(35, 39, 42));
+        weekComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Hafta içi", "Hafta sonu" }));
+
+        mailLabel.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
+        mailLabel.setForeground(new java.awt.Color(51, 50, 44));
+        mailLabel.setText("Kursiyerin E-postası:");
+        mailLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        mailField.setBackground(new java.awt.Color(249, 249, 249));
+        mailField.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
+        mailField.setForeground(new java.awt.Color(125, 218, 114));
+        mailField.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("LingWai TC", 0, 18), new java.awt.Color(51, 50, 44))); // NOI18N
+        mailField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mailFieldActionPerformed(evt);
+            }
+        });
+
+        showNameButton.setBackground(new java.awt.Color(125, 218, 114));
+        showNameButton.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
+        showNameButton.setForeground(new java.awt.Color(51, 50, 44));
+        showNameButton.setText("⬇");
+        showNameButton.setBorder(null);
+        showNameButton.setBorderPainted(false);
+        showNameButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                showNameButtonActionPerformed(evt);
+            }
+        });
+
+        nameSurnameLabel.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
+        nameSurnameLabel.setForeground(new java.awt.Color(51, 50, 44));
+        nameSurnameLabel.setText("Adı Soyadı:");
+        nameSurnameLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        nameSurnameField.setBackground(new java.awt.Color(249, 249, 249));
+        nameSurnameField.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
+        nameSurnameField.setForeground(new java.awt.Color(125, 218, 114));
+        nameSurnameField.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("LingWai TC", 0, 18), new java.awt.Color(51, 50, 44))); // NOI18N
+        nameSurnameField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nameSurnameFieldActionPerformed(evt);
+            }
+        });
+
+        choosenCraftList.setBackground(new java.awt.Color(153, 181, 155));
+        choosenCraftList.setForeground(new java.awt.Color(35, 39, 42));
+        choosenCraftList.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane7.setViewportView(choosenCraftList);
+
+        expLabel1.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
+        expLabel1.setForeground(new java.awt.Color(51, 50, 44));
+        expLabel1.setText("Talep edilen el sanatları:");
+        expLabel1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        maxBudgetLabel.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
+        maxBudgetLabel.setForeground(new java.awt.Color(51, 50, 44));
+        maxBudgetLabel.setText("Maksimum Bütçe:");
+        maxBudgetLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        budgetField.setBackground(new java.awt.Color(249, 249, 249));
+        budgetField.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
+        budgetField.setForeground(new java.awt.Color(125, 218, 114));
+        budgetField.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("LingWai TC", 0, 18), new java.awt.Color(51, 50, 44))); // NOI18N
+        budgetField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                budgetFieldActionPerformed(evt);
+            }
+        });
+
+        feeLabel2.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
+        feeLabel2.setForeground(new java.awt.Color(51, 50, 44));
+        feeLabel2.setText("TL");
+        feeLabel2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        searchButton.setBackground(new java.awt.Color(125, 218, 114));
+        searchButton.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
+        searchButton.setForeground(new java.awt.Color(51, 50, 44));
+        searchButton.setText("Ara");
+        searchButton.setBorder(null);
+        searchButton.setBorderPainted(false);
+        searchButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchButtonActionPerformed(evt);
+            }
+        });
+
+        coursesTable.setBackground(new java.awt.Color(153, 181, 155));
+        coursesTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {"1", "mert kurnaz", "dfnkjdf", null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "Kurs ID", "Dersler", "Kurs Başlangıcı", "Kurs Bitişi", "Ücret"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane8.setViewportView(coursesTable);
+
+        paymentButton.setBackground(new java.awt.Color(125, 218, 114));
+        paymentButton.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
+        paymentButton.setForeground(new java.awt.Color(51, 50, 44));
+        paymentButton.setText("Ödeme Yap");
+        paymentButton.setBorder(null);
+        paymentButton.setBorderPainted(false);
+        paymentButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                paymentButtonActionPerformed(evt);
+            }
+        });
+
+        buttonGroup1.add(cashRadioButton);
+        cashRadioButton.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
+        cashRadioButton.setForeground(new java.awt.Color(51, 50, 44));
+        cashRadioButton.setText("Nakit");
+
+        buttonGroup1.add(cardRadioButton);
+        cardRadioButton.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
+        cardRadioButton.setForeground(new java.awt.Color(51, 50, 44));
+        cardRadioButton.setText("Kredi Kartı");
+
+        expLabel2.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
+        expLabel2.setForeground(new java.awt.Color(51, 50, 44));
+        expLabel2.setText("Ödeme Yöntemi:");
+        expLabel2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        javax.swing.GroupLayout salesPanelLayout = new javax.swing.GroupLayout(salesPanel);
+        salesPanel.setLayout(salesPanelLayout);
+        salesPanelLayout.setHorizontalGroup(
+            salesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(salesPanelLayout.createSequentialGroup()
+                .addGroup(salesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, salesPanelLayout.createSequentialGroup()
+                        .addGap(46, 46, 46)
+                        .addGroup(salesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(salesPanelLayout.createSequentialGroup()
+                                .addGroup(salesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(mailLabel)
+                                    .addComponent(nameSurnameLabel))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(salesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(mailField, javax.swing.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
+                                    .addComponent(nameSurnameField))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(showNameButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(salesPanelLayout.createSequentialGroup()
+                                .addComponent(chooseDateLabel)
+                                .addGap(18, 18, 18)
+                                .addComponent(weekComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(expLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 414, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(salesPanelLayout.createSequentialGroup()
+                        .addGap(66, 66, 66)
+                        .addGroup(salesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(salesPanelLayout.createSequentialGroup()
+                                .addComponent(maxBudgetLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(budgetField, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(feeLabel2))
+                            .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(47, 47, 47)
+                .addGroup(salesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(paymentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, salesPanelLayout.createSequentialGroup()
+                        .addComponent(expLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(cashRadioButton)
+                        .addGap(18, 18, 18)
+                        .addComponent(cardRadioButton)))
+                .addContainerGap(41, Short.MAX_VALUE))
+        );
+        salesPanelLayout.setVerticalGroup(
+            salesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(salesPanelLayout.createSequentialGroup()
+                .addGap(42, 42, 42)
+                .addGroup(salesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(salesPanelLayout.createSequentialGroup()
+                        .addGroup(salesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(mailLabel)
+                            .addComponent(mailField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(showNameButton, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(salesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(nameSurnameLabel)
+                            .addComponent(nameSurnameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(49, 49, 49)
+                        .addGroup(salesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(chooseDateLabel)
+                            .addComponent(weekComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(30, 30, 30)
+                        .addComponent(expLabel1)
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 354, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(24, 24, 24)
+                .addGroup(salesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(maxBudgetLabel)
+                    .addComponent(budgetField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(feeLabel2)
+                    .addComponent(expLabel2)
+                    .addComponent(cashRadioButton)
+                    .addComponent(cardRadioButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
+                .addGroup(salesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(paymentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(38, 38, 38))
+        );
+
+        jTabbedPane1.addTab("SATIŞ İŞLEMLERİ", salesPanel);
 
         employeeOpPanel.setBackground(new java.awt.Color(249, 249, 249));
 
@@ -582,15 +958,15 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
-        deleteEmployeeButton1.setBackground(new java.awt.Color(153, 181, 155));
-        deleteEmployeeButton1.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
-        deleteEmployeeButton1.setForeground(new java.awt.Color(35, 39, 42));
-        deleteEmployeeButton1.setText("Çıkış Yap");
-        deleteEmployeeButton1.setBorder(null);
-        deleteEmployeeButton1.setBorderPainted(false);
-        deleteEmployeeButton1.addActionListener(new java.awt.event.ActionListener() {
+        logoutButton.setBackground(new java.awt.Color(153, 181, 155));
+        logoutButton.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
+        logoutButton.setForeground(new java.awt.Color(35, 39, 42));
+        logoutButton.setText("Oturumu Kapat");
+        logoutButton.setBorder(null);
+        logoutButton.setBorderPainted(false);
+        logoutButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                deleteEmployeeButton1ActionPerformed(evt);
+                logoutButtonActionPerformed(evt);
             }
         });
 
@@ -606,7 +982,7 @@ public class Dashboard extends javax.swing.JFrame {
                     .addComponent(addEmployeeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(updateEmployeeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(deleteEmployeeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(deleteEmployeeButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(logoutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(113, 113, 113))
         );
         employeeOpPanelLayout.setVerticalGroup(
@@ -624,7 +1000,7 @@ public class Dashboard extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(deleteEmployeeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(deleteEmployeeButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(logoutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(70, Short.MAX_VALUE))
         );
 
@@ -662,7 +1038,7 @@ public class Dashboard extends javax.swing.JFrame {
 
     private void addTraineeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addTraineeButtonActionPerformed
         // TODO add your handling code here:
-        new RegisterTrainee().setVisible(true);
+        new Register().setVisible(true);
     }//GEN-LAST:event_addTraineeButtonActionPerformed
 
     private void showNewCoursesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showNewCoursesButtonActionPerformed
@@ -685,6 +1061,7 @@ public class Dashboard extends javax.swing.JFrame {
 
     private void addTeacherButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addTeacherButtonActionPerformed
         // TODO add your handling code here:
+        new Register().setVisible(true);
     }//GEN-LAST:event_addTeacherButtonActionPerformed
 
     private void deleteTeacherButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteTeacherButtonActionPerformed
@@ -695,19 +1072,21 @@ public class Dashboard extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_updateTeacherButtonActionPerformed
 
-    private void showLessonsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showLessonsButtonActionPerformed
+    private void addDetailsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addDetailsButtonActionPerformed
         // TODO add your handling code here:
         
-        //buraya ogretmenin verebilecegi dersleri bir popup ile gostericez
+        new TeacherDetails().setVisible(true);
         
-    }//GEN-LAST:event_showLessonsButtonActionPerformed
+    }//GEN-LAST:event_addDetailsButtonActionPerformed
 
     private void deleteTeacherButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteTeacherButton2ActionPerformed
         // TODO add your handling code here:
+        new Schedule().setVisible(true);
     }//GEN-LAST:event_deleteTeacherButton2ActionPerformed
 
     private void addLessonButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addLessonButtonActionPerformed
         // TODO add your handling code here:
+        new CraftRegistration().setVisible(true);
     }//GEN-LAST:event_addLessonButtonActionPerformed
 
     private void updateLessonButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateLessonButtonActionPerformed
@@ -720,6 +1099,7 @@ public class Dashboard extends javax.swing.JFrame {
 
     private void addEmployeeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addEmployeeButtonActionPerformed
         // TODO add your handling code here:
+        new RegisterEmployee().setVisible(true);
     }//GEN-LAST:event_addEmployeeButtonActionPerformed
 
     private void updateEmployeeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateEmployeeButtonActionPerformed
@@ -730,9 +1110,45 @@ public class Dashboard extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_deleteEmployeeButtonActionPerformed
 
-    private void deleteEmployeeButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteEmployeeButton1ActionPerformed
+    private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_deleteEmployeeButton1ActionPerformed
+        dispose();
+        new Login().setVisible(true);
+    }//GEN-LAST:event_logoutButtonActionPerformed
+
+    private void addCourseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addCourseButtonActionPerformed
+        // TODO add your handling code here:
+        new CourseCreation().setVisible(true);
+    }//GEN-LAST:event_addCourseButtonActionPerformed
+
+    private void deleteCourseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteCourseButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_deleteCourseButtonActionPerformed
+
+    private void mailFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mailFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_mailFieldActionPerformed
+
+    private void showNameButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showNameButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_showNameButtonActionPerformed
+
+    private void nameSurnameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nameSurnameFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_nameSurnameFieldActionPerformed
+
+    private void budgetFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_budgetFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_budgetFieldActionPerformed
+
+    private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_searchButtonActionPerformed
+
+    private void paymentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_paymentButtonActionPerformed
+        // TODO add your handling code here:
+        // pop up ile kart bilgileri falan alinabilir
+    }//GEN-LAST:event_paymentButtonActionPerformed
 
     
     /**
@@ -771,28 +1187,55 @@ public class Dashboard extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addCourseButton;
+    private javax.swing.JButton addDetailsButton;
     private javax.swing.JButton addEmployeeButton;
     private javax.swing.JButton addLessonButton;
     private javax.swing.JButton addTeacherButton;
     private javax.swing.JButton addTraineeButton;
+    private javax.swing.JTextField budgetField;
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JRadioButton cardRadioButton;
+    private javax.swing.JRadioButton cashRadioButton;
+    private javax.swing.JLabel chooseDateLabel;
+    private javax.swing.JList<String> choosenCraftList;
     private javax.swing.JPanel courseOpPanel;
+    private javax.swing.JTable coursesTable;
     private javax.swing.JPanel dashboardPanel;
+    private javax.swing.JButton deleteCourseButton;
     private javax.swing.JButton deleteEmployeeButton;
-    private javax.swing.JButton deleteEmployeeButton1;
     private javax.swing.JButton deleteLessonButton;
     private javax.swing.JButton deleteTeacherButton;
     private javax.swing.JButton deleteTeacherButton2;
     private javax.swing.JButton deleteTraineeButton;
     private javax.swing.JPanel employeeOpPanel;
     private javax.swing.JTable employeesTable;
+    private javax.swing.JLabel expLabel1;
+    private javax.swing.JLabel expLabel2;
+    private javax.swing.JLabel feeLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JScrollPane jScrollPane7;
+    private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JPanel lessonOpPanel;
     private javax.swing.JTable lessonsTable;
-    private javax.swing.JButton showLessonsButton;
+    private javax.swing.JTable lessonsTable1;
+    private javax.swing.JButton logoutButton;
+    private javax.swing.JTextField mailField;
+    private javax.swing.JLabel mailLabel;
+    private javax.swing.JLabel maxBudgetLabel;
+    private javax.swing.JTextField nameSurnameField;
+    private javax.swing.JLabel nameSurnameLabel;
+    private javax.swing.JButton paymentButton;
+    private javax.swing.JPanel salesPanel;
+    private javax.swing.JButton searchButton;
+    private javax.swing.JButton showNameButton;
     private javax.swing.JButton showNewCoursesButton;
     private javax.swing.JButton showOldCoursesButton;
     private javax.swing.JPanel teacherOpPanel;
@@ -803,5 +1246,6 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JButton updateLessonButton;
     private javax.swing.JButton updateTeacherButton;
     private javax.swing.JButton updateTraineeButton;
+    private javax.swing.JComboBox<String> weekComboBox;
     // End of variables declaration//GEN-END:variables
 }

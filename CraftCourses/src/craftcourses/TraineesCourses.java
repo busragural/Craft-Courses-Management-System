@@ -28,8 +28,8 @@ public class TraineesCourses extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        registerButton = new javax.swing.JButton();
+        courseDetailsTable = new javax.swing.JTable();
+        backButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -40,8 +40,8 @@ public class TraineesCourses extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(249, 249, 249));
 
-        jTable1.setBackground(new java.awt.Color(153, 181, 155));
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        courseDetailsTable.setBackground(new java.awt.Color(153, 181, 155));
+        courseDetailsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -81,22 +81,22 @@ public class TraineesCourses extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(courseDetailsTable);
 
-        registerButton.setBackground(new java.awt.Color(125, 218, 114));
-        registerButton.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
-        registerButton.setForeground(new java.awt.Color(51, 50, 44));
-        registerButton.setText("Geri Dön");
-        registerButton.setBorder(null);
-        registerButton.setBorderPainted(false);
-        registerButton.addMouseListener(new java.awt.event.MouseAdapter() {
+        backButton.setBackground(new java.awt.Color(125, 218, 114));
+        backButton.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
+        backButton.setForeground(new java.awt.Color(51, 50, 44));
+        backButton.setText("Geri Dön");
+        backButton.setBorder(null);
+        backButton.setBorderPainted(false);
+        backButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                registerButtonMousePressed(evt);
+                backButtonMousePressed(evt);
             }
         });
-        registerButton.addActionListener(new java.awt.event.ActionListener() {
+        backButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                registerButtonActionPerformed(evt);
+                backButtonActionPerformed(evt);
             }
         });
 
@@ -107,7 +107,7 @@ public class TraineesCourses extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(126, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(registerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(backButton, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 757, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(117, 117, 117))
         );
@@ -117,7 +117,7 @@ public class TraineesCourses extends javax.swing.JFrame {
                 .addContainerGap(67, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(registerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(backButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(48, 48, 48))
         );
 
@@ -135,15 +135,15 @@ public class TraineesCourses extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void registerButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_registerButtonMousePressed
+    private void backButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backButtonMousePressed
         // TODO add your handling code here:
         dispose();
-    }//GEN-LAST:event_registerButtonMousePressed
+    }//GEN-LAST:event_backButtonMousePressed
 
-    private void registerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerButtonActionPerformed
+    private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
         // TODO add your handling code here:
         dispose();
-    }//GEN-LAST:event_registerButtonActionPerformed
+    }//GEN-LAST:event_backButtonActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
@@ -186,9 +186,9 @@ public class TraineesCourses extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton backButton;
+    private javax.swing.JTable courseDetailsTable;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JButton registerButton;
     // End of variables declaration//GEN-END:variables
 }

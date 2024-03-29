@@ -1,9 +1,8 @@
-package craftcourses;
-
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
+package craftcourses;
 
 /**
  *
@@ -12,7 +11,7 @@ package craftcourses;
 public class Register extends javax.swing.JFrame {
 
     /**
-     * Creates new form Register
+     * Creates new form RegisterTrainee
      */
     public Register() {
         initComponents();
@@ -27,20 +26,20 @@ public class Register extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         registerPanel = new javax.swing.JPanel();
         firstNameField = new javax.swing.JTextField();
         lastNameField = new javax.swing.JTextField();
-        usernameField = new javax.swing.JTextField();
-        passwordField = new javax.swing.JPasswordField();
+        addressField = new javax.swing.JTextField();
         registerButton = new javax.swing.JButton();
         titleLabel = new javax.swing.JLabel();
-        bottomTitleLabel2 = new javax.swing.JLabel();
-        bottomTitleLabel3 = new javax.swing.JLabel();
         mailField = new javax.swing.JTextField();
-        numberField = new javax.swing.JTextField();
+        mobileNumberField = new javax.swing.JTextField();
+        homeNumberField = new javax.swing.JTextField();
+        traineeRadioButton = new javax.swing.JRadioButton();
+        teacherRadioButton = new javax.swing.JRadioButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMinimumSize(new java.awt.Dimension(1000, 600));
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
@@ -59,20 +58,15 @@ public class Register extends javax.swing.JFrame {
         lastNameField.setForeground(new java.awt.Color(125, 218, 114));
         lastNameField.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Soyad", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("LingWai TC", 0, 18), new java.awt.Color(51, 50, 44))); // NOI18N
 
-        usernameField.setBackground(new java.awt.Color(249, 249, 249));
-        usernameField.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
-        usernameField.setForeground(new java.awt.Color(125, 218, 114));
-        usernameField.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Kullanıcı Adı", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("LingWai TC", 0, 18), new java.awt.Color(51, 50, 44))); // NOI18N
-
-        passwordField.setBackground(new java.awt.Color(249, 249, 249));
-        passwordField.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
-        passwordField.setForeground(new java.awt.Color(125, 218, 114));
-        passwordField.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Şifre", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("LingWai TC", 0, 18), new java.awt.Color(51, 50, 44))); // NOI18N
+        addressField.setBackground(new java.awt.Color(249, 249, 249));
+        addressField.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
+        addressField.setForeground(new java.awt.Color(125, 218, 114));
+        addressField.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Ev Adresi", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("LingWai TC", 0, 18), new java.awt.Color(51, 50, 44))); // NOI18N
 
         registerButton.setBackground(new java.awt.Color(125, 218, 114));
         registerButton.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
         registerButton.setForeground(new java.awt.Color(51, 50, 44));
-        registerButton.setText("Kaydol");
+        registerButton.setText("Kaydet");
         registerButton.setBorder(null);
         registerButton.setBorderPainted(false);
         registerButton.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -80,90 +74,98 @@ public class Register extends javax.swing.JFrame {
                 registerButtonMousePressed(evt);
             }
         });
+        registerButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                registerButtonActionPerformed(evt);
+            }
+        });
 
-        titleLabel.setFont(new java.awt.Font("LingWai TC", 0, 60)); // NOI18N
-        titleLabel.setForeground(new java.awt.Color(35, 39, 42));
+        titleLabel.setFont(new java.awt.Font("Helvetica Neue", 0, 48)); // NOI18N
+        titleLabel.setForeground(new java.awt.Color(51, 50, 44));
         titleLabel.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-        titleLabel.setText("ERMAN DERMAN EL SANATLARI");
+        titleLabel.setText("Kayıt");
         titleLabel.setVerticalAlignment(javax.swing.SwingConstants.TOP);
-
-        bottomTitleLabel2.setFont(new java.awt.Font("Bodoni Ornaments", 0, 36)); // NOI18N
-        bottomTitleLabel2.setForeground(new java.awt.Color(125, 218, 114));
-        bottomTitleLabel2.setText("4");
-
-        bottomTitleLabel3.setFont(new java.awt.Font("Bodoni Ornaments", 0, 36)); // NOI18N
-        bottomTitleLabel3.setForeground(new java.awt.Color(125, 218, 114));
-        bottomTitleLabel3.setText("4");
 
         mailField.setBackground(new java.awt.Color(249, 249, 249));
         mailField.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
         mailField.setForeground(new java.awt.Color(125, 218, 114));
         mailField.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "E-Posta", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("LingWai TC", 0, 18), new java.awt.Color(51, 50, 44))); // NOI18N
 
-        numberField.setBackground(new java.awt.Color(249, 249, 249));
-        numberField.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
-        numberField.setForeground(new java.awt.Color(125, 218, 114));
-        numberField.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Numara", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("LingWai TC", 0, 18), new java.awt.Color(51, 50, 44))); // NOI18N
+        mobileNumberField.setBackground(new java.awt.Color(249, 249, 249));
+        mobileNumberField.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
+        mobileNumberField.setForeground(new java.awt.Color(125, 218, 114));
+        mobileNumberField.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Cep Telefonu", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("LingWai TC", 0, 18), new java.awt.Color(51, 50, 44))); // NOI18N
+
+        homeNumberField.setBackground(new java.awt.Color(249, 249, 249));
+        homeNumberField.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
+        homeNumberField.setForeground(new java.awt.Color(125, 218, 114));
+        homeNumberField.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Ev Telefonu", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("LingWai TC", 0, 18), new java.awt.Color(51, 50, 44))); // NOI18N
+
+        buttonGroup1.add(traineeRadioButton);
+        traineeRadioButton.setForeground(new java.awt.Color(51, 50, 44));
+        traineeRadioButton.setText("Kursiyer");
+
+        buttonGroup1.add(teacherRadioButton);
+        teacherRadioButton.setForeground(new java.awt.Color(51, 50, 44));
+        teacherRadioButton.setText("Öğretmen");
 
         javax.swing.GroupLayout registerPanelLayout = new javax.swing.GroupLayout(registerPanel);
         registerPanel.setLayout(registerPanelLayout);
         registerPanelLayout.setHorizontalGroup(
             registerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, registerPanelLayout.createSequentialGroup()
-                .addGap(0, 98, Short.MAX_VALUE)
-                .addGroup(registerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, registerPanelLayout.createSequentialGroup()
-                        .addComponent(bottomTitleLabel2)
-                        .addGap(18, 18, 18)
-                        .addComponent(titleLabel)
-                        .addGap(18, 18, 18)
-                        .addComponent(bottomTitleLabel3)
-                        .addGap(90, 90, 90))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, registerPanelLayout.createSequentialGroup()
-                        .addGroup(registerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(registerPanelLayout.createSequentialGroup()
-                                .addComponent(mailField, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(28, 28, 28)
-                                .addComponent(numberField, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(registerPanelLayout.createSequentialGroup()
-                                .addGroup(registerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(usernameField)
-                                    .addComponent(firstNameField, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(28, 28, 28)
-                                .addGroup(registerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lastNameField, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(257, 257, 257))))
             .addGroup(registerPanelLayout.createSequentialGroup()
-                .addGap(380, 380, 380)
-                .addComponent(registerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(registerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(registerPanelLayout.createSequentialGroup()
+                        .addGap(380, 380, 380)
+                        .addComponent(registerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(registerPanelLayout.createSequentialGroup()
+                        .addGap(255, 255, 255)
+                        .addGroup(registerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(registerPanelLayout.createSequentialGroup()
+                                .addComponent(homeNumberField, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(addressField, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(registerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(registerPanelLayout.createSequentialGroup()
+                                    .addComponent(mailField, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(28, 28, 28)
+                                    .addComponent(mobileNumberField, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(registerPanelLayout.createSequentialGroup()
+                                    .addComponent(firstNameField, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(28, 28, 28)
+                                    .addComponent(lastNameField, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addGroup(registerPanelLayout.createSequentialGroup()
+                        .addGap(417, 417, 417)
+                        .addComponent(traineeRadioButton)
+                        .addGap(18, 18, 18)
+                        .addComponent(teacherRadioButton))
+                    .addGroup(registerPanelLayout.createSequentialGroup()
+                        .addGap(431, 431, 431)
+                        .addComponent(titleLabel)))
+                .addContainerGap(263, Short.MAX_VALUE))
         );
         registerPanelLayout.setVerticalGroup(
             registerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, registerPanelLayout.createSequentialGroup()
-                .addGap(78, 78, 78)
-                .addGroup(registerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(titleLabel)
-                    .addGroup(registerPanelLayout.createSequentialGroup()
-                        .addGap(23, 23, 23)
-                        .addComponent(bottomTitleLabel2))
-                    .addGroup(registerPanelLayout.createSequentialGroup()
-                        .addGap(21, 21, 21)
-                        .addComponent(bottomTitleLabel3)))
-                .addGap(38, 38, 38)
+                .addContainerGap(56, Short.MAX_VALUE)
+                .addComponent(titleLabel)
+                .addGap(30, 30, 30)
+                .addGroup(registerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(traineeRadioButton)
+                    .addComponent(teacherRadioButton))
+                .addGap(18, 18, 18)
                 .addGroup(registerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(firstNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lastNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(registerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(mailField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(numberField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                    .addComponent(mobileNumberField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(registerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(usernameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(42, 42, 42)
+                    .addComponent(addressField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(homeNumberField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(63, 63, 63)
                 .addComponent(registerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(113, 113, 113))
         );
@@ -176,22 +178,29 @@ public class Register extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(registerPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(registerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void registerButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_registerButtonMousePressed
+        // TODO add your handling code here:
+        dispose();
+
+    }//GEN-LAST:event_registerButtonMousePressed
+
+    private void registerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerButtonActionPerformed
+        // TODO add your handling code here:
+        dispose();
+    }//GEN-LAST:event_registerButtonActionPerformed
+
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
         setLocationRelativeTo(null);
     }//GEN-LAST:event_formWindowOpened
-
-    private void registerButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_registerButtonMousePressed
-        // TODO add your handling code here:
-        dispose();
-        
-    }//GEN-LAST:event_registerButtonMousePressed
 
     /**
      * @param args the command line arguments
@@ -219,6 +228,7 @@ public class Register extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(Register.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -229,16 +239,17 @@ public class Register extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel bottomTitleLabel2;
-    private javax.swing.JLabel bottomTitleLabel3;
+    private javax.swing.JTextField addressField;
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JTextField firstNameField;
+    private javax.swing.JTextField homeNumberField;
     private javax.swing.JTextField lastNameField;
     private javax.swing.JTextField mailField;
-    private javax.swing.JTextField numberField;
-    private javax.swing.JPasswordField passwordField;
+    private javax.swing.JTextField mobileNumberField;
     private javax.swing.JButton registerButton;
     private javax.swing.JPanel registerPanel;
+    private javax.swing.JRadioButton teacherRadioButton;
     private javax.swing.JLabel titleLabel;
-    private javax.swing.JTextField usernameField;
+    private javax.swing.JRadioButton traineeRadioButton;
     // End of variables declaration//GEN-END:variables
 }
