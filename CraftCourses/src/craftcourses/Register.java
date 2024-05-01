@@ -4,12 +4,25 @@
  */
 package craftcourses;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author busramgural
  */
 public class Register extends javax.swing.JFrame {
-
+    private final String dbUrl = "jdbc:postgresql://localhost/postgres";
+    private final String dbUsername = "postgres";
+    private final String dbPassword = "mudafer69";
+    private final String adminUsername = "admin";
+    private final String adminPassword = "1234";
     /**
      * Creates new form RegisterTrainee
      */
@@ -70,6 +83,9 @@ public class Register extends javax.swing.JFrame {
         registerButton.setBorder(null);
         registerButton.setBorderPainted(false);
         registerButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                registerButtonMouseClicked(evt);
+            }
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 registerButtonMousePressed(evt);
             }
@@ -188,12 +204,51 @@ public class Register extends javax.swing.JFrame {
 
     private void registerButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_registerButtonMousePressed
         // TODO add your handling code here:
-        dispose();
+        
 
     }//GEN-LAST:event_registerButtonMousePressed
 
     private void registerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerButtonActionPerformed
         // TODO add your handling code here:
+        System.out.println("31");
+        String userName = firstNameField.getText();
+        String surname = lastNameField.getText();
+        String address = addressField.getText();
+        String mail = mailField.getText();
+        String homePhoneNumber = homeNumberField.getText();
+        String phoneNumber = mobileNumberField.getText();
+        
+        
+        
+        if(userName.isBlank() || homePhoneNumber.isBlank() || surname.isBlank() || mail.isBlank() || address.isBlank() || phoneNumber.isBlank()){
+            JOptionPane.showMessageDialog(this, "Please enter all required values.");
+        }
+        else{
+        try {
+            Connection conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
+            
+            String insertQuery = "INSERT INTO Student (name, surname, address, mobilephone, homephone, email) VALUES (?, ?, ?, ?, ?, ?)";
+            PreparedStatement insertStatement = conn.prepareStatement(insertQuery);
+
+            insertStatement.setString(1, userName);
+            insertStatement.setString(2, surname);
+            insertStatement.setString(3, address);
+            insertStatement.setString(4, phoneNumber);
+            insertStatement.setString(5, homePhoneNumber);
+            insertStatement.setString(6, mail);
+
+            insertStatement.executeUpdate();
+            
+ 
+            JOptionPane.showMessageDialog(null, "Successful sign up.");
+            } catch (SQLException ex) {
+            Logger.getLogger(Register.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            java.awt.EventQueue.invokeLater(() -> {
+                new Login().setVisible(true);
+            });
+            
+        }
         dispose();
     }//GEN-LAST:event_registerButtonActionPerformed
 
@@ -201,6 +256,11 @@ public class Register extends javax.swing.JFrame {
         // TODO add your handling code here:
         setLocationRelativeTo(null);
     }//GEN-LAST:event_formWindowOpened
+
+    private void registerButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_registerButtonMouseClicked
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_registerButtonMouseClicked
 
     /**
      * @param args the command line arguments
