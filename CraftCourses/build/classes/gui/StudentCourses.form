@@ -82,7 +82,7 @@
                   <Color blue="9b" green="b5" red="99" type="rgb"/>
                 </Property>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                  <Table columnCount="5" rowCount="25">
+                  <Table columnCount="5" rowCount="0">
                     <Column editable="false" title="Kurs ID" type="java.lang.Object"/>
                     <Column editable="false" title="Kurs Ad&#x131;" type="java.lang.Object"/>
                     <Column editable="false" title="Dersler" type="java.lang.Object"/>
@@ -144,7 +144,6 @@
             <Property name="borderPainted" type="boolean" value="false"/>
           </Properties>
           <Events>
-            <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="backButtonMousePressed"/>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="backButtonActionPerformed"/>
           </Events>
         </Component>

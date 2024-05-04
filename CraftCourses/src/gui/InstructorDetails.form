@@ -53,25 +53,25 @@
                   <Group type="103" groupAlignment="1" attributes="0">
                       <Group type="102" attributes="0">
                           <EmptySpace max="32767" attributes="0"/>
-                          <Component id="saveDetailsButton" min="-2" pref="158" max="-2" attributes="0"/>
+                          <Component id="saveAndGoBackButton" min="-2" pref="158" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" attributes="0">
                           <EmptySpace min="-2" pref="65" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="expLabel2" min="-2" max="-2" attributes="0"/>
+                                      <Component id="timeLabel" min="-2" max="-2" attributes="0"/>
                                       <Group type="102" attributes="0">
                                           <Component id="daySpinner" min="-2" pref="108" max="-2" attributes="0"/>
                                           <EmptySpace type="separate" max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="addDateButton" alignment="0" min="-2" pref="158" max="-2" attributes="0"/>
+                                              <Component id="addSessionButton" alignment="0" min="-2" pref="158" max="-2" attributes="0"/>
                                               <Component id="jScrollPane2" min="-2" pref="158" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
                                       <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                                          <Component id="addLessonButton" min="-2" pref="158" max="-2" attributes="0"/>
-                                          <Component id="expLabel1" max="32767" attributes="0"/>
+                                          <Component id="addCraftButton" min="-2" pref="158" max="-2" attributes="0"/>
+                                          <Component id="craftsLabel" max="32767" attributes="0"/>
                                           <Component id="jScrollPane1" alignment="0" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
@@ -108,15 +108,15 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
-                          <Component id="expLabel1" min="-2" max="-2" attributes="0"/>
+                          <Component id="craftsLabel" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="jScrollPane1" min="-2" pref="128" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="addLessonButton" min="-2" pref="40" max="-2" attributes="0"/>
+                          <Component id="addCraftButton" min="-2" pref="40" max="-2" attributes="0"/>
                           <EmptySpace pref="19" max="32767" attributes="0"/>
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
                               <Group type="102" attributes="0">
-                                  <Component id="expLabel2" min="-2" max="-2" attributes="0"/>
+                                  <Component id="timeLabel" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="102" attributes="0">
@@ -126,12 +126,12 @@
                                       <Component id="jScrollPane2" max="32767" attributes="0"/>
                                   </Group>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                  <Component id="addDateButton" min="-2" pref="40" max="-2" attributes="0"/>
+                                  <Component id="addSessionButton" min="-2" pref="40" max="-2" attributes="0"/>
                               </Group>
                               <Component id="jScrollPane3" min="-2" pref="261" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="saveDetailsButton" min="-2" pref="40" max="-2" attributes="0"/>
+                          <Component id="saveAndGoBackButton" min="-2" pref="40" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" attributes="0">
@@ -151,7 +151,7 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JList" name="jList1">
+            <Component class="javax.swing.JList" name="craftList">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="9b" green="b5" red="99" type="rgb"/>
@@ -175,7 +175,7 @@
             </Component>
           </SubComponents>
         </Container>
-        <Component class="javax.swing.JLabel" name="expLabel2">
+        <Component class="javax.swing.JLabel" name="timeLabel">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Helvetica Neue" size="16" style="0"/>
@@ -189,7 +189,7 @@
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="expLabel1">
+        <Component class="javax.swing.JLabel" name="craftsLabel">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Helvetica Neue" size="16" style="0"/>
@@ -303,7 +303,7 @@
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="addDateButton">
+        <Component class="javax.swing.JButton" name="addSessionButton">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="72" green="da" red="7d" type="rgb"/>
@@ -320,9 +320,6 @@
             </Property>
             <Property name="borderPainted" type="boolean" value="false"/>
           </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addDateButtonActionPerformed"/>
-          </Events>
         </Component>
         <Container class="javax.swing.JScrollPane" name="jScrollPane3">
           <AuxValues>
@@ -331,13 +328,13 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JTable" name="courseDetailsTable">
+            <Component class="javax.swing.JTable" name="sessionsForInstructorTable">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="9b" green="b5" red="99" type="rgb"/>
                 </Property>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                  <Table columnCount="2" rowCount="25">
+                  <Table columnCount="2" rowCount="0">
                     <Column editable="false" title="G&#xfc;n" type="java.lang.Object"/>
                     <Column editable="false" title="Saat" type="java.lang.Object"/>
                   </Table>
@@ -350,7 +347,7 @@
                       <Renderer/>
                     </Column>
                     <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="false">
-                      <Title value="Saat"/>
+                      <Title/>
                       <Editor/>
                       <Renderer/>
                     </Column>
@@ -363,7 +360,7 @@
             </Component>
           </SubComponents>
         </Container>
-        <Component class="javax.swing.JButton" name="saveDetailsButton">
+        <Component class="javax.swing.JButton" name="saveAndGoBackButton">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="72" green="da" red="7d" type="rgb"/>
@@ -381,7 +378,7 @@
             <Property name="borderPainted" type="boolean" value="false"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="saveDetailsButtonActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="saveAndGoBackButtonActionPerformed"/>
           </Events>
         </Component>
         <Container class="javax.swing.JScrollPane" name="jScrollPane5">
@@ -391,13 +388,13 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JTable" name="courseDetailsLessonTable">
+            <Component class="javax.swing.JTable" name="craftsForInstructorTable">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="9b" green="b5" red="99" type="rgb"/>
                 </Property>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                  <Table columnCount="1" rowCount="25">
+                  <Table columnCount="1" rowCount="0">
                     <Column editable="false" title="Dersler" type="java.lang.Object"/>
                   </Table>
                 </Property>
@@ -417,7 +414,7 @@
             </Component>
           </SubComponents>
         </Container>
-        <Component class="javax.swing.JButton" name="addLessonButton">
+        <Component class="javax.swing.JButton" name="addCraftButton">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="72" green="da" red="7d" type="rgb"/>
@@ -434,9 +431,6 @@
             </Property>
             <Property name="borderPainted" type="boolean" value="false"/>
           </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addLessonButtonActionPerformed"/>
-          </Events>
         </Component>
       </SubComponents>
     </Container>

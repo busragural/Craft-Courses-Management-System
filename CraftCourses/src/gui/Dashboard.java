@@ -1,13 +1,14 @@
 package gui;
-import javax.swing.*;
-import java.awt.*;
+
+import database.DatabaseHelper;
 
 public class Dashboard extends javax.swing.JFrame {
-
+    
     public Dashboard() {
         initComponents();
+        DatabaseHelper.displayAllCrafts(craftsTable);
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -30,10 +31,10 @@ public class Dashboard extends javax.swing.JFrame {
         showScheduleButton = new javax.swing.JButton();
         lessonOpPanel = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        lessonsTable = new javax.swing.JTable();
-        addLessonButton = new javax.swing.JButton();
-        updateLessonButton = new javax.swing.JButton();
-        deleteLessonButton = new javax.swing.JButton();
+        craftsTable = new javax.swing.JTable();
+        addCraftButton = new javax.swing.JButton();
+        updateCraftButton = new javax.swing.JButton();
+        deleteCraftButton = new javax.swing.JButton();
         studentOpPanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         studentsTable = new javax.swing.JTable();
@@ -53,7 +54,7 @@ public class Dashboard extends javax.swing.JFrame {
         chooseDateLabel = new javax.swing.JLabel();
         weekComboBox = new javax.swing.JComboBox<>();
         emailLabel = new javax.swing.JLabel();
-        mailField = new javax.swing.JTextField();
+        emailField = new javax.swing.JTextField();
         showNameButton = new javax.swing.JButton();
         nameSurnameLabel = new javax.swing.JLabel();
         nameSurnameField = new javax.swing.JTextField();
@@ -90,31 +91,7 @@ public class Dashboard extends javax.swing.JFrame {
         instructorsTable.setBackground(new java.awt.Color(153, 181, 155));
         instructorsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"1", "mert kurnaz", "dfnkjdf", "87493857", "84759"},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+
             },
             new String [] {
                 "ID", "Ad Soyad", "E-Posta", "Cep Telefonu", "Ev Telefonu"
@@ -131,7 +108,6 @@ public class Dashboard extends javax.swing.JFrame {
         jScrollPane2.setViewportView(instructorsTable);
         if (instructorsTable.getColumnModel().getColumnCount() > 0) {
             instructorsTable.getColumnModel().getColumn(4).setResizable(false);
-            instructorsTable.getColumnModel().getColumn(4).setHeaderValue("Ev Telefonu");
         }
 
         addInstructorButton.setBackground(new java.awt.Color(125, 218, 114));
@@ -234,82 +210,58 @@ public class Dashboard extends javax.swing.JFrame {
         lessonOpPanel.setBackground(new java.awt.Color(249, 249, 249));
         lessonOpPanel.setPreferredSize(new java.awt.Dimension(900, 600));
 
-        lessonsTable.setBackground(new java.awt.Color(153, 181, 155));
-        lessonsTable.setModel(new javax.swing.table.DefaultTableModel(
+        craftsTable.setBackground(new java.awt.Color(153, 181, 155));
+        craftsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"1", "mert kurnaz", null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Ders ID", "Ders Adı", "Açıklama", "Zaman"
+                "Ders ID", "Ders Adı", "Açıklama", "Zaman", "Ücret"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, true
+                false, false, false, true, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane3.setViewportView(lessonsTable);
+        jScrollPane3.setViewportView(craftsTable);
 
-        addLessonButton.setBackground(new java.awt.Color(125, 218, 114));
-        addLessonButton.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
-        addLessonButton.setForeground(new java.awt.Color(35, 39, 42));
-        addLessonButton.setText("Yeni Kayıt");
-        addLessonButton.setBorder(null);
-        addLessonButton.setBorderPainted(false);
-        addLessonButton.addActionListener(new java.awt.event.ActionListener() {
+        addCraftButton.setBackground(new java.awt.Color(125, 218, 114));
+        addCraftButton.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
+        addCraftButton.setForeground(new java.awt.Color(35, 39, 42));
+        addCraftButton.setText("Yeni Kayıt");
+        addCraftButton.setBorder(null);
+        addCraftButton.setBorderPainted(false);
+        addCraftButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addLessonButtonActionPerformed(evt);
+                addCraftButtonActionPerformed(evt);
             }
         });
 
-        updateLessonButton.setBackground(new java.awt.Color(153, 181, 155));
-        updateLessonButton.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
-        updateLessonButton.setForeground(new java.awt.Color(35, 39, 42));
-        updateLessonButton.setText("Kayıt Güncelle");
-        updateLessonButton.setBorder(null);
-        updateLessonButton.setBorderPainted(false);
-        updateLessonButton.addActionListener(new java.awt.event.ActionListener() {
+        updateCraftButton.setBackground(new java.awt.Color(153, 181, 155));
+        updateCraftButton.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
+        updateCraftButton.setForeground(new java.awt.Color(35, 39, 42));
+        updateCraftButton.setText("Kayıt Güncelle");
+        updateCraftButton.setBorder(null);
+        updateCraftButton.setBorderPainted(false);
+        updateCraftButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                updateLessonButtonActionPerformed(evt);
+                updateCraftButtonActionPerformed(evt);
             }
         });
 
-        deleteLessonButton.setBackground(new java.awt.Color(153, 181, 155));
-        deleteLessonButton.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
-        deleteLessonButton.setForeground(new java.awt.Color(35, 39, 42));
-        deleteLessonButton.setText("Kayıt Sil");
-        deleteLessonButton.setBorder(null);
-        deleteLessonButton.setBorderPainted(false);
-        deleteLessonButton.addActionListener(new java.awt.event.ActionListener() {
+        deleteCraftButton.setBackground(new java.awt.Color(153, 181, 155));
+        deleteCraftButton.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
+        deleteCraftButton.setForeground(new java.awt.Color(35, 39, 42));
+        deleteCraftButton.setText("Kayıt Sil");
+        deleteCraftButton.setBorder(null);
+        deleteCraftButton.setBorderPainted(false);
+        deleteCraftButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                deleteLessonButtonActionPerformed(evt);
+                deleteCraftButtonActionPerformed(evt);
             }
         });
 
@@ -322,9 +274,9 @@ public class Dashboard extends javax.swing.JFrame {
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 514, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(114, 114, 114)
                 .addGroup(lessonOpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(updateLessonButton, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(addLessonButton, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(deleteLessonButton, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(updateCraftButton, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(addCraftButton, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(deleteCraftButton, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(115, Short.MAX_VALUE))
         );
         lessonOpPanelLayout.setVerticalGroup(
@@ -333,11 +285,11 @@ public class Dashboard extends javax.swing.JFrame {
                 .addGap(66, 66, 66)
                 .addGroup(lessonOpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(lessonOpPanelLayout.createSequentialGroup()
-                        .addComponent(addLessonButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(addCraftButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(updateLessonButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(updateCraftButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(deleteLessonButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(deleteCraftButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(76, Short.MAX_VALUE))
         );
@@ -349,31 +301,7 @@ public class Dashboard extends javax.swing.JFrame {
         studentsTable.setBackground(new java.awt.Color(153, 181, 155));
         studentsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"1", "mert kurnaz", "dfnkjdf", "87493857", "84759"},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+
             },
             new String [] {
                 "ID", "Ad Soyad", "E-Posta", "Cep Telefonu", "Ev Telefonu"
@@ -390,7 +318,6 @@ public class Dashboard extends javax.swing.JFrame {
         jScrollPane1.setViewportView(studentsTable);
         if (studentsTable.getColumnModel().getColumnCount() > 0) {
             studentsTable.getColumnModel().getColumn(4).setResizable(false);
-            studentsTable.getColumnModel().getColumn(4).setHeaderValue("Ev Telefonu");
         }
 
         addStudentButton.setBackground(new java.awt.Color(125, 218, 114));
@@ -495,31 +422,7 @@ public class Dashboard extends javax.swing.JFrame {
         coursesTable1.setBackground(new java.awt.Color(153, 181, 155));
         coursesTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"1", "mert kurnaz", "dfnkjdf", null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
                 "Kurs ID", "Ders Adı", "Kurs Zamanı", "Kurs Ücreti"
@@ -541,11 +444,6 @@ public class Dashboard extends javax.swing.JFrame {
         addCourseButton.setText("Kurs Oluştur");
         addCourseButton.setBorder(null);
         addCourseButton.setBorderPainted(false);
-        addCourseButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addCourseButtonActionPerformed(evt);
-            }
-        });
 
         deleteCourseButton.setBackground(new java.awt.Color(153, 181, 155));
         deleteCourseButton.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
@@ -553,11 +451,6 @@ public class Dashboard extends javax.swing.JFrame {
         deleteCourseButton.setText("Kayıt Sil");
         deleteCourseButton.setBorder(null);
         deleteCourseButton.setBorderPainted(false);
-        deleteCourseButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                deleteCourseButtonActionPerformed(evt);
-            }
-        });
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
@@ -612,15 +505,10 @@ public class Dashboard extends javax.swing.JFrame {
         emailLabel.setText("Kursiyerin E-postası:");
         emailLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
-        mailField.setBackground(new java.awt.Color(249, 249, 249));
-        mailField.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
-        mailField.setForeground(new java.awt.Color(125, 218, 114));
-        mailField.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("LingWai TC", 0, 18), new java.awt.Color(51, 50, 44))); // NOI18N
-        mailField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mailFieldActionPerformed(evt);
-            }
-        });
+        emailField.setBackground(new java.awt.Color(249, 249, 249));
+        emailField.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
+        emailField.setForeground(new java.awt.Color(125, 218, 114));
+        emailField.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("LingWai TC", 0, 18), new java.awt.Color(51, 50, 44))); // NOI18N
 
         showNameButton.setBackground(new java.awt.Color(125, 218, 114));
         showNameButton.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
@@ -628,11 +516,6 @@ public class Dashboard extends javax.swing.JFrame {
         showNameButton.setText("⬇");
         showNameButton.setBorder(null);
         showNameButton.setBorderPainted(false);
-        showNameButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                showNameButtonActionPerformed(evt);
-            }
-        });
 
         nameSurnameLabel.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
         nameSurnameLabel.setForeground(new java.awt.Color(51, 50, 44));
@@ -643,11 +526,6 @@ public class Dashboard extends javax.swing.JFrame {
         nameSurnameField.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
         nameSurnameField.setForeground(new java.awt.Color(125, 218, 114));
         nameSurnameField.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("LingWai TC", 0, 18), new java.awt.Color(51, 50, 44))); // NOI18N
-        nameSurnameField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nameSurnameFieldActionPerformed(evt);
-            }
-        });
 
         choosenCraftList.setBackground(new java.awt.Color(153, 181, 155));
         choosenCraftList.setForeground(new java.awt.Color(35, 39, 42));
@@ -672,11 +550,6 @@ public class Dashboard extends javax.swing.JFrame {
         budgetField.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
         budgetField.setForeground(new java.awt.Color(125, 218, 114));
         budgetField.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("LingWai TC", 0, 18), new java.awt.Color(51, 50, 44))); // NOI18N
-        budgetField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                budgetFieldActionPerformed(evt);
-            }
-        });
 
         feeLabel2.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
         feeLabel2.setForeground(new java.awt.Color(51, 50, 44));
@@ -689,40 +562,11 @@ public class Dashboard extends javax.swing.JFrame {
         searchButton.setText("Ara");
         searchButton.setBorder(null);
         searchButton.setBorderPainted(false);
-        searchButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                searchButtonActionPerformed(evt);
-            }
-        });
 
         coursesTable2.setBackground(new java.awt.Color(153, 181, 155));
         coursesTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"1", "mert kurnaz", "dfnkjdf", null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+
             },
             new String [] {
                 "Kurs ID", "Dersler", "Kurs Başlangıcı", "Kurs Bitişi", "Ücret"
@@ -744,11 +588,6 @@ public class Dashboard extends javax.swing.JFrame {
         paymentButton.setText("Ödeme Yap");
         paymentButton.setBorder(null);
         paymentButton.setBorderPainted(false);
-        paymentButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                paymentButtonActionPerformed(evt);
-            }
-        });
 
         buttonGroup1.add(cashRadioButton);
         cashRadioButton.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
@@ -780,7 +619,7 @@ public class Dashboard extends javax.swing.JFrame {
                                     .addComponent(nameSurnameLabel))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(salesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(mailField, javax.swing.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
+                                    .addComponent(emailField, javax.swing.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
                                     .addComponent(nameSurnameField))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(showNameButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -820,7 +659,7 @@ public class Dashboard extends javax.swing.JFrame {
                     .addGroup(salesPanelLayout.createSequentialGroup()
                         .addGroup(salesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(emailLabel)
-                            .addComponent(mailField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(emailField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(showNameButton, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(salesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -878,102 +717,67 @@ public class Dashboard extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        // TODO add your handling code here:
         setLocationRelativeTo(null);
     }//GEN-LAST:event_formWindowOpened
-
-    private void addStudentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addStudentButtonActionPerformed
-        // TODO add your handling code here:
-        new Register().setVisible(true);
-    }//GEN-LAST:event_addStudentButtonActionPerformed
-
-    private void showNewCoursesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showNewCoursesButtonActionPerformed
-        // TODO add your handling code here:
-        new StudentCourses().setVisible(true);
-    }//GEN-LAST:event_showNewCoursesButtonActionPerformed
-
-    private void deleteStudentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteStudentButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_deleteStudentButtonActionPerformed
-
-    private void updateStudentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateStudentButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_updateStudentButtonActionPerformed
-
-    private void showOldCoursesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showOldCoursesButtonActionPerformed
-        // TODO add your handling code here:
-        new StudentCourses().setVisible(true);
-    }//GEN-LAST:event_showOldCoursesButtonActionPerformed
-
+    
     private void addInstructorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addInstructorButtonActionPerformed
-        // TODO add your handling code here:
+        dispose();
         new Register().setVisible(true);
     }//GEN-LAST:event_addInstructorButtonActionPerformed
-
-    private void deleteInstructorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteInstructorButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_deleteInstructorButtonActionPerformed
-
+    
     private void updateInstructorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateInstructorButtonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_updateInstructorButtonActionPerformed
-
-    private void addInstructorDetailsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addInstructorDetailsButtonActionPerformed
+    
+    private void deleteInstructorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteInstructorButtonActionPerformed
         // TODO add your handling code here:
+    }//GEN-LAST:event_deleteInstructorButtonActionPerformed
+    
+    private void addInstructorDetailsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addInstructorDetailsButtonActionPerformed
+        dispose();
         new InstructorDetails().setVisible(true);
     }//GEN-LAST:event_addInstructorDetailsButtonActionPerformed
-
+    
     private void showScheduleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showScheduleButtonActionPerformed
-        // TODO add your handling code here:
+        dispose();
         new Schedule().setVisible(true);
     }//GEN-LAST:event_showScheduleButtonActionPerformed
-
-    private void addLessonButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addLessonButtonActionPerformed
-        // TODO add your handling code here:
+    
+    private void addCraftButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addCraftButtonActionPerformed
+        dispose();
         new CraftCreation().setVisible(true);
-    }//GEN-LAST:event_addLessonButtonActionPerformed
-
-    private void updateLessonButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateLessonButtonActionPerformed
+    }//GEN-LAST:event_addCraftButtonActionPerformed
+    
+    private void updateCraftButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateCraftButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_updateLessonButtonActionPerformed
-
-    private void deleteLessonButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteLessonButtonActionPerformed
+    }//GEN-LAST:event_updateCraftButtonActionPerformed
+    
+    private void deleteCraftButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteCraftButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_deleteLessonButtonActionPerformed
-
-    private void addCourseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addCourseButtonActionPerformed
+    }//GEN-LAST:event_deleteCraftButtonActionPerformed
+    
+    private void addStudentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addStudentButtonActionPerformed
+        dispose();
+        new Register().setVisible(true);
+    }//GEN-LAST:event_addStudentButtonActionPerformed
+    
+    private void updateStudentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateStudentButtonActionPerformed
         // TODO add your handling code here:
-        new CourseCreation().setVisible(true);
-    }//GEN-LAST:event_addCourseButtonActionPerformed
-
-    private void deleteCourseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteCourseButtonActionPerformed
+    }//GEN-LAST:event_updateStudentButtonActionPerformed
+    
+    private void deleteStudentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteStudentButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_deleteCourseButtonActionPerformed
-
-    private void mailFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mailFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_mailFieldActionPerformed
-
-    private void showNameButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showNameButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_showNameButtonActionPerformed
-
-    private void nameSurnameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nameSurnameFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_nameSurnameFieldActionPerformed
-
-    private void budgetFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_budgetFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_budgetFieldActionPerformed
-
-    private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_searchButtonActionPerformed
-
-    private void paymentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_paymentButtonActionPerformed
-        // TODO add your handling code here:
-        // pop up ile kart bilgileri falan alinabilir
-    }//GEN-LAST:event_paymentButtonActionPerformed
+    }//GEN-LAST:event_deleteStudentButtonActionPerformed
+    
+    private void showNewCoursesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showNewCoursesButtonActionPerformed
+        dispose();
+        new StudentCourses().setVisible(true);
+    }//GEN-LAST:event_showNewCoursesButtonActionPerformed
+    
+    private void showOldCoursesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showOldCoursesButtonActionPerformed
+        dispose();
+        new StudentCourses().setVisible(true);
+    }//GEN-LAST:event_showOldCoursesButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1001,7 +805,7 @@ public class Dashboard extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(Dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
+        
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -1009,12 +813,12 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
     }
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addCourseButton;
+    private javax.swing.JButton addCraftButton;
     private javax.swing.JButton addInstructorButton;
     private javax.swing.JButton addInstructorDetailsButton;
-    private javax.swing.JButton addLessonButton;
     private javax.swing.JButton addStudentButton;
     private javax.swing.JTextField budgetField;
     private javax.swing.ButtonGroup buttonGroup1;
@@ -1025,11 +829,13 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JPanel courseOpPanel;
     private javax.swing.JTable coursesTable1;
     private javax.swing.JTable coursesTable2;
+    private javax.swing.JTable craftsTable;
     private javax.swing.JPanel dashboardPanel;
     private javax.swing.JButton deleteCourseButton;
+    private javax.swing.JButton deleteCraftButton;
     private javax.swing.JButton deleteInstructorButton;
-    private javax.swing.JButton deleteLessonButton;
     private javax.swing.JButton deleteStudentButton;
+    private javax.swing.JTextField emailField;
     private javax.swing.JLabel emailLabel;
     private javax.swing.JLabel expLabel1;
     private javax.swing.JLabel expLabel2;
@@ -1046,8 +852,6 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JPanel lessonOpPanel;
-    private javax.swing.JTable lessonsTable;
-    private javax.swing.JTextField mailField;
     private javax.swing.JLabel maxBudgetLabel;
     private javax.swing.JTextField nameSurnameField;
     private javax.swing.JLabel nameSurnameLabel;
@@ -1060,8 +864,8 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JButton showScheduleButton;
     private javax.swing.JPanel studentOpPanel;
     private javax.swing.JTable studentsTable;
+    private javax.swing.JButton updateCraftButton;
     private javax.swing.JButton updateInstructorButton;
-    private javax.swing.JButton updateLessonButton;
     private javax.swing.JButton updateStudentButton;
     private javax.swing.JComboBox<String> weekComboBox;
     // End of variables declaration//GEN-END:variables

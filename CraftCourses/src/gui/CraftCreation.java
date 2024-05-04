@@ -1,11 +1,14 @@
 package gui;
 
-public class CraftCreation extends javax.swing.JFrame {
+import database.DatabaseHelper;
+import javax.swing.JOptionPane;
 
+public class CraftCreation extends javax.swing.JFrame {
+    
     public CraftCreation() {
         initComponents();
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -23,7 +26,8 @@ public class CraftCreation extends javax.swing.JFrame {
         weekdayRadioButton = new javax.swing.JRadioButton();
         weekendRadioButton = new javax.swing.JRadioButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        descriptionArea = new javax.swing.JTextArea();
+        feeField = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -67,54 +71,67 @@ public class CraftCreation extends javax.swing.JFrame {
         weekendRadioButton.setForeground(new java.awt.Color(51, 50, 44));
         weekendRadioButton.setText("Hafta sonu");
 
-        jTextArea1.setBackground(new java.awt.Color(249, 249, 249));
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jTextArea1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Açıklama", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("LingWai TC", 0, 18), new java.awt.Color(51, 50, 44))); // NOI18N
-        jScrollPane1.setViewportView(jTextArea1);
+        descriptionArea.setBackground(new java.awt.Color(249, 249, 249));
+        descriptionArea.setColumns(20);
+        descriptionArea.setRows(5);
+        descriptionArea.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Açıklama", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("LingWai TC", 0, 18), new java.awt.Color(51, 50, 44))); // NOI18N
+        jScrollPane1.setViewportView(descriptionArea);
+
+        feeField.setBackground(new java.awt.Color(249, 249, 249));
+        feeField.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
+        feeField.setForeground(new java.awt.Color(125, 218, 114));
+        feeField.setToolTipText("");
+        feeField.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Ders Ücreti", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("LingWai TC", 0, 18), new java.awt.Color(51, 50, 44))); // NOI18N
+        feeField.setName("Ders Ücreti"); // NOI18N
 
         javax.swing.GroupLayout craftCreationPanelLayout = new javax.swing.GroupLayout(craftCreationPanel);
         craftCreationPanel.setLayout(craftCreationPanelLayout);
         craftCreationPanelLayout.setHorizontalGroup(
             craftCreationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, craftCreationPanelLayout.createSequentialGroup()
-                .addGap(0, 306, Short.MAX_VALUE)
-                .addGroup(craftCreationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(craftNameField, javax.swing.GroupLayout.PREFERRED_SIZE, 424, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 424, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(craftCreationPanelLayout.createSequentialGroup()
-                        .addGap(122, 122, 122)
-                        .addComponent(weekdayRadioButton)
-                        .addGap(18, 18, 18)
-                        .addComponent(weekendRadioButton)))
-                .addGap(270, 270, 270))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, craftCreationPanelLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(304, Short.MAX_VALUE)
                 .addGroup(craftCreationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, craftCreationPanelLayout.createSequentialGroup()
-                        .addComponent(generationButton, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(364, 364, 364))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, craftCreationPanelLayout.createSequentialGroup()
-                        .addComponent(titleLabel)
-                        .addGap(344, 344, 344))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(craftCreationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, craftCreationPanelLayout.createSequentialGroup()
+                                .addComponent(titleLabel)
+                                .addGap(74, 74, 74))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, craftCreationPanelLayout.createSequentialGroup()
+                                .addComponent(generationButton, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(95, 95, 95))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, craftCreationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(feeField, javax.swing.GroupLayout.PREFERRED_SIZE, 424, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(craftNameField, javax.swing.GroupLayout.PREFERRED_SIZE, 424, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 424, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(craftCreationPanelLayout.createSequentialGroup()
+                            .addGap(122, 122, 122)
+                            .addComponent(weekdayRadioButton)
+                            .addGap(18, 18, 18)
+                            .addComponent(weekendRadioButton))))
+                .addGap(272, 272, 272))
         );
         craftCreationPanelLayout.setVerticalGroup(
             craftCreationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, craftCreationPanelLayout.createSequentialGroup()
-                .addGap(95, 95, 95)
+                .addContainerGap(79, Short.MAX_VALUE)
                 .addComponent(titleLabel)
-                .addGap(44, 44, 44)
+                .addGap(18, 18, 18)
                 .addGroup(craftCreationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(weekdayRadioButton)
                     .addComponent(weekendRadioButton))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(craftNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(feeField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(22, 22, 22)
                 .addComponent(generationButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(75, 75, 75))
+                .addGap(68, 68, 68))
         );
+
+        feeField.getAccessibleContext().setAccessibleDescription("Ders Ücreti");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -132,15 +149,33 @@ public class CraftCreation extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void generationButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generationButtonActionPerformed
-        // TODO add your handling code here:
-        dispose();
-    }//GEN-LAST:event_generationButtonActionPerformed
-
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        // TODO add your handling code here:
         setLocationRelativeTo(null);
     }//GEN-LAST:event_formWindowOpened
+    
+    private void generationButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generationButtonActionPerformed
+        boolean isWeekday;
+        
+        if (weekdayRadioButton.isSelected()) {
+            isWeekday = true;
+        } else {
+            isWeekday = false;
+        }
+        
+        String name = craftNameField.getText();
+        String description = descriptionArea.getText();
+        
+        try {
+            double fee = Double.parseDouble(feeField.getText());
+            DatabaseHelper.addCraft(name, description, isWeekday, fee);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Geçersiz ücret bilgisi!");
+            return;
+        }
+        
+        dispose();
+        new Dashboard().setVisible(true);
+    }//GEN-LAST:event_generationButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -169,7 +204,7 @@ public class CraftCreation extends javax.swing.JFrame {
         }
         //</editor-fold>
         //</editor-fold>
-
+        
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -177,14 +212,15 @@ public class CraftCreation extends javax.swing.JFrame {
             }
         });
     }
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JPanel craftCreationPanel;
     private javax.swing.JTextField craftNameField;
+    private javax.swing.JTextArea descriptionArea;
+    private javax.swing.JTextField feeField;
     private javax.swing.JButton generationButton;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JLabel titleLabel;
     private javax.swing.JRadioButton weekdayRadioButton;
     private javax.swing.JRadioButton weekendRadioButton;

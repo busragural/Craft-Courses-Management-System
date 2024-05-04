@@ -1,11 +1,11 @@
 package gui;
 
 public class CourseCreation extends javax.swing.JFrame {
-
+    
     public CourseCreation() {
         initComponents();
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -38,7 +38,7 @@ public class CourseCreation extends javax.swing.JFrame {
         feeLabel = new javax.swing.JLabel();
         feeLabel2 = new javax.swing.JLabel();
         saveCourseButton = new javax.swing.JButton();
-        finishDateField = new javax.swing.JTextField();
+        endDateField = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -78,11 +78,6 @@ public class CourseCreation extends javax.swing.JFrame {
         showCraftSuggestsButton.setText("⬇");
         showCraftSuggestsButton.setBorder(null);
         showCraftSuggestsButton.setBorderPainted(false);
-        showCraftSuggestsButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                showCraftSuggestsButtonActionPerformed(evt);
-            }
-        });
 
         startDateLabel.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
         startDateLabel.setForeground(new java.awt.Color(51, 50, 44));
@@ -92,13 +87,8 @@ public class CourseCreation extends javax.swing.JFrame {
         startDateField.setBackground(new java.awt.Color(249, 249, 249));
         startDateField.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
         startDateField.setForeground(new java.awt.Color(125, 218, 114));
-        startDateField.setText("99.99.9999");
+        startDateField.setText("01.01.2000");
         startDateField.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("LingWai TC", 0, 18), new java.awt.Color(51, 50, 44))); // NOI18N
-        startDateField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                startDateFieldActionPerformed(evt);
-            }
-        });
 
         finishDateLabel.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
         finishDateLabel.setForeground(new java.awt.Color(51, 50, 44));
@@ -121,11 +111,6 @@ public class CourseCreation extends javax.swing.JFrame {
         showSuggestsButton.setText("⬇");
         showSuggestsButton.setBorder(null);
         showSuggestsButton.setBorderPainted(false);
-        showSuggestsButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                showSuggestsButtonActionPerformed(evt);
-            }
-        });
 
         suggestionTable.setBackground(new java.awt.Color(153, 181, 155));
         suggestionTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -176,11 +161,6 @@ public class CourseCreation extends javax.swing.JFrame {
         addToCourseButton.setText("Kursa Ekle");
         addToCourseButton.setBorder(null);
         addToCourseButton.setBorderPainted(false);
-        addToCourseButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addToCourseButtonActionPerformed(evt);
-            }
-        });
 
         courseDetailsTable.setBackground(new java.awt.Color(153, 181, 155));
         courseDetailsTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -257,16 +237,11 @@ public class CourseCreation extends javax.swing.JFrame {
             }
         });
 
-        finishDateField.setBackground(new java.awt.Color(249, 249, 249));
-        finishDateField.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
-        finishDateField.setForeground(new java.awt.Color(125, 218, 114));
-        finishDateField.setText("99.99.9999");
-        finishDateField.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("LingWai TC", 0, 18), new java.awt.Color(51, 50, 44))); // NOI18N
-        finishDateField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                finishDateFieldActionPerformed(evt);
-            }
-        });
+        endDateField.setBackground(new java.awt.Color(249, 249, 249));
+        endDateField.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
+        endDateField.setForeground(new java.awt.Color(125, 218, 114));
+        endDateField.setText("31.12.2000");
+        endDateField.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("LingWai TC", 0, 18), new java.awt.Color(51, 50, 44))); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -301,7 +276,7 @@ public class CourseCreation extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(finishDateLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(finishDateField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(endDateField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                         .addGap(96, 96, 96)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -330,7 +305,7 @@ public class CourseCreation extends javax.swing.JFrame {
                     .addComponent(startDateLabel)
                     .addComponent(startDateField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(finishDateLabel)
-                    .addComponent(finishDateField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(endDateField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(26, 26, 26)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(expLabel2)
@@ -374,35 +349,14 @@ public class CourseCreation extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void showCraftSuggestsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showCraftSuggestsButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_showCraftSuggestsButtonActionPerformed
-
-    private void showSuggestsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showSuggestsButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_showSuggestsButtonActionPerformed
-
-    private void addToCourseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addToCourseButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_addToCourseButtonActionPerformed
-
-    private void saveCourseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveCourseButtonActionPerformed
-        // TODO add your handling code here:
-        dispose();
-    }//GEN-LAST:event_saveCourseButtonActionPerformed
-
-    private void startDateFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startDateFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_startDateFieldActionPerformed
-
-    private void finishDateFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_finishDateFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_finishDateFieldActionPerformed
-
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        // TODO add your handling code here:
         setLocationRelativeTo(null);
     }//GEN-LAST:event_formWindowOpened
+    
+    private void saveCourseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveCourseButtonActionPerformed
+        dispose();
+        new Dashboard().setVisible(true);
+    }//GEN-LAST:event_saveCourseButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -431,7 +385,7 @@ public class CourseCreation extends javax.swing.JFrame {
         }
         //</editor-fold>
         //</editor-fold>
-
+        
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -439,19 +393,19 @@ public class CourseCreation extends javax.swing.JFrame {
             }
         });
     }
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addToCourseButton;
     private javax.swing.JLabel chooseDateLabel;
     private javax.swing.JTextField choosenCraftField;
     private javax.swing.JLabel choosenCraftLabel;
     private javax.swing.JTable courseDetailsTable;
+    private javax.swing.JTextField endDateField;
     private javax.swing.JLabel expLabel2;
     private javax.swing.JLabel expLabel6;
     private javax.swing.JTextField feeField;
     private javax.swing.JLabel feeLabel;
     private javax.swing.JLabel feeLabel2;
-    private javax.swing.JTextField finishDateField;
     private javax.swing.JLabel finishDateLabel;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;

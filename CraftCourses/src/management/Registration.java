@@ -3,7 +3,6 @@ package management;
 import java.util.Date;
 
 public class Registration {
-    private static int counter = 1;
     private int registrationID;
     private Student student;
     private Course course;
@@ -12,7 +11,6 @@ public class Registration {
     private boolean isActive;
 
     public Registration(Student student, Course course, Date date, double fee) {
-        this.registrationID = counter++;
         this.student = student;
         this.course = course;
         this.date = date;

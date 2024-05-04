@@ -3,7 +3,6 @@ package management;
 import java.util.Date;
 
 public class Payment {
-    private static int counter = 1;
     private int paymentID;
     private Student payer;
     private Course course;
@@ -12,7 +11,6 @@ public class Payment {
     private String method;
 
     public Payment(Student payer, Course course, double amount, Date date, String method) {
-        this.paymentID = counter++;
         this.payer = payer;
         this.course = course;
         this.amount = amount;

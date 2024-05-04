@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Course {
-    private static int counter = 1;
     private int courseID;
     private Date startDate;
     private Date endDate;
@@ -15,7 +14,6 @@ public class Course {
     private double fee;
 
     public Course(Date startDate, Date endDate) {
-        this.courseID = counter++;
         this.startDate = startDate;
         this.endDate = endDate;
         this.crafts = new ArrayList<>();
