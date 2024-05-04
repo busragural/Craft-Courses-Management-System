@@ -26,7 +26,7 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="loginPanel" alignment="0" min="-2" max="-2" attributes="0"/>
+          <Component id="loginPanel" alignment="0" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -46,28 +46,31 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="1" attributes="0">
-                  <EmptySpace min="-2" pref="91" max="-2" attributes="0"/>
-                  <Component id="titleLabel" max="32767" attributes="0"/>
-                  <EmptySpace min="-2" pref="64" max="-2" attributes="0"/>
-              </Group>
-              <Group type="102" alignment="1" attributes="0">
-                  <EmptySpace max="32767" attributes="0"/>
-                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                      <Component id="passwordField" max="32767" attributes="0"/>
-                      <Component id="usernameField" max="32767" attributes="0"/>
-                      <Component id="loginButton" alignment="1" min="-2" pref="227" max="-2" attributes="0"/>
+              <Group type="102" attributes="0">
+                  <EmptySpace pref="250" max="32767" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="1" attributes="0">
+                          <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                              <Component id="passwordField" max="32767" attributes="0"/>
+                              <Component id="usernameField" max="32767" attributes="0"/>
+                              <Component id="loginButton" alignment="1" min="-2" pref="227" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace min="-2" pref="371" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="1" attributes="0">
+                          <Component id="titleLabel" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="196" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
-                  <EmptySpace min="-2" pref="371" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="-2" pref="92" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="95" max="-2" attributes="0"/>
                   <Component id="titleLabel" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="62" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="59" max="-2" attributes="0"/>
                   <Component id="usernameField" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" max="-2" attributes="0"/>
                   <Component id="passwordField" min="-2" pref="58" max="-2" attributes="0"/>
@@ -88,7 +91,7 @@
               <Color blue="2a" green="27" red="23" type="rgb"/>
             </Property>
             <Property name="horizontalAlignment" type="int" value="11"/>
-            <Property name="text" type="java.lang.String" value="EL SANATLARI E&#x11e;&#x130;T&#x130;M MERKEZ&#x130;"/>
+            <Property name="text" type="java.lang.String" value="El Sanatlar&#x131; E&#x11f;itim Merkezi"/>
             <Property name="verticalAlignment" type="int" value="1"/>
           </Properties>
         </Component>
