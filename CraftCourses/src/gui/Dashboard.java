@@ -1,6 +1,8 @@
 package gui;
 
 import database.DatabaseHelper;
+import javax.swing.JOptionPane;
+import management.Craft;
 
 public class Dashboard extends javax.swing.JFrame {
     
@@ -749,7 +751,13 @@ public class Dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_addCraftButtonActionPerformed
     
     private void updateCraftButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateCraftButtonActionPerformed
-        // TODO add your handling code here:
+        int selectedRow = craftsTable.getSelectedRow();
+        int craftID = (int) craftsTable.getModel().getValueAt(selectedRow, 0);
+        String tmpIsWeekday = (String) craftsTable.getModel().getValueAt(selectedRow, 3);
+        double fee = (double) craftsTable.getModel().getValueAt(selectedRow, 4);
+        System.out.println(fee);
+
+        Craft.update(craftID, tmpIsWeekday, fee);
     }//GEN-LAST:event_updateCraftButtonActionPerformed
     
     private void deleteCraftButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteCraftButtonActionPerformed

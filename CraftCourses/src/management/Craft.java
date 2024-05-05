@@ -1,5 +1,8 @@
 package management;
 
+import database.DatabaseHelper;
+import javax.swing.JOptionPane;
+
 public class Craft {
     private int craftID;
     private String name;
@@ -13,6 +16,10 @@ public class Craft {
         this.description = description;
         this.isWeekday = isWeekday;
         this.fee = fee;
+    }
+
+    public Craft() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
     public int getCraftID() {
@@ -37,5 +44,27 @@ public class Craft {
     
     public double getFee() {
         return fee;
+    }
+    
+    public static void update(int id, String tmpIsWeekday, double fee){
+        boolean isWeekday; 
+        
+        if (tmpIsWeekday.isBlank() || Double.isNaN(fee)) {
+            JOptionPane.showMessageDialog(null, "Lütfen tüm bilgileri giriniz!");
+            return;
+        }
+        
+        if (tmpIsWeekday.equalsIgnoreCase("Hafta içi")) {
+            isWeekday = true;
+        }
+        else if (tmpIsWeekday.equalsIgnoreCase("Hafta sonu")) {
+            isWeekday = false;
+        }
+        else {
+            JOptionPane.showMessageDialog(null, "Zaman bilgisini 'Hafta içi' veya 'Hafta sonu' olarak giriniz!");
+            return;
+        }
+        
+        DatabaseHelper.updateCraft(id, isWeekday, fee);
     }
 }
