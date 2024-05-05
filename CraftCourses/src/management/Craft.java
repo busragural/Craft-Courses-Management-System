@@ -46,8 +46,9 @@ public class Craft {
         return fee;
     }
     
-    public static void update(int id, String tmpIsWeekday, double fee){
-        boolean isWeekday; 
+    public static void update(int id, String tmpIsWeekday, String tmpFee){
+        boolean isWeekday;
+        double fee = Double.parseDouble(tmpFee);
         
         if (tmpIsWeekday.isBlank() || Double.isNaN(fee)) {
             JOptionPane.showMessageDialog(null, "Lütfen tüm bilgileri giriniz!");

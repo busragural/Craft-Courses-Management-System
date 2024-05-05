@@ -2,6 +2,9 @@ package gui;
 
 import database.DatabaseHelper;
 import javax.swing.JOptionPane;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
+import javax.swing.table.DefaultTableModel;
 import management.Craft;
 
 public class Dashboard extends javax.swing.JFrame {
@@ -37,6 +40,10 @@ public class Dashboard extends javax.swing.JFrame {
         addCraftButton = new javax.swing.JButton();
         updateCraftButton = new javax.swing.JButton();
         deleteCraftButton = new javax.swing.JButton();
+        timeLabel = new javax.swing.JLabel();
+        timeField = new javax.swing.JTextField();
+        feeLabel = new javax.swing.JLabel();
+        feeField = new javax.swing.JTextField();
         studentOpPanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         studentsTable = new javax.swing.JTable();
@@ -186,7 +193,7 @@ public class Dashboard extends javax.swing.JFrame {
                     .addComponent(deleteInstructorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(addInstructorDetailsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(showScheduleButton, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(115, Short.MAX_VALUE))
+                .addContainerGap(80, Short.MAX_VALUE))
         );
         instructorOpPanelLayout.setVerticalGroup(
             instructorOpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -222,11 +229,16 @@ public class Dashboard extends javax.swing.JFrame {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, true, true
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        craftsTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                craftsTableMouseClicked(evt);
             }
         });
         jScrollPane3.setViewportView(craftsTable);
@@ -267,6 +279,26 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
+        timeLabel.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
+        timeLabel.setForeground(new java.awt.Color(51, 50, 44));
+        timeLabel.setText("Zaman");
+        timeLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        timeField.setBackground(new java.awt.Color(249, 249, 249));
+        timeField.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
+        timeField.setForeground(new java.awt.Color(125, 218, 114));
+        timeField.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("LingWai TC", 0, 18), new java.awt.Color(51, 50, 44))); // NOI18N
+
+        feeLabel.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
+        feeLabel.setForeground(new java.awt.Color(51, 50, 44));
+        feeLabel.setText("Ücret");
+        feeLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        feeField.setBackground(new java.awt.Color(249, 249, 249));
+        feeField.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
+        feeField.setForeground(new java.awt.Color(125, 218, 114));
+        feeField.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("LingWai TC", 0, 18), new java.awt.Color(51, 50, 44))); // NOI18N
+
         javax.swing.GroupLayout lessonOpPanelLayout = new javax.swing.GroupLayout(lessonOpPanel);
         lessonOpPanel.setLayout(lessonOpPanelLayout);
         lessonOpPanelLayout.setHorizontalGroup(
@@ -275,11 +307,20 @@ public class Dashboard extends javax.swing.JFrame {
                 .addGap(56, 56, 56)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 514, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(114, 114, 114)
-                .addGroup(lessonOpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(updateCraftButton, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(addCraftButton, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(deleteCraftButton, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(115, Short.MAX_VALUE))
+                .addGroup(lessonOpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, lessonOpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(updateCraftButton, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(addCraftButton, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(deleteCraftButton, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, lessonOpPanelLayout.createSequentialGroup()
+                        .addComponent(timeLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(timeField, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(lessonOpPanelLayout.createSequentialGroup()
+                        .addComponent(feeLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(feeField, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(80, Short.MAX_VALUE))
         );
         lessonOpPanelLayout.setVerticalGroup(
             lessonOpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -291,6 +332,14 @@ public class Dashboard extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(updateCraftButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
+                        .addGroup(lessonOpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(timeLabel)
+                            .addComponent(timeField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(lessonOpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(feeLabel)
+                            .addComponent(feeField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(14, 14, 14)
                         .addComponent(deleteCraftButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(76, Short.MAX_VALUE))
@@ -396,7 +445,7 @@ public class Dashboard extends javax.swing.JFrame {
                     .addComponent(deleteStudentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(showNewCoursesButton, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(showOldCoursesButton, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(116, Short.MAX_VALUE))
+                .addContainerGap(81, Short.MAX_VALUE))
         );
         studentOpPanelLayout.setVerticalGroup(
             studentOpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -472,7 +521,7 @@ public class Dashboard extends javax.swing.JFrame {
                         .addComponent(deleteCourseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(addCourseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(84, Short.MAX_VALUE))
+                .addContainerGap(49, Short.MAX_VALUE))
         );
         courseOpPanelLayout.setVerticalGroup(
             courseOpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -651,7 +700,7 @@ public class Dashboard extends javax.swing.JFrame {
                         .addComponent(cashRadioButton)
                         .addGap(18, 18, 18)
                         .addComponent(cardRadioButton)))
-                .addContainerGap(41, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         salesPanelLayout.setVerticalGroup(
             salesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -701,7 +750,7 @@ public class Dashboard extends javax.swing.JFrame {
         );
         dashboardPanelLayout.setVerticalGroup(
             dashboardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -753,15 +802,17 @@ public class Dashboard extends javax.swing.JFrame {
     private void updateCraftButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateCraftButtonActionPerformed
         int selectedRow = craftsTable.getSelectedRow();
         int craftID = (int) craftsTable.getModel().getValueAt(selectedRow, 0);
-        String tmpIsWeekday = (String) craftsTable.getModel().getValueAt(selectedRow, 3);
-        double fee = (double) craftsTable.getModel().getValueAt(selectedRow, 4);
-        System.out.println(fee);
-
-        Craft.update(craftID, tmpIsWeekday, fee);
+        String tmpIsWeekday = timeField.getText();
+        String tmpFee = feeField.getText();
+        Craft.update(craftID, tmpIsWeekday, tmpFee);
+        DatabaseHelper.displayAllCrafts(craftsTable);
     }//GEN-LAST:event_updateCraftButtonActionPerformed
     
     private void deleteCraftButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteCraftButtonActionPerformed
-        // TODO add your handling code here:
+        int selectedRow = craftsTable.getSelectedRow();
+        int craftID = (int) craftsTable.getModel().getValueAt(selectedRow, 0);
+        DatabaseHelper.deleteCraft(craftID);
+        DatabaseHelper.displayAllCrafts(craftsTable);
     }//GEN-LAST:event_deleteCraftButtonActionPerformed
     
     private void addStudentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addStudentButtonActionPerformed
@@ -786,6 +837,12 @@ public class Dashboard extends javax.swing.JFrame {
         dispose();
         new StudentCourses().setVisible(true);
     }//GEN-LAST:event_showOldCoursesButtonActionPerformed
+
+    private void craftsTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_craftsTableMouseClicked
+        int selectedRowIndex = craftsTable.getSelectedRow();
+        timeField.setText((String) craftsTable.getValueAt(selectedRowIndex, 3));
+        feeField.setText((String.valueOf(craftsTable.getValueAt(selectedRowIndex, 4))));
+    }//GEN-LAST:event_craftsTableMouseClicked
 
     /**
      * @param args the command line arguments
@@ -847,6 +904,8 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JLabel emailLabel;
     private javax.swing.JLabel expLabel1;
     private javax.swing.JLabel expLabel2;
+    private javax.swing.JTextField feeField;
+    private javax.swing.JLabel feeLabel;
     private javax.swing.JLabel feeLabel2;
     private javax.swing.JPanel instructorOpPanel;
     private javax.swing.JTable instructorsTable;
@@ -872,6 +931,8 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JButton showScheduleButton;
     private javax.swing.JPanel studentOpPanel;
     private javax.swing.JTable studentsTable;
+    private javax.swing.JTextField timeField;
+    private javax.swing.JLabel timeLabel;
     private javax.swing.JButton updateCraftButton;
     private javax.swing.JButton updateInstructorButton;
     private javax.swing.JButton updateStudentButton;

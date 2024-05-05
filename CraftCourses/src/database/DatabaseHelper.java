@@ -24,7 +24,7 @@ public class DatabaseHelper {
         
         try {
             Connection conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
-            String query = "SELECT * FROM Craft";
+            String query = "SELECT * FROM Craft ORDER BY craftID";
             PreparedStatement statement = conn.prepareStatement(query);
             ResultSet resultSet = statement.executeQuery();
             
@@ -80,16 +80,29 @@ public class DatabaseHelper {
             Connection conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
             String updateQuery = "UPDATE Craft SET isWeekday = ?, craftFee = ? where craftID = ?";
             PreparedStatement insertStatement = conn.prepareStatement(updateQuery);
-            System.out.println(id);
-            System.out.println(fee);
-            System.out.println(isWeekday);
-
+            
             insertStatement.setBoolean(1, isWeekday);
             insertStatement.setDouble(2, fee);
             insertStatement.setInt(3, id);
             insertStatement.executeUpdate();
             
             JOptionPane.showMessageDialog(null, "Ders güncelleme başarılı!");
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    // Silinen ders bilgilerini veri tabaninda da silen fonksiyon
+    public static void deleteCraft(int id) {
+        try {
+            Connection conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
+            String deleteQuery = "DELETE FROM Craft where craftID = ?";
+            PreparedStatement deleteStatement = conn.prepareStatement(deleteQuery);
+            
+            deleteStatement.setInt(1, id);
+            deleteStatement.executeUpdate();
+            
+            JOptionPane.showMessageDialog(null, "Ders silme başarılı!");
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, ex);
         }
