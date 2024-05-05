@@ -8,6 +8,19 @@ public class Login extends javax.swing.JFrame {
         initComponents();
     }
     
+    public void loginOperation() {
+        String username = usernameField.getText();
+        String password = new String(passwordField.getPassword());
+        
+        if (username.equals("admin") && password.equals("1234")) {
+            JOptionPane.showMessageDialog(this, "Giriş başarılı!");
+            new Dashboard().setVisible(true);
+            dispose();
+        } else {
+            JOptionPane.showMessageDialog(this, "Geçersiz kullanıcı adı veya şifre!");
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -49,6 +62,11 @@ public class Login extends javax.swing.JFrame {
         passwordField.setForeground(new java.awt.Color(125, 218, 114));
         passwordField.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Şifre", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("LingWai TC", 0, 18), new java.awt.Color(51, 50, 44))); // NOI18N
         passwordField.setMaximumSize(new java.awt.Dimension(64, 53));
+        passwordField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                passwordFieldKeyPressed(evt);
+            }
+        });
 
         loginButton.setBackground(new java.awt.Color(125, 218, 114));
         loginButton.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
@@ -112,17 +130,14 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowOpened
     
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
-        String username = usernameField.getText();
-        String password = new String(passwordField.getPassword());
-        
-        if (username.equals("admin") && password.equals("1234")) {
-            JOptionPane.showMessageDialog(this, "Giriş başarılı!");
-            new Dashboard().setVisible(true);
-            dispose();
-        } else {
-            JOptionPane.showMessageDialog(this, "Geçersiz kullanıcı adı veya şifre!");
-        }
+        loginOperation();
     }//GEN-LAST:event_loginButtonActionPerformed
+    
+    private void passwordFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_passwordFieldKeyPressed
+        if(evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+            loginOperation();
+        }
+    }//GEN-LAST:event_passwordFieldKeyPressed
 
     /**
      * @param args the command line arguments

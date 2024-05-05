@@ -158,8 +158,12 @@ public class CraftCreation extends javax.swing.JFrame {
         
         if (weekdayRadioButton.isSelected()) {
             isWeekday = true;
-        } else {
+        } else if (weekendRadioButton.isSelected()) {
             isWeekday = false;
+        }
+        else {
+            JOptionPane.showMessageDialog(null, "Lütfen zaman bilgisini (hafta içi veya hafta sonu) seçiniz!");
+            return;
         }
         
         String name = craftNameField.getText();

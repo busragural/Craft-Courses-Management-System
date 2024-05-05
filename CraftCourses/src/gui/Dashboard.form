@@ -602,7 +602,7 @@
                     <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="2a" green="27" red="23" type="rgb"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Yeni Kay&#x131;t"/>
+                    <Property name="text" type="java.lang.String" value="Ders Olu&#x15f;tur"/>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="null"/>
                     </Property>
@@ -623,7 +623,7 @@
                     <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="2a" green="27" red="23" type="rgb"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Kay&#x131;t G&#xfc;ncelle"/>
+                    <Property name="text" type="java.lang.String" value="Ders G&#xfc;ncelle"/>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="null"/>
                     </Property>
@@ -644,7 +644,7 @@
                     <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="2a" green="27" red="23" type="rgb"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Kay&#x131;t Sil"/>
+                    <Property name="text" type="java.lang.String" value="Ders Sil"/>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="null"/>
                     </Property>
@@ -1251,12 +1251,15 @@
                     <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="2a" green="27" red="23" type="rgb"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Kay&#x131;t Sil"/>
+                    <Property name="text" type="java.lang.String" value="Kurs Sil"/>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="null"/>
                     </Property>
                     <Property name="borderPainted" type="boolean" value="false"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="deleteCourseButtonActionPerformed"/>
+                  </Events>
                 </Component>
                 <Container class="javax.swing.JScrollPane" name="jScrollPane6">
                   <AuxValues>

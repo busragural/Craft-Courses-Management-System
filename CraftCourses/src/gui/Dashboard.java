@@ -1,6 +1,7 @@
 package gui;
 
 import database.DatabaseHelper;
+import javax.swing.JOptionPane;
 import management.Craft;
 import management.Instructor;
 import management.Student;
@@ -318,7 +319,7 @@ public class Dashboard extends javax.swing.JFrame {
         addCraftButton.setBackground(new java.awt.Color(125, 218, 114));
         addCraftButton.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
         addCraftButton.setForeground(new java.awt.Color(35, 39, 42));
-        addCraftButton.setText("Yeni Kayıt");
+        addCraftButton.setText("Ders Oluştur");
         addCraftButton.setBorder(null);
         addCraftButton.setBorderPainted(false);
         addCraftButton.addActionListener(new java.awt.event.ActionListener() {
@@ -330,7 +331,7 @@ public class Dashboard extends javax.swing.JFrame {
         updateCraftButton.setBackground(new java.awt.Color(153, 181, 155));
         updateCraftButton.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
         updateCraftButton.setForeground(new java.awt.Color(35, 39, 42));
-        updateCraftButton.setText("Kayıt Güncelle");
+        updateCraftButton.setText("Ders Güncelle");
         updateCraftButton.setBorder(null);
         updateCraftButton.setBorderPainted(false);
         updateCraftButton.addActionListener(new java.awt.event.ActionListener() {
@@ -342,7 +343,7 @@ public class Dashboard extends javax.swing.JFrame {
         deleteCraftButton.setBackground(new java.awt.Color(153, 181, 155));
         deleteCraftButton.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
         deleteCraftButton.setForeground(new java.awt.Color(35, 39, 42));
-        deleteCraftButton.setText("Kayıt Sil");
+        deleteCraftButton.setText("Ders Sil");
         deleteCraftButton.setBorder(null);
         deleteCraftButton.setBorderPainted(false);
         deleteCraftButton.addActionListener(new java.awt.event.ActionListener() {
@@ -638,9 +639,14 @@ public class Dashboard extends javax.swing.JFrame {
         deleteCourseButton.setBackground(new java.awt.Color(153, 181, 155));
         deleteCourseButton.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
         deleteCourseButton.setForeground(new java.awt.Color(35, 39, 42));
-        deleteCourseButton.setText("Kayıt Sil");
+        deleteCourseButton.setText("Kurs Sil");
         deleteCourseButton.setBorder(null);
         deleteCourseButton.setBorderPainted(false);
+        deleteCourseButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteCourseButtonActionPerformed(evt);
+            }
+        });
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
@@ -917,6 +923,12 @@ public class Dashboard extends javax.swing.JFrame {
     
     private void updateInstructorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateInstructorButtonActionPerformed
         int selectedRow = instructorsTable.getSelectedRow();
+        
+        if (selectedRow < 0) {
+            JOptionPane.showMessageDialog(null, "Lütfen tablodan bir öğretmen seçiniz!");
+            return;
+        }
+        
         int instructorID = (int) instructorsTable.getModel().getValueAt(selectedRow, 0);
         String mobilePhone = insMobilePhoneField.getText();
         String homePhone = insHomePhoneField.getText();
@@ -927,9 +939,19 @@ public class Dashboard extends javax.swing.JFrame {
     
     private void deleteInstructorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteInstructorButtonActionPerformed
         int selectedRow = instructorsTable.getSelectedRow();
+        
+        if (selectedRow < 0) {
+            JOptionPane.showMessageDialog(null, "Lütfen tablodan bir öğretmen seçiniz!");
+            return;
+        }
+        
         int instructorID = (int) instructorsTable.getModel().getValueAt(selectedRow, 0);
         DatabaseHelper.deleteInstructor(instructorID);
         DatabaseHelper.displayAllInstructors(instructorsTable);
+        
+        insMobilePhoneField.setText("");
+        insHomePhoneField.setText("");
+        insAddressField.setText("");
     }//GEN-LAST:event_deleteInstructorButtonActionPerformed
     
     private void addInstructorDetailsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addInstructorDetailsButtonActionPerformed
@@ -949,6 +971,12 @@ public class Dashboard extends javax.swing.JFrame {
     
     private void updateCraftButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateCraftButtonActionPerformed
         int selectedRow = craftsTable.getSelectedRow();
+        
+        if (selectedRow < 0) {
+            JOptionPane.showMessageDialog(null, "Lütfen tablodan bir ders seçiniz!");
+            return;
+        }
+        
         int craftID = (int) craftsTable.getModel().getValueAt(selectedRow, 0);
         String tmpIsWeekday = timeField.getText();
         String tmpFee = feeField.getText();
@@ -958,9 +986,18 @@ public class Dashboard extends javax.swing.JFrame {
     
     private void deleteCraftButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteCraftButtonActionPerformed
         int selectedRow = craftsTable.getSelectedRow();
+        
+        if (selectedRow < 0) {
+            JOptionPane.showMessageDialog(null, "Lütfen tablodan bir ders seçiniz!");
+            return;
+        }
+        
         int craftID = (int) craftsTable.getModel().getValueAt(selectedRow, 0);
         DatabaseHelper.deleteCraft(craftID);
         DatabaseHelper.displayAllCrafts(craftsTable);
+        
+        timeField.setText("");
+        feeField.setText("");
     }//GEN-LAST:event_deleteCraftButtonActionPerformed
     
     private void addStudentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addStudentButtonActionPerformed
@@ -970,7 +1007,13 @@ public class Dashboard extends javax.swing.JFrame {
     
     private void updateStudentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateStudentButtonActionPerformed
         int selectedRow = studentsTable.getSelectedRow();
-        int studentID = (int) instructorsTable.getModel().getValueAt(selectedRow, 0);
+        
+        if (selectedRow < 0) {
+            JOptionPane.showMessageDialog(null, "Lütfen tablodan bir öğrenci seçiniz!");
+            return;
+        }
+        
+        int studentID = (int) studentsTable.getModel().getValueAt(selectedRow, 0);
         String mobilePhone = stdMobilePhoneField.getText();
         String homePhone = stdHomePhoneField.getText();
         String address = stdAddressField.getText();
@@ -980,9 +1023,19 @@ public class Dashboard extends javax.swing.JFrame {
     
     private void deleteStudentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteStudentButtonActionPerformed
         int selectedRow = studentsTable.getSelectedRow();
+        
+        if (selectedRow < 0) {
+            JOptionPane.showMessageDialog(null, "Lütfen tablodan bir öğrenci seçiniz!");
+            return;
+        }
+        
         int studentID = (int) studentsTable.getModel().getValueAt(selectedRow, 0);
         DatabaseHelper.deleteStudent(studentID);
         DatabaseHelper.displayAllStudents(studentsTable);
+        
+        stdMobilePhoneField.setText("");
+        stdHomePhoneField.setText("");
+        stdAddressField.setText("");
     }//GEN-LAST:event_deleteStudentButtonActionPerformed
     
     private void showNewCoursesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showNewCoursesButtonActionPerformed
@@ -1014,6 +1067,10 @@ public class Dashboard extends javax.swing.JFrame {
         stdHomePhoneField.setText((String) studentsTable.getValueAt(selectedRowIndex, 4));
         stdAddressField.setText((String) studentsTable.getValueAt(selectedRowIndex, 5));
     }//GEN-LAST:event_studentsTableMouseClicked
+
+    private void deleteCourseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteCourseButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_deleteCourseButtonActionPerformed
 
     /**
      * @param args the command line arguments
