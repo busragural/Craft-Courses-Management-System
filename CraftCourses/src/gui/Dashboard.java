@@ -1,17 +1,17 @@
 package gui;
 
 import database.DatabaseHelper;
-import javax.swing.JOptionPane;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
-import javax.swing.table.DefaultTableModel;
 import management.Craft;
+import management.Instructor;
+import management.Student;
 
 public class Dashboard extends javax.swing.JFrame {
     
     public Dashboard() {
         initComponents();
+        DatabaseHelper.displayAllInstructors(instructorsTable);
         DatabaseHelper.displayAllCrafts(craftsTable);
+        DatabaseHelper.displayAllStudents(studentsTable);
     }
     
     /**
@@ -26,7 +26,7 @@ public class Dashboard extends javax.swing.JFrame {
         buttonGroup1 = new javax.swing.ButtonGroup();
         dashboardPanel = new javax.swing.JPanel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
-        instructorOpPanel = new javax.swing.JPanel();
+        addressLabel = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         instructorsTable = new javax.swing.JTable();
         addInstructorButton = new javax.swing.JButton();
@@ -34,6 +34,12 @@ public class Dashboard extends javax.swing.JFrame {
         updateInstructorButton = new javax.swing.JButton();
         addInstructorDetailsButton = new javax.swing.JButton();
         showScheduleButton = new javax.swing.JButton();
+        insMobilePhoneLabel = new javax.swing.JLabel();
+        insMobilePhoneField = new javax.swing.JTextField();
+        insHomePhoneLabel = new javax.swing.JLabel();
+        insHomePhoneField = new javax.swing.JTextField();
+        insAddressLabel = new javax.swing.JLabel();
+        insAddressField = new javax.swing.JTextField();
         lessonOpPanel = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         craftsTable = new javax.swing.JTable();
@@ -52,6 +58,12 @@ public class Dashboard extends javax.swing.JFrame {
         deleteStudentButton = new javax.swing.JButton();
         updateStudentButton = new javax.swing.JButton();
         showOldCoursesButton = new javax.swing.JButton();
+        stdMobilePhoneLabel = new javax.swing.JLabel();
+        stdMobilePhoneField = new javax.swing.JTextField();
+        stdHomePhoneLabel = new javax.swing.JLabel();
+        stdHomePhoneField = new javax.swing.JTextField();
+        stdAddressLabel = new javax.swing.JLabel();
+        stdAddressField = new javax.swing.JTextField();
         courseOpPanel = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
         coursesTable1 = new javax.swing.JTable();
@@ -95,7 +107,7 @@ public class Dashboard extends javax.swing.JFrame {
         jTabbedPane1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jTabbedPane1.setRequestFocusEnabled(false);
 
-        instructorOpPanel.setBackground(new java.awt.Color(249, 249, 249));
+        addressLabel.setBackground(new java.awt.Color(249, 249, 249));
 
         instructorsTable.setBackground(new java.awt.Color(153, 181, 155));
         instructorsTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -103,21 +115,23 @@ public class Dashboard extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Ad Soyad", "E-Posta", "Cep Telefonu", "Ev Telefonu"
+                "ID", "Ad Soyad", "E-Posta", "Cep Telefonu", "Ev Telefonu", "Adres"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
+        instructorsTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                instructorsTableMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(instructorsTable);
-        if (instructorsTable.getColumnModel().getColumnCount() > 0) {
-            instructorsTable.getColumnModel().getColumn(4).setResizable(false);
-        }
 
         addInstructorButton.setBackground(new java.awt.Color(125, 218, 114));
         addInstructorButton.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
@@ -179,32 +193,90 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout instructorOpPanelLayout = new javax.swing.GroupLayout(instructorOpPanel);
-        instructorOpPanel.setLayout(instructorOpPanelLayout);
-        instructorOpPanelLayout.setHorizontalGroup(
-            instructorOpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(instructorOpPanelLayout.createSequentialGroup()
+        insMobilePhoneLabel.setFont(new java.awt.Font("Helvetica Neue", 0, 13)); // NOI18N
+        insMobilePhoneLabel.setForeground(new java.awt.Color(51, 50, 44));
+        insMobilePhoneLabel.setText("Cep Telefonu");
+        insMobilePhoneLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        insMobilePhoneField.setBackground(new java.awt.Color(249, 249, 249));
+        insMobilePhoneField.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
+        insMobilePhoneField.setForeground(new java.awt.Color(125, 218, 114));
+        insMobilePhoneField.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("LingWai TC", 0, 18), new java.awt.Color(51, 50, 44))); // NOI18N
+
+        insHomePhoneLabel.setFont(new java.awt.Font("Helvetica Neue", 0, 13)); // NOI18N
+        insHomePhoneLabel.setForeground(new java.awt.Color(51, 50, 44));
+        insHomePhoneLabel.setText("Ev Telefonu");
+        insHomePhoneLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        insHomePhoneField.setBackground(new java.awt.Color(249, 249, 249));
+        insHomePhoneField.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
+        insHomePhoneField.setForeground(new java.awt.Color(125, 218, 114));
+        insHomePhoneField.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("LingWai TC", 0, 18), new java.awt.Color(51, 50, 44))); // NOI18N
+
+        insAddressLabel.setFont(new java.awt.Font("Helvetica Neue", 0, 13)); // NOI18N
+        insAddressLabel.setForeground(new java.awt.Color(51, 50, 44));
+        insAddressLabel.setText("Adres");
+        insAddressLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        insAddressField.setBackground(new java.awt.Color(249, 249, 249));
+        insAddressField.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
+        insAddressField.setForeground(new java.awt.Color(125, 218, 114));
+        insAddressField.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("LingWai TC", 0, 18), new java.awt.Color(51, 50, 44))); // NOI18N
+
+        javax.swing.GroupLayout addressLabelLayout = new javax.swing.GroupLayout(addressLabel);
+        addressLabel.setLayout(addressLabelLayout);
+        addressLabelLayout.setHorizontalGroup(
+            addressLabelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(addressLabelLayout.createSequentialGroup()
                 .addGap(56, 56, 56)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 514, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(114, 114, 114)
-                .addGroup(instructorOpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(addInstructorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(updateInstructorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(deleteInstructorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(addInstructorDetailsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(showScheduleButton, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(80, Short.MAX_VALUE))
+                .addGroup(addressLabelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(addressLabelLayout.createSequentialGroup()
+                        .addComponent(insAddressLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
+                        .addComponent(insAddressField, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(80, 80, 80))
+                    .addGroup(addressLabelLayout.createSequentialGroup()
+                        .addGroup(addressLabelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(addressLabelLayout.createSequentialGroup()
+                                .addComponent(insMobilePhoneLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(insMobilePhoneField, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(addressLabelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(addInstructorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(updateInstructorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(deleteInstructorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(addInstructorDetailsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(showScheduleButton, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(addressLabelLayout.createSequentialGroup()
+                                .addComponent(insHomePhoneLabel)
+                                .addGap(21, 21, 21)
+                                .addComponent(insHomePhoneField, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(74, 74, 74))))
         );
-        instructorOpPanelLayout.setVerticalGroup(
-            instructorOpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(instructorOpPanelLayout.createSequentialGroup()
+        addressLabelLayout.setVerticalGroup(
+            addressLabelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(addressLabelLayout.createSequentialGroup()
                 .addGap(66, 66, 66)
-                .addGroup(instructorOpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(instructorOpPanelLayout.createSequentialGroup()
+                .addGroup(addressLabelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(addressLabelLayout.createSequentialGroup()
                         .addComponent(addInstructorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(updateInstructorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
+                        .addGroup(addressLabelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(insMobilePhoneField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(insMobilePhoneLabel))
+                        .addGap(11, 11, 11)
+                        .addGroup(addressLabelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(insHomePhoneField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(insHomePhoneLabel))
+                        .addGap(11, 11, 11)
+                        .addGroup(addressLabelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(insAddressField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(insAddressLabel))
+                        .addGap(14, 14, 14)
                         .addComponent(deleteInstructorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(addInstructorDetailsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -214,7 +286,7 @@ public class Dashboard extends javax.swing.JFrame {
                 .addContainerGap(76, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("ÖĞRETMEN İŞLEMLERİ", instructorOpPanel);
+        jTabbedPane1.addTab("ÖĞRETMEN İŞLEMLERİ", addressLabel);
 
         lessonOpPanel.setBackground(new java.awt.Color(249, 249, 249));
         lessonOpPanel.setPreferredSize(new java.awt.Dimension(900, 600));
@@ -355,15 +427,20 @@ public class Dashboard extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Ad Soyad", "E-Posta", "Cep Telefonu", "Ev Telefonu"
+                "ID", "Ad Soyad", "E-Posta", "Cep Telefonu", "Ev Telefonu", "Adres"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        studentsTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                studentsTableMouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(studentsTable);
@@ -431,6 +508,36 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
+        stdMobilePhoneLabel.setFont(new java.awt.Font("Helvetica Neue", 0, 13)); // NOI18N
+        stdMobilePhoneLabel.setForeground(new java.awt.Color(51, 50, 44));
+        stdMobilePhoneLabel.setText("Cep Telefonu");
+        stdMobilePhoneLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        stdMobilePhoneField.setBackground(new java.awt.Color(249, 249, 249));
+        stdMobilePhoneField.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
+        stdMobilePhoneField.setForeground(new java.awt.Color(125, 218, 114));
+        stdMobilePhoneField.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("LingWai TC", 0, 18), new java.awt.Color(51, 50, 44))); // NOI18N
+
+        stdHomePhoneLabel.setFont(new java.awt.Font("Helvetica Neue", 0, 13)); // NOI18N
+        stdHomePhoneLabel.setForeground(new java.awt.Color(51, 50, 44));
+        stdHomePhoneLabel.setText("Ev Telefonu");
+        stdHomePhoneLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        stdHomePhoneField.setBackground(new java.awt.Color(249, 249, 249));
+        stdHomePhoneField.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
+        stdHomePhoneField.setForeground(new java.awt.Color(125, 218, 114));
+        stdHomePhoneField.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("LingWai TC", 0, 18), new java.awt.Color(51, 50, 44))); // NOI18N
+
+        stdAddressLabel.setFont(new java.awt.Font("Helvetica Neue", 0, 13)); // NOI18N
+        stdAddressLabel.setForeground(new java.awt.Color(51, 50, 44));
+        stdAddressLabel.setText("Adres");
+        stdAddressLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        stdAddressField.setBackground(new java.awt.Color(249, 249, 249));
+        stdAddressField.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
+        stdAddressField.setForeground(new java.awt.Color(125, 218, 114));
+        stdAddressField.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("LingWai TC", 0, 18), new java.awt.Color(51, 50, 44))); // NOI18N
+
         javax.swing.GroupLayout studentOpPanelLayout = new javax.swing.GroupLayout(studentOpPanel);
         studentOpPanel.setLayout(studentOpPanelLayout);
         studentOpPanelLayout.setHorizontalGroup(
@@ -438,13 +545,33 @@ public class Dashboard extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, studentOpPanelLayout.createSequentialGroup()
                 .addGap(56, 56, 56)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 514, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(113, 113, 113)
-                .addGroup(studentOpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(updateStudentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(addStudentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(deleteStudentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(showNewCoursesButton, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(showOldCoursesButton, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(studentOpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(studentOpPanelLayout.createSequentialGroup()
+                        .addGap(113, 113, 113)
+                        .addGroup(studentOpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(updateStudentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(addStudentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(showNewCoursesButton, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(showOldCoursesButton, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, studentOpPanelLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(studentOpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(deleteStudentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(studentOpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, studentOpPanelLayout.createSequentialGroup()
+                                    .addComponent(stdAddressLabel)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(stdAddressField, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, studentOpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(studentOpPanelLayout.createSequentialGroup()
+                                        .addComponent(stdHomePhoneLabel)
+                                        .addGap(21, 21, 21)
+                                        .addComponent(stdHomePhoneField, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(studentOpPanelLayout.createSequentialGroup()
+                                        .addComponent(stdMobilePhoneLabel)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(stdMobilePhoneField, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
                 .addContainerGap(81, Short.MAX_VALUE))
         );
         studentOpPanelLayout.setVerticalGroup(
@@ -456,6 +583,18 @@ public class Dashboard extends javax.swing.JFrame {
                         .addComponent(addStudentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(updateStudentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(studentOpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(stdMobilePhoneField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(stdMobilePhoneLabel))
+                        .addGap(12, 12, 12)
+                        .addGroup(studentOpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(stdHomePhoneField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(stdHomePhoneLabel))
+                        .addGap(11, 11, 11)
+                        .addGroup(studentOpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(stdAddressField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(stdAddressLabel))
                         .addGap(18, 18, 18)
                         .addComponent(deleteStudentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
@@ -777,11 +916,20 @@ public class Dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_addInstructorButtonActionPerformed
     
     private void updateInstructorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateInstructorButtonActionPerformed
-        // TODO add your handling code here:
+        int selectedRow = instructorsTable.getSelectedRow();
+        int instructorID = (int) instructorsTable.getModel().getValueAt(selectedRow, 0);
+        String mobilePhone = insMobilePhoneField.getText();
+        String homePhone = insHomePhoneField.getText();
+        String address = insAddressField.getText();
+        Instructor.update(instructorID, mobilePhone, homePhone, address);
+        DatabaseHelper.displayAllInstructors(instructorsTable);
     }//GEN-LAST:event_updateInstructorButtonActionPerformed
     
     private void deleteInstructorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteInstructorButtonActionPerformed
-        // TODO add your handling code here:
+        int selectedRow = instructorsTable.getSelectedRow();
+        int instructorID = (int) instructorsTable.getModel().getValueAt(selectedRow, 0);
+        DatabaseHelper.deleteInstructor(instructorID);
+        DatabaseHelper.displayAllInstructors(instructorsTable);
     }//GEN-LAST:event_deleteInstructorButtonActionPerformed
     
     private void addInstructorDetailsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addInstructorDetailsButtonActionPerformed
@@ -821,11 +969,20 @@ public class Dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_addStudentButtonActionPerformed
     
     private void updateStudentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateStudentButtonActionPerformed
-        // TODO add your handling code here:
+        int selectedRow = studentsTable.getSelectedRow();
+        int studentID = (int) instructorsTable.getModel().getValueAt(selectedRow, 0);
+        String mobilePhone = stdMobilePhoneField.getText();
+        String homePhone = stdHomePhoneField.getText();
+        String address = stdAddressField.getText();
+        Student.update(studentID, mobilePhone, homePhone, address);
+        DatabaseHelper.displayAllStudents(studentsTable);
     }//GEN-LAST:event_updateStudentButtonActionPerformed
     
     private void deleteStudentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteStudentButtonActionPerformed
-        // TODO add your handling code here:
+        int selectedRow = studentsTable.getSelectedRow();
+        int studentID = (int) studentsTable.getModel().getValueAt(selectedRow, 0);
+        DatabaseHelper.deleteStudent(studentID);
+        DatabaseHelper.displayAllStudents(studentsTable);
     }//GEN-LAST:event_deleteStudentButtonActionPerformed
     
     private void showNewCoursesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showNewCoursesButtonActionPerformed
@@ -837,12 +994,26 @@ public class Dashboard extends javax.swing.JFrame {
         dispose();
         new StudentCourses().setVisible(true);
     }//GEN-LAST:event_showOldCoursesButtonActionPerformed
-
+    
+    private void instructorsTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_instructorsTableMouseClicked
+        int selectedRowIndex = instructorsTable.getSelectedRow();
+        insMobilePhoneField.setText((String) instructorsTable.getValueAt(selectedRowIndex, 3));
+        insHomePhoneField.setText((String) instructorsTable.getValueAt(selectedRowIndex, 4));
+        insAddressField.setText((String) instructorsTable.getValueAt(selectedRowIndex, 5));
+    }//GEN-LAST:event_instructorsTableMouseClicked
+    
     private void craftsTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_craftsTableMouseClicked
         int selectedRowIndex = craftsTable.getSelectedRow();
         timeField.setText((String) craftsTable.getValueAt(selectedRowIndex, 3));
         feeField.setText((String.valueOf(craftsTable.getValueAt(selectedRowIndex, 4))));
     }//GEN-LAST:event_craftsTableMouseClicked
+
+    private void studentsTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_studentsTableMouseClicked
+        int selectedRowIndex = studentsTable.getSelectedRow();
+        stdMobilePhoneField.setText((String) studentsTable.getValueAt(selectedRowIndex, 3));
+        stdHomePhoneField.setText((String) studentsTable.getValueAt(selectedRowIndex, 4));
+        stdAddressField.setText((String) studentsTable.getValueAt(selectedRowIndex, 5));
+    }//GEN-LAST:event_studentsTableMouseClicked
 
     /**
      * @param args the command line arguments
@@ -885,6 +1056,7 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JButton addInstructorButton;
     private javax.swing.JButton addInstructorDetailsButton;
     private javax.swing.JButton addStudentButton;
+    private javax.swing.JPanel addressLabel;
     private javax.swing.JTextField budgetField;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JRadioButton cardRadioButton;
@@ -907,7 +1079,12 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JTextField feeField;
     private javax.swing.JLabel feeLabel;
     private javax.swing.JLabel feeLabel2;
-    private javax.swing.JPanel instructorOpPanel;
+    private javax.swing.JTextField insAddressField;
+    private javax.swing.JLabel insAddressLabel;
+    private javax.swing.JTextField insHomePhoneField;
+    private javax.swing.JLabel insHomePhoneLabel;
+    private javax.swing.JTextField insMobilePhoneField;
+    private javax.swing.JLabel insMobilePhoneLabel;
     private javax.swing.JTable instructorsTable;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
@@ -929,6 +1106,12 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JButton showNewCoursesButton;
     private javax.swing.JButton showOldCoursesButton;
     private javax.swing.JButton showScheduleButton;
+    private javax.swing.JTextField stdAddressField;
+    private javax.swing.JLabel stdAddressLabel;
+    private javax.swing.JTextField stdHomePhoneField;
+    private javax.swing.JLabel stdHomePhoneLabel;
+    private javax.swing.JTextField stdMobilePhoneField;
+    private javax.swing.JLabel stdMobilePhoneLabel;
     private javax.swing.JPanel studentOpPanel;
     private javax.swing.JTable studentsTable;
     private javax.swing.JTextField timeField;

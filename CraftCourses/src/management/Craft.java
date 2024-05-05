@@ -17,10 +17,6 @@ public class Craft {
         this.isWeekday = isWeekday;
         this.fee = fee;
     }
-
-    public Craft() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
     
     public int getCraftID() {
         return craftID;
@@ -46,7 +42,7 @@ public class Craft {
         return fee;
     }
     
-    public static void update(int id, String tmpIsWeekday, String tmpFee){
+    public static void update(int craftID, String tmpIsWeekday, String tmpFee){
         boolean isWeekday;
         double fee = Double.parseDouble(tmpFee);
         
@@ -66,6 +62,6 @@ public class Craft {
             return;
         }
         
-        DatabaseHelper.updateCraft(id, isWeekday, fee);
+        DatabaseHelper.updateCraft(craftID, isWeekday, fee);
     }
 }

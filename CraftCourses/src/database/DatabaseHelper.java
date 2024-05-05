@@ -16,7 +16,7 @@ public class DatabaseHelper {
     private static final String dbUsername = "postgres";
     private static final String dbPassword = "mudafer69";
     
-    // Tum dersleri veri tabanindan ceken ve ders tablosuna ekleyen fonksiyon
+    // Tum dersleri veri tabanindan ceken ve ara yuzdeki ders tablosuna ekleyen fonksiyon
     public static void displayAllCrafts(JTable table) {
         String checkSession;
         DefaultTableModel model = (DefaultTableModel) table.getModel();
@@ -74,8 +74,8 @@ public class DatabaseHelper {
         }
     }
     
-    // Guncellenen ders bilgilerini veri tabaninda da guncelleyen fonksiyon
-    public static void updateCraft(int id, boolean isWeekday, double fee) {
+    // Ara yuzde guncellenen ders bilgilerini veri tabaninda guncelleyen fonksiyon
+    public static void updateCraft(int craftID, boolean isWeekday, double fee) {
         try {
             Connection conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
             String updateQuery = "UPDATE Craft SET isWeekday = ?, craftFee = ? where craftID = ?";
@@ -83,7 +83,7 @@ public class DatabaseHelper {
             
             insertStatement.setBoolean(1, isWeekday);
             insertStatement.setDouble(2, fee);
-            insertStatement.setInt(3, id);
+            insertStatement.setInt(3, craftID);
             insertStatement.executeUpdate();
             
             JOptionPane.showMessageDialog(null, "Ders güncelleme başarılı!");
@@ -92,19 +92,138 @@ public class DatabaseHelper {
         }
     }
     
-    // Silinen ders bilgilerini veri tabaninda da silen fonksiyon
-    public static void deleteCraft(int id) {
+    // Ara yuzde silinen ders bilgilerini veri tabanindan silen fonksiyon
+    public static void deleteCraft(int craftID) {
         try {
             Connection conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
             String deleteQuery = "DELETE FROM Craft where craftID = ?";
             PreparedStatement deleteStatement = conn.prepareStatement(deleteQuery);
             
-            deleteStatement.setInt(1, id);
+            deleteStatement.setInt(1, craftID);
             deleteStatement.executeUpdate();
             
             JOptionPane.showMessageDialog(null, "Ders silme başarılı!");
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    // Tum ogretmenleri veri tabanindan ceken ve arayuzdeki ogretmen tablosuna ekleyen fonksiyon
+    public static void displayAllInstructors(JTable table) {
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        model.setRowCount(0);
+        
+        try {
+            Connection conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
+            String query = "SELECT * FROM Instructor ORDER BY instructorID";
+            PreparedStatement statement = conn.prepareStatement(query);
+            ResultSet resultSet = statement.executeQuery();
+            
+            while (resultSet.next()) {
+                int instructorID = resultSet.getInt("instructorID");
+                String name = resultSet.getString("name");
+                String surname = resultSet.getString("surname");
+                String email = resultSet.getString("email");
+                String mobilePhone = resultSet.getString("mobilePhone");
+                String homePhone = resultSet.getString("homePhone");
+                String address = resultSet.getString("address");
+                
+                model.addRow(new Object[]{instructorID, name + ' ' + surname, email, mobilePhone, homePhone, address});
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Öğretmenler getirilirken bir hata oluştu!");
+        }
+    }
+    
+    // Ogretmen kaydini veri tabanına ekleyen fonksiyon
+    public static void registerInstructor(String name, String surname, String email, String mobilePhone, String homePhone, String address) {
+        if (name.isBlank() || surname.isBlank() || email.isBlank() || mobilePhone.isBlank() || homePhone.isBlank() || address.isBlank()) {
+            JOptionPane.showMessageDialog(null, "Lütfen tüm bilgileri giriniz!");
+            return;
+        }
+        
+        try {
+            Connection conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
+            String insertQuery = "INSERT INTO Instructor (name, surname, email, mobilePhone, homePhone, address) VALUES (?, ?, ?, ?, ?, ?)";
+            PreparedStatement insertStatement = conn.prepareStatement(insertQuery);
+            
+            insertStatement.setString(1, name);
+            insertStatement.setString(2, surname);
+            insertStatement.setString(3, email);
+            insertStatement.setString(4, mobilePhone);
+            insertStatement.setString(5, homePhone);
+            insertStatement.setString(6, address);
+            insertStatement.executeUpdate();
+            
+            JOptionPane.showMessageDialog(null, "Kayıt başarılı!");
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    // Ara yuzde guncellenen ogretmen bilgilerini veri tabaninda guncelleyen fonksiyon
+    public static void updateInstructor(int instructorID, String mobilePhone, String homePhone, String address) {
+        try {
+            Connection conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
+            String updateQuery = "UPDATE Instructor SET mobilePhone = ?, homePhone = ?, address = ? where instructorID = ?";
+            PreparedStatement insertStatement = conn.prepareStatement(updateQuery);
+            
+            insertStatement.setString(1, mobilePhone);
+            insertStatement.setString(2, homePhone);
+            insertStatement.setString(3, address);
+            insertStatement.setInt(4, instructorID);
+            insertStatement.executeUpdate();
+            
+            JOptionPane.showMessageDialog(null, "Öğretmen güncelleme başarılı!");
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    // Ara yuzde silinen ogretmen bilgilerini veri tabanindan silen fonksiyon
+    public static void deleteInstructor(int instructorID) {
+        try {
+            Connection conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
+            String deleteQuery = "DELETE FROM Instructor where instructorID = ?";
+            PreparedStatement deleteStatement = conn.prepareStatement(deleteQuery);
+            
+            deleteStatement.setInt(1, instructorID);
+            deleteStatement.executeUpdate();
+            
+            JOptionPane.showMessageDialog(null, "Öğretmen silme başarılı!");
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    // Tum ogrencileri veri tabanindan ceken ve ara yuzdeki ogrenci tablosuna ekleyen fonksiyon
+    public static void displayAllStudents(JTable table) {
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        model.setRowCount(0);
+        
+        try {
+            Connection conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
+            String query = "SELECT * FROM Student ORDER BY studentID";
+            PreparedStatement statement = conn.prepareStatement(query);
+            ResultSet resultSet = statement.executeQuery();
+            
+            while (resultSet.next()) {
+                int studentID = resultSet.getInt("studentID");
+                String name = resultSet.getString("name");
+                String surname = resultSet.getString("surname");
+                String email = resultSet.getString("email");
+                String mobilePhone = resultSet.getString("mobilePhone");
+                String homePhone = resultSet.getString("homePhone");
+                String address = resultSet.getString("address");
+                
+                model.addRow(new Object[]{studentID, name + ' ' + surname, email, mobilePhone, homePhone, address});
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Öğrenciler getirilirken bir hata oluştu!");
         }
     }
     
@@ -134,27 +253,36 @@ public class DatabaseHelper {
         }
     }
     
-    // Ogretmen kaydini veri tabanına ekleyen fonksiyon
-    public static void registerInstructor(String name, String surname, String email, String mobilePhone, String homePhone, String address) {
-        if (name.isBlank() || surname.isBlank() || email.isBlank() || mobilePhone.isBlank() || homePhone.isBlank() || address.isBlank()) {
-            JOptionPane.showMessageDialog(null, "Lütfen tüm bilgileri giriniz!");
-            return;
-        }
-        
+    // Ara yuzde guncellenen ogrenci bilgilerini veri tabaninda guncelleyen fonksiyon
+    public static void updateStudent(int studentID, String mobilePhone, String homePhone, String address) {
         try {
             Connection conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
-            String insertQuery = "INSERT INTO Instructor (name, surname, email, mobilePhone, homePhone, address) VALUES (?, ?, ?, ?, ?, ?)";
-            PreparedStatement insertStatement = conn.prepareStatement(insertQuery);
+            String updateQuery = "UPDATE Student SET mobilePhone = ?, homePhone = ?, address = ? where studentID = ?";
+            PreparedStatement insertStatement = conn.prepareStatement(updateQuery);
             
-            insertStatement.setString(1, name);
-            insertStatement.setString(2, surname);
-            insertStatement.setString(3, email);
-            insertStatement.setString(4, mobilePhone);
-            insertStatement.setString(5, homePhone);
-            insertStatement.setString(6, address);
+            insertStatement.setString(1, mobilePhone);
+            insertStatement.setString(2, homePhone);
+            insertStatement.setString(3, address);
+            insertStatement.setInt(4, studentID);
             insertStatement.executeUpdate();
             
-            JOptionPane.showMessageDialog(null, "Kayıt başarılı!");
+            JOptionPane.showMessageDialog(null, "Öğrenci güncelleme başarılı!");
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    // Ara yuzde silinen ogrenci bilgilerini veri tabanindan silen fonksiyon
+    public static void deleteStudent(int studentID) {
+        try {
+            Connection conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
+            String deleteQuery = "DELETE FROM Student where studentID = ?";
+            PreparedStatement deleteStatement = conn.prepareStatement(deleteQuery);
+            
+            deleteStatement.setInt(1, studentID);
+            deleteStatement.executeUpdate();
+            
+            JOptionPane.showMessageDialog(null, "Öğrenci silme başarılı!");
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, ex);
         }

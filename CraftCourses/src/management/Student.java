@@ -1,5 +1,8 @@
 package management;
 
+import database.DatabaseHelper;
+import javax.swing.JOptionPane;
+
 public class Student extends Person {
     private int studentID;
     private Course[] previousCourses;
@@ -19,5 +22,14 @@ public class Student extends Person {
 
     public Course[] getUpcomingCourses() {
         return upcomingCourses;
+    }
+    
+    public static void update(int studentID, String mobilePhone, String homePhone, String address){
+        if (mobilePhone.isBlank() || mobilePhone.isBlank() || homePhone.isBlank() || address.isBlank()) {
+            JOptionPane.showMessageDialog(null, "Lütfen tüm bilgileri giriniz!");
+            return;
+        }
+        
+        DatabaseHelper.updateStudent(studentID, mobilePhone, homePhone, address);
     }
 }
