@@ -7,6 +7,7 @@ public class InstructorDetails extends javax.swing.JFrame {
     public InstructorDetails(int instructorID) {
         initComponents();
         InstructorDetails.instructorIDin= instructorID;
+        DatabaseHelper.displayWorkingHours(sessionsForInstructorTable, instructorID);
     }
     
     /**
@@ -290,8 +291,14 @@ public class InstructorDetails extends javax.swing.JFrame {
         // İşlem sonuçlarını kontrol etme
         //System.out.println("Day Numeric Value: " + dayNumericValue);
         //System.out.println("Start Hour: " + startHour);
-        double feeValue = Double.parseDouble(feeText);
-        DatabaseHelper.addWorkingHours(instructorIDin, dayNumericValue, startHour, feeValue);
+        if(feeText.isEmpty()){
+            DatabaseHelper.addWorkingHours(instructorIDin, dayNumericValue, startHour,0);
+        }else{
+            double feeValue = Double.parseDouble(feeText);
+            DatabaseHelper.addWorkingHours(instructorIDin, dayNumericValue, startHour, feeValue);
+        }
+        
+        
         
     }//GEN-LAST:event_addSessionButtonActionPerformed
 

@@ -289,7 +289,7 @@ public class DatabaseHelper {
     }
     
     public static void addWorkingHours(int instructorID, int day, int startHour, double fee){
-        if (day < 1 || day > 7 || startHour < 0 || startHour > 23 || Double.isNaN(fee)) {
+        if (day < 1 || day > 7 || startHour < 0 || startHour > 23) {
         JOptionPane.showMessageDialog(null, "Lütfen bütün alanları doldurunuz.");
         return;
         } 
@@ -304,16 +304,53 @@ public class DatabaseHelper {
             insertStatement.setBoolean(4, false);
             
             insertStatement.executeUpdate();
-            String feeQuery = "UPDATE instructor SET weekdayfee = ? WHERE instructorid = ?";
-            PreparedStatement feeStatement = conn.prepareStatement(feeQuery);
-            feeStatement.setDouble(1, fee);
-            feeStatement.setInt(2,instructorID);
-         
-            feeStatement.executeUpdate();
+            if (fee != 0) {
+                // Eğer fee değeri boş değilse, instructor tablosunu güncelle
+                String feeQuery = "UPDATE instructor SET weekdayfee = ? WHERE instructorid = ?";
+                PreparedStatement feeStatement = conn.prepareStatement(feeQuery);
+                feeStatement.setDouble(1, fee);
+                feeStatement.setInt(2, instructorID);
+
+                feeStatement.executeUpdate();
+            }
             JOptionPane.showMessageDialog(null, "Kayıt başarılı!");
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }
+    public static void displayWorkingHours(JTable table, int instructorID) {
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        model.setRowCount(0);
+
+        // Günlerin metinsel karşılıklarını saklayacak bir dizi
+        String[] daysOfWeek = {"Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi", "Pazar"};
+
+        try {
+            Connection conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
+            String query = "SELECT * FROM workinghour WHERE instructorid = ? ORDER BY workinghourid";
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setInt(1, instructorID);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                Integer dayIndex = resultSet.getInt("day") - 1; // Veritabanında pazartesi 1'den başladığı için dizideki indeksleri uyumlu hale getiriyoruz
+                String day = daysOfWeek[dayIndex];
+
+                Integer startHour = resultSet.getInt("startHour");
+                Integer endHour = startHour + 1; // 1 saatlik dilim olduğunu varsayıyoruz
+
+                // Saat dilimi için uygun metni oluşturuyoruz
+                String timeSlot = startHour + ":00 - " + endHour + ":00";
+
+                // Model'e satırı ekliyoruz
+                model.addRow(new Object[]{day, timeSlot});
+            }
+
+            } catch (SQLException ex) {
+                Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(null, "Öğrenciler getirilirken bir hata oluştu!");
+            }
+        }
+
 }
