@@ -955,8 +955,16 @@ public class Dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_deleteInstructorButtonActionPerformed
     
     private void addInstructorDetailsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addInstructorDetailsButtonActionPerformed
+        int selectedRow = instructorsTable.getSelectedRow();
+        
+        if (selectedRow < 0) {
+            JOptionPane.showMessageDialog(null, "Lütfen tablodan bir öğretmen seçiniz!");
+            return;
+        }
+        
+        int instructorID = (int) instructorsTable.getModel().getValueAt(selectedRow, 0);
         dispose();
-        new InstructorDetails().setVisible(true);
+        new InstructorDetails(instructorID).setVisible(true);
     }//GEN-LAST:event_addInstructorDetailsButtonActionPerformed
     
     private void showScheduleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showScheduleButtonActionPerformed

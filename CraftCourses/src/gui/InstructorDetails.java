@@ -1,9 +1,12 @@
 package gui;
 
+import database.DatabaseHelper;
+
 public class InstructorDetails extends javax.swing.JFrame {
-    
-    public InstructorDetails() {
+    private static int instructorIDin;
+    public InstructorDetails(int instructorID) {
         initComponents();
+        InstructorDetails.instructorIDin= instructorID;
     }
     
     /**
@@ -94,6 +97,11 @@ public class InstructorDetails extends javax.swing.JFrame {
         addSessionButton.setText("Ekle");
         addSessionButton.setBorder(null);
         addSessionButton.setBorderPainted(false);
+        addSessionButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addSessionButtonActionPerformed(evt);
+            }
+        });
 
         sessionsForInstructorTable.setBackground(new java.awt.Color(153, 181, 155));
         sessionsForInstructorTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -180,7 +188,7 @@ public class InstructorDetails extends javax.swing.JFrame {
                                         .addComponent(addCraftButton, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(craftsLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 94, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 87, Short.MAX_VALUE)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 491, Short.MAX_VALUE)
                                     .addComponent(jScrollPane5)))
@@ -255,6 +263,38 @@ public class InstructorDetails extends javax.swing.JFrame {
         new Dashboard().setVisible(true);
     }//GEN-LAST:event_saveAndGoBackButtonActionPerformed
 
+    private void addSessionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addSessionButtonActionPerformed
+        // TODO add your handling code here:
+        String dayValue = (String) daySpinner.getValue(); // Veya uygun tipe dönüştürün
+        String feeText = feeField.getText();
+// JList'ten seçilen öğeleri al
+        String selectedTime = timeList.getSelectedValue() ;
+        System.out.println(dayValue + selectedTime);
+        // Haftanın günlerini temsil eden string değerler
+        String[] daysOfWeek = {"Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi", "Pazar"};
+
+        // DayValue'yi haftanın günlerine karşılık gelen sayısal değere dönüştürme
+        int dayNumericValue = -1; // Varsayılan olarak -1 ayarlanmış
+        for (int i = 0; i < daysOfWeek.length; i++) {
+            if (dayValue.equals(daysOfWeek[i])) {
+                dayNumericValue = i + 1; // Haftanın 0'dan başlayan indeksi 1'den başlayan güne dönüştürüldü
+                break;
+            }
+        }
+
+        // SelectedTime'dan başlangıç saati kısmını alarak integer değere dönüştürme
+        String[] timeParts = selectedTime.split(" - ");
+        String startTime = timeParts[0];
+        int startHour = Integer.parseInt(startTime.split("\\.")[0]); // Saati alırken "." karakterine göre ayırıyoruz
+
+        // İşlem sonuçlarını kontrol etme
+        //System.out.println("Day Numeric Value: " + dayNumericValue);
+        //System.out.println("Start Hour: " + startHour);
+        double feeValue = Double.parseDouble(feeText);
+        DatabaseHelper.addWorkingHours(instructorIDin, dayNumericValue, startHour, feeValue);
+        
+    }//GEN-LAST:event_addSessionButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -286,7 +326,7 @@ public class InstructorDetails extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new InstructorDetails().setVisible(true);
+                new InstructorDetails(instructorIDin).setVisible(true);
             }
         });
     }

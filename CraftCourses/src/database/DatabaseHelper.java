@@ -287,4 +287,33 @@ public class DatabaseHelper {
             Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    public static void addWorkingHours(int instructorID, int day, int startHour, double fee){
+        if (day < 1 || day > 7 || startHour < 0 || startHour > 23 || Double.isNaN(fee)) {
+        JOptionPane.showMessageDialog(null, "Lütfen bütün alanları doldurunuz.");
+        return;
+        } 
+        try {
+            Connection conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
+            String insertQuery = "INSERT INTO workinghour (instructorid, day, starthour, isbusy) VALUES (?, ?, ?, ?)";
+            PreparedStatement insertStatement = conn.prepareStatement(insertQuery);
+            
+            insertStatement.setInt(1, instructorID);
+            insertStatement.setInt(2, day);
+            insertStatement.setInt(3, startHour);
+            insertStatement.setBoolean(4, false);
+            
+            insertStatement.executeUpdate();
+            String feeQuery = "UPDATE instructor SET weekdayfee = ? WHERE instructorid = ?";
+            PreparedStatement feeStatement = conn.prepareStatement(feeQuery);
+            feeStatement.setDouble(1, fee);
+            feeStatement.setInt(2,instructorID);
+         
+            feeStatement.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Kayıt başarılı!");
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
 }
