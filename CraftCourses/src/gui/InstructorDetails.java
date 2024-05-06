@@ -293,9 +293,13 @@ public class InstructorDetails extends javax.swing.JFrame {
         //System.out.println("Start Hour: " + startHour);
         if(feeText.isEmpty()){
             DatabaseHelper.addWorkingHours(instructorIDin, dayNumericValue, startHour,0);
+            dispose();
+            new InstructorDetails(instructorIDin).setVisible(true);
         }else{
             double feeValue = Double.parseDouble(feeText);
             DatabaseHelper.addWorkingHours(instructorIDin, dayNumericValue, startHour, feeValue);
+            dispose();
+            new InstructorDetails(instructorIDin).setVisible(true);
         }
         
         
