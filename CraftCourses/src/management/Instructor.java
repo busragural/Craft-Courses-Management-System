@@ -74,9 +74,17 @@ public class Instructor extends Person {
         }
     }
     
-    public static boolean updateDetailsControl(String dayValue, String feeText, String selectedTime){
-        if (dayValue.isBlank() || selectedTime.isBlank()) {
-            JOptionPane.showMessageDialog(null, "Lütfen tüm bilgileri giriniz!");
+    public static boolean craftDetailControl(List<String> selectedCrafts){
+        if (selectedCrafts.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Lütfen en az bir ders seçiniz!");
+            return true;
+        }
+        return false;
+    }
+    
+    public static boolean workingHourDetailControl(String dayValue, String feeText, String selectedTime){
+        if (dayValue.isBlank() || selectedTime == null) {
+            JOptionPane.showMessageDialog(null, "Lütfen tüm gerekli bilgiler seçiniz!");
             return true;
         }
         return false;

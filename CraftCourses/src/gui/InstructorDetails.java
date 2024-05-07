@@ -1,6 +1,10 @@
 package gui;
 
 import database.DatabaseHelper;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import management.Instructor;
 
 public class InstructorDetails extends javax.swing.JFrame {
@@ -9,6 +13,8 @@ public class InstructorDetails extends javax.swing.JFrame {
     public InstructorDetails(int instructorID) {
         initComponents();
         InstructorDetails.instructorIDin = instructorID;
+        DatabaseHelper.displayAllCrafts2(craftTable);
+        DatabaseHelper.displayAllCrafts3(instructorIDin, craftsForInstructorTable);
         DatabaseHelper.displayAllWorkingHours(sessionsForInstructorTable, instructorID);
     }
     
@@ -22,8 +28,6 @@ public class InstructorDetails extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        craftList = new javax.swing.JList<>();
         timeLabel = new javax.swing.JLabel();
         craftsLabel = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -36,6 +40,9 @@ public class InstructorDetails extends javax.swing.JFrame {
         jScrollPane5 = new javax.swing.JScrollPane();
         craftsForInstructorTable = new javax.swing.JTable();
         addCraftButton = new javax.swing.JButton();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        craftTable = new javax.swing.JTable();
+        timeLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -45,10 +52,6 @@ public class InstructorDetails extends javax.swing.JFrame {
         });
 
         jPanel1.setBackground(new java.awt.Color(249, 249, 249));
-
-        craftList.setBackground(new java.awt.Color(153, 181, 155));
-        craftList.setForeground(new java.awt.Color(35, 39, 42));
-        jScrollPane1.setViewportView(craftList);
 
         timeLabel.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
         timeLabel.setForeground(new java.awt.Color(51, 50, 44));
@@ -102,6 +105,7 @@ public class InstructorDetails extends javax.swing.JFrame {
         });
         jScrollPane3.setViewportView(sessionsForInstructorTable);
         if (sessionsForInstructorTable.getColumnModel().getColumnCount() > 0) {
+            sessionsForInstructorTable.getColumnModel().getColumn(0).setResizable(false);
             sessionsForInstructorTable.getColumnModel().getColumn(1).setResizable(false);
         }
 
@@ -123,17 +127,18 @@ public class InstructorDetails extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Dersler"
+                "ID", "Ders İsmi"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false
+                false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
+        craftsForInstructorTable.setName("Dersler"); // NOI18N
         jScrollPane5.setViewportView(craftsForInstructorTable);
 
         addCraftButton.setBackground(new java.awt.Color(125, 218, 114));
@@ -142,18 +147,53 @@ public class InstructorDetails extends javax.swing.JFrame {
         addCraftButton.setText("Ekle");
         addCraftButton.setBorder(null);
         addCraftButton.setBorderPainted(false);
+        addCraftButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addCraftButtonActionPerformed(evt);
+            }
+        });
+
+        craftTable.setBackground(new java.awt.Color(153, 181, 155));
+        craftTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "Ders İsmi"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        craftTable.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        craftTable.setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        jScrollPane4.setViewportView(craftTable);
+        if (craftTable.getColumnModel().getColumnCount() > 0) {
+            craftTable.getColumnModel().getColumn(0).setResizable(false);
+            craftTable.getColumnModel().getColumn(1).setResizable(false);
+        }
+
+        timeLabel1.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
+        timeLabel1.setForeground(new java.awt.Color(51, 50, 44));
+        timeLabel1.setText("Öğretmenin Verebileceği Dersler");
+        timeLabel1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(64, 64, 64)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 767, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(saveAndGoBackButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(65, 65, 65)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(timeLabel)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -165,22 +205,28 @@ public class InstructorDetails extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(addCraftButton, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(craftsLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 87, Short.MAX_VALUE)
+                                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 491, Short.MAX_VALUE)
-                            .addComponent(jScrollPane5))))
-                .addContainerGap(49, Short.MAX_VALUE))
+                            .addComponent(jScrollPane3)
+                            .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 491, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(50, 50, 50))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(timeLabel1)
+                .addGap(185, 185, 185))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(33, 33, 33)
+                .addGap(17, 17, 17)
+                .addComponent(timeLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(craftsLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(addCraftButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -201,7 +247,7 @@ public class InstructorDetails extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 330, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(32, 32, 32))
+                .addGap(21, 21, 21))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -229,11 +275,32 @@ public class InstructorDetails extends javax.swing.JFrame {
         new Dashboard().setVisible(true);
     }//GEN-LAST:event_saveAndGoBackButtonActionPerformed
     
+    private void addCraftButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addCraftButtonActionPerformed
+        int[] selectedRows = craftTable.getSelectedRows();
+        
+        if (selectedRows.length == 0) {
+            JOptionPane.showMessageDialog(null, "Lütfen en az bir ders seçiniz!");
+            return;
+        }
+        
+        List<Integer> craftID = new ArrayList<>();
+        
+        for (int row : selectedRows) {
+            int id = (int) craftTable.getValueAt(row, 0);
+            craftID.add(id);
+        }
+        
+        DatabaseHelper.addCraftsForInstructor(instructorIDin, craftID);
+        
+        dispose();
+        new InstructorDetails(instructorIDin).setVisible(true);
+    }//GEN-LAST:event_addCraftButtonActionPerformed
+
     private void addSessionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addSessionButtonActionPerformed
         String dayValue = (String) daySpinner.getValue();
         String selectedTime = timeList.getSelectedValue();
         
-        if (Instructor.updateDetailsControl(dayValue, dayValue, selectedTime)) return;
+        if (Instructor.workingHourDetailControl(dayValue, dayValue, selectedTime)) return;
         
         String[] daysOfWeek = {"Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi", "Pazar"};
         
@@ -295,18 +362,19 @@ public class InstructorDetails extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addCraftButton;
     private javax.swing.JButton addSessionButton;
-    private javax.swing.JList<String> craftList;
+    private javax.swing.JTable craftTable;
     private javax.swing.JTable craftsForInstructorTable;
     private javax.swing.JLabel craftsLabel;
     private javax.swing.JSpinner daySpinner;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JButton saveAndGoBackButton;
     private javax.swing.JTable sessionsForInstructorTable;
     private javax.swing.JLabel timeLabel;
+    private javax.swing.JLabel timeLabel1;
     private javax.swing.JList<String> timeList;
     // End of variables declaration//GEN-END:variables
 }

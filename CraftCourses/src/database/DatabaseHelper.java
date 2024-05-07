@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -27,7 +28,7 @@ public class DatabaseHelper {
     }
     
     // Tum dersleri veri tabanindan ceken ve ara yuzdeki ders tablosuna ekleyen fonksiyon
-    public static void displayAllCrafts(JTable table) {
+    public static void displayAllCrafts1(JTable table) {
         String checkSession;
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.setRowCount(0);
@@ -51,6 +52,59 @@ public class DatabaseHelper {
                 }
                 
                 model.addRow(new Object[]{craftID, name, description, checkSession, fee});
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Dersler getirilirken bir hata oluştu!");
+        }
+    }
+    
+    // Tum dersleri veri tabanindan ceken ve detay ekleme ara yuzundeki ders tablosuna ekleyen fonksiyon
+    public static void displayAllCrafts2(JTable table) {
+        String checkSession;
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        model.setRowCount(0);
+        
+        try {
+            String query = "SELECT * FROM Craft ORDER BY craftID";
+            PreparedStatement statement = conn.prepareStatement(query);
+            ResultSet resultSet = statement.executeQuery();
+            
+            while (resultSet.next()) {
+                int craftID = resultSet.getInt("craftID");
+                String name = resultSet.getString("name");
+                model.addRow(new Object[]{craftID, name});
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Dersler getirilirken bir hata oluştu!");
+        }
+    }
+    
+    // Bir ogretmenin verdigi tum dersleri veri tabanindan ceken ve detay ekleme ara yuzundeki ogretmen-ders tablosuna ekleyen fonksiyon
+    public static void displayAllCrafts3(int instructorID, JTable table) {
+        String checkSession;
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        model.setRowCount(0);
+        
+        try {
+            String query = "SELECT t.craftID, c.name " +
+                       "FROM Teach t " +
+                       "INNER JOIN Craft c ON t.craftID = c.craftID " +
+                       "WHERE t.instructorID = ? " +
+                       "ORDER BY t.craftID";
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setInt(1, instructorID);
+            ResultSet resultSet = statement.executeQuery();
+            
+            while (resultSet.next()) {
+                int craftID = resultSet.getInt("craftID");
+                String craftName = resultSet.getString("name");
+
+                // craftID ve craftName'i tabloya ekle
+                model.addRow(new Object[]{craftID, craftName});
             }
             
         } catch (SQLException ex) {
@@ -203,6 +257,37 @@ public class DatabaseHelper {
             deleteInstructorStatement.executeUpdate();
             
             JOptionPane.showMessageDialog(null, "Öğretmen silme başarılı!");
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    // Ogretmenin verebildigi dersleri veri tabanina ekleyen fonksiyon
+    public static void addCraftsForInstructor(int instructorID, List<Integer> craftID) {
+        try {
+            for (Integer tmpID : craftID) {
+                String checkQuery = "SELECT COUNT(*) FROM Teach WHERE instructorID = ? AND craftID = ?";
+                PreparedStatement checkStatement = conn.prepareStatement(checkQuery);
+                checkStatement.setInt(1, instructorID);
+                checkStatement.setInt(2, tmpID);
+                ResultSet resultSet = checkStatement.executeQuery();
+                resultSet.next();
+
+                int count = resultSet.getInt(1);
+                if (count == 0) {
+                    String insertQuery = "INSERT INTO Teach (instructorID, craftID) VALUES (?, ?)";
+                    PreparedStatement insertStatement = conn.prepareStatement(insertQuery);
+
+                    insertStatement.setInt(1, instructorID);
+                    insertStatement.setInt(2, tmpID);
+                    insertStatement.executeUpdate();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Aynı ders bir daha eklenemez!");
+                    return;
+                }
+            }
+            
+            JOptionPane.showMessageDialog(null, "İlgili öğretmen için ders ekleme başarılı!");
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, ex);
         }
