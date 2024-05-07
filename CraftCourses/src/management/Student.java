@@ -24,7 +24,20 @@ public class Student extends Person {
         return upcomingCourses;
     }
     
-    public static void update(int studentID, String mobilePhone, String homePhone, String address){
+    public static void registerControl(String name, String surname, String email, String mobilePhone, 
+            String homePhone, String address){
+        double weekdayFee;
+        
+        if (name.isBlank() || surname.isBlank() || email.isBlank() || mobilePhone.isBlank() || 
+                homePhone.isBlank() || address.isBlank()) {
+            JOptionPane.showMessageDialog(null, "Lütfen tüm bilgileri giriniz!");
+            return;
+        }
+        
+        DatabaseHelper.registerStudent(name, surname, email, mobilePhone, homePhone, address);
+    }
+    
+    public static void updateInfoControl(int studentID, String mobilePhone, String homePhone, String address){
         if (mobilePhone.isBlank() || mobilePhone.isBlank() || homePhone.isBlank() || address.isBlank()) {
             JOptionPane.showMessageDialog(null, "Lütfen tüm bilgileri giriniz!");
             return;

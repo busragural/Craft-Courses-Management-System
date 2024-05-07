@@ -38,12 +38,47 @@ public class Instructor extends Person {
         return weekendFee;
     }
     
-    public static void update(int instructorID, String mobilePhone, String homePhone, String address){
-        if (mobilePhone.isBlank() || mobilePhone.isBlank() || homePhone.isBlank() || address.isBlank()) {
+    public static void registerControl(String name, String surname, String email, String mobilePhone, 
+            String homePhone, String address, String tmpWeekdayFee){
+        double weekdayFee;
+        
+        if (name.isBlank() || surname.isBlank() || email.isBlank() || mobilePhone.isBlank() || 
+                homePhone.isBlank() || address.isBlank() || tmpWeekdayFee.isBlank()) {
             JOptionPane.showMessageDialog(null, "Lütfen tüm bilgileri giriniz!");
             return;
         }
         
-        DatabaseHelper.updateInstructor(instructorID, mobilePhone, homePhone, address);
+        try {
+            weekdayFee = Double.parseDouble(tmpWeekdayFee);
+            DatabaseHelper.registerInstructor(name, surname, email, mobilePhone, homePhone, address, weekdayFee);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Geçersiz ücret bilgisi!");
+            return;
+        }
+    }
+    
+    public static void updateInfoControl(int instructorID, String mobilePhone, String homePhone, String address, String tmpWeekdayFee){
+        double weekdayFee;
+        
+        if (mobilePhone.isBlank() || homePhone.isBlank() || address.isBlank() || tmpWeekdayFee.isBlank()) {
+            JOptionPane.showMessageDialog(null, "Lütfen tüm bilgileri giriniz!");
+            return;
+        }
+        
+        try {
+            weekdayFee = Double.parseDouble(tmpWeekdayFee);
+            DatabaseHelper.updateInstructor(instructorID, mobilePhone, homePhone, address, weekdayFee);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Geçersiz ücret bilgisi!");
+            return;
+        }
+    }
+    
+    public static boolean updateDetailsControl(String dayValue, String feeText, String selectedTime){
+        if (dayValue.isBlank() || selectedTime.isBlank()) {
+            JOptionPane.showMessageDialog(null, "Lütfen tüm bilgileri giriniz!");
+            return true;
+        }
+        return false;
     }
 }

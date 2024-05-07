@@ -17,7 +17,7 @@ public class DatabaseHelper {
     private static final String dbPassword = "mudafer69";
     private static Connection conn;
     
-    //Veri tabanına bağlantı oluşturan fonksiyon
+    // Veri tabanina baglanti olusturan fonksiyon
     public static void connectDB(){
         try {
             conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
@@ -25,7 +25,7 @@ public class DatabaseHelper {
             Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    
     // Tum dersleri veri tabanindan ceken ve ara yuzdeki ders tablosuna ekleyen fonksiyon
     public static void displayAllCrafts(JTable table) {
         String checkSession;
@@ -132,8 +132,9 @@ public class DatabaseHelper {
                 String mobilePhone = resultSet.getString("mobilePhone");
                 String homePhone = resultSet.getString("homePhone");
                 String address = resultSet.getString("address");
+                double weekdayFee = resultSet.getInt("weekdayFee");
                 
-                model.addRow(new Object[]{instructorID, name + ' ' + surname, email, mobilePhone, homePhone, address});
+                model.addRow(new Object[]{instructorID, name + ' ' + surname, email, mobilePhone, homePhone, address, weekdayFee});
             }
             
         } catch (SQLException ex) {
@@ -143,14 +144,15 @@ public class DatabaseHelper {
     }
     
     // Ogretmen kaydini veri tabanına ekleyen fonksiyon
-    public static void registerInstructor(String name, String surname, String email, String mobilePhone, String homePhone, String address) {
+    public static void registerInstructor(String name, String surname, String email, String mobilePhone, 
+            String homePhone, String address, double weekdayFee) {
         if (name.isBlank() || surname.isBlank() || email.isBlank() || mobilePhone.isBlank() || homePhone.isBlank() || address.isBlank()) {
             JOptionPane.showMessageDialog(null, "Lütfen tüm bilgileri giriniz!");
             return;
         }
         
         try {
-            String insertQuery = "INSERT INTO Instructor (name, surname, email, mobilePhone, homePhone, address) VALUES (?, ?, ?, ?, ?, ?)";
+            String insertQuery = "INSERT INTO Instructor (name, surname, email, mobilePhone, homePhone, address, weekdayFee) VALUES (?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement insertStatement = conn.prepareStatement(insertQuery);
             
             insertStatement.setString(1, name);
@@ -159,6 +161,7 @@ public class DatabaseHelper {
             insertStatement.setString(4, mobilePhone);
             insertStatement.setString(5, homePhone);
             insertStatement.setString(6, address);
+            insertStatement.setDouble(7, weekdayFee);
             insertStatement.executeUpdate();
             
             JOptionPane.showMessageDialog(null, "Kayıt başarılı!");
@@ -168,15 +171,16 @@ public class DatabaseHelper {
     }
     
     // Ara yuzde guncellenen ogretmen bilgilerini veri tabaninda guncelleyen fonksiyon
-    public static void updateInstructor(int instructorID, String mobilePhone, String homePhone, String address) {
+    public static void updateInstructor(int instructorID, String mobilePhone, String homePhone, String address, double weekdayFee) {
         try {
-            String updateQuery = "UPDATE Instructor SET mobilePhone = ?, homePhone = ?, address = ? where instructorID = ?";
+            String updateQuery = "UPDATE Instructor SET mobilePhone = ?, homePhone = ?, address = ?, weekdayFee = ? where instructorID = ?";
             PreparedStatement insertStatement = conn.prepareStatement(updateQuery);
             
             insertStatement.setString(1, mobilePhone);
             insertStatement.setString(2, homePhone);
             insertStatement.setString(3, address);
-            insertStatement.setInt(4, instructorID);
+            insertStatement.setDouble(4, weekdayFee);
+            insertStatement.setInt(5, instructorID);
             insertStatement.executeUpdate();
             
             JOptionPane.showMessageDialog(null, "Öğretmen güncelleme başarılı!");
@@ -188,11 +192,15 @@ public class DatabaseHelper {
     // Ara yuzde silinen ogretmen bilgilerini veri tabanindan silen fonksiyon
     public static void deleteInstructor(int instructorID) {
         try {
-            String deleteQuery = "DELETE FROM Instructor where instructorID = ?";
-            PreparedStatement deleteStatement = conn.prepareStatement(deleteQuery);
+            String deleteWorkingHourQuery = "DELETE FROM WorkingHour WHERE instructorID = ?";
+            PreparedStatement deleteWorkingHourStatement = conn.prepareStatement(deleteWorkingHourQuery);
+            deleteWorkingHourStatement.setInt(1, instructorID);
+            deleteWorkingHourStatement.executeUpdate();
             
-            deleteStatement.setInt(1, instructorID);
-            deleteStatement.executeUpdate();
+            String deleteInstructorQuery = "DELETE FROM Instructor where instructorID = ?";
+            PreparedStatement deleteInstructorStatement = conn.prepareStatement(deleteInstructorQuery);
+            deleteInstructorStatement.setInt(1, instructorID);
+            deleteInstructorStatement.executeUpdate();
             
             JOptionPane.showMessageDialog(null, "Öğretmen silme başarılı!");
         } catch (SQLException ex) {
@@ -286,67 +294,57 @@ public class DatabaseHelper {
         }
     }
     
-    public static void addWorkingHours(int instructorID, int day, int startHour, double fee){
-        if (day < 1 || day > 7 || startHour < 0 || startHour > 23) {
-        JOptionPane.showMessageDialog(null, "Lütfen bütün alanları doldurunuz.");
-        return;
-        } 
+    // Tum calisma saatlerini veri tabanindan ceken ve ara yuzdeki tabloya ekleyen fonksiyon
+    public static void displayAllWorkingHours(JTable table, int instructorID) {
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        model.setRowCount(0);
+        
+        String[] daysOfWeek = {"Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi", "Pazar"};
+        
         try {
-            String insertQuery = "INSERT INTO workinghour (instructorid, day, starthour, isbusy) VALUES (?, ?, ?, ?)";
+            String query = "SELECT * FROM WorkingHour WHERE instructorID = ? ORDER BY workingHourID";
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setInt(1, instructorID);
+            ResultSet resultSet = statement.executeQuery();
+            
+            while (resultSet.next()) {
+                Integer dayIndex = resultSet.getInt("day") - 1;
+                String day = daysOfWeek[dayIndex];
+
+                Integer startHour = resultSet.getInt("startHour");
+                Integer endHour = startHour + 1;
+                
+                String timeSlot = startHour + ":00 - " + endHour + ":00";
+                
+                model.addRow(new Object[]{day, timeSlot});
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Çalışma saatleri getirilirken bir hata oluştu!");
+        }
+    }
+    
+    // Calisma saati kaydini veri tabanina ekleyen fonksiyon
+    public static void addWorkingHour(int instructorID, int day, int startHour){
+        if (day < 1 || day > 7 || startHour < 0 || startHour > 23) {
+            JOptionPane.showMessageDialog(null, "Lütfen gün (1-7) ve saat (0-23) bilgilerini uygun şekilde giriniz!");
+            return;
+        }
+        
+        try {
+            String insertQuery = "INSERT INTO WorkingHour (instructorID, day, startHour, isBusy) VALUES (?, ?, ?, ?)";
             PreparedStatement insertStatement = conn.prepareStatement(insertQuery);
             
             insertStatement.setInt(1, instructorID);
             insertStatement.setInt(2, day);
             insertStatement.setInt(3, startHour);
             insertStatement.setBoolean(4, false);
-            
             insertStatement.executeUpdate();
-            if (fee != 0) {
-                // Eğer fee değeri boş değilse, instructor tablosunu güncelle
-                String feeQuery = "UPDATE instructor SET weekdayfee = ? WHERE instructorid = ?";
-                PreparedStatement feeStatement = conn.prepareStatement(feeQuery);
-                feeStatement.setDouble(1, fee);
-                feeStatement.setInt(2, instructorID);
-
-                feeStatement.executeUpdate();
-            }
+            
             JOptionPane.showMessageDialog(null, "Kayıt başarılı!");
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
+        }  
     }
-    public static void displayWorkingHours(JTable table, int instructorID) {
-        DefaultTableModel model = (DefaultTableModel) table.getModel();
-        model.setRowCount(0);
-
-        // Günlerin metinsel karşılıklarını saklayacak bir dizi
-        String[] daysOfWeek = {"Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi", "Pazar"};
-
-        try {
-            String query = "SELECT * FROM workinghour WHERE instructorid = ? ORDER BY workinghourid";
-            PreparedStatement statement = conn.prepareStatement(query);
-            statement.setInt(1, instructorID);
-            ResultSet resultSet = statement.executeQuery();
-
-            while (resultSet.next()) {
-                Integer dayIndex = resultSet.getInt("day") - 1; // Veritabanında pazartesi 1'den başladığı için dizideki indeksleri uyumlu hale getiriyoruz
-                String day = daysOfWeek[dayIndex];
-
-                Integer startHour = resultSet.getInt("startHour");
-                Integer endHour = startHour + 1; // 1 saatlik dilim olduğunu varsayıyoruz
-
-                // Saat dilimi için uygun metni oluşturuyoruz
-                String timeSlot = startHour + ":00 - " + endHour + ":00";
-
-                // Model'e satırı ekliyoruz
-                model.addRow(new Object[]{day, timeSlot});
-            }
-
-            } catch (SQLException ex) {
-                Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, ex);
-                JOptionPane.showMessageDialog(null, "Öğrenciler getirilirken bir hata oluştu!");
-            }
-        }
-    
 }

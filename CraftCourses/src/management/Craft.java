@@ -42,7 +42,7 @@ public class Craft {
         return fee;
     }
     
-    public static void update(int craftID, String tmpIsWeekday, String tmpFee){
+    public static void updateInfoControl(int craftID, String tmpIsWeekday, String tmpFee){
         boolean isWeekday;
         double fee = Double.parseDouble(tmpFee);
         

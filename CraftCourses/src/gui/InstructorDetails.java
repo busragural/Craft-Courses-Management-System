@@ -1,13 +1,15 @@
 package gui;
 
 import database.DatabaseHelper;
+import management.Instructor;
 
 public class InstructorDetails extends javax.swing.JFrame {
     private static int instructorIDin;
+    
     public InstructorDetails(int instructorID) {
         initComponents();
-        InstructorDetails.instructorIDin= instructorID;
-        DatabaseHelper.displayWorkingHours(sessionsForInstructorTable, instructorID);
+        InstructorDetails.instructorIDin = instructorID;
+        DatabaseHelper.displayAllWorkingHours(sessionsForInstructorTable, instructorID);
     }
     
     /**
@@ -24,12 +26,9 @@ public class InstructorDetails extends javax.swing.JFrame {
         craftList = new javax.swing.JList<>();
         timeLabel = new javax.swing.JLabel();
         craftsLabel = new javax.swing.JLabel();
-        feeLabel = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         timeList = new javax.swing.JList<>();
         daySpinner = new javax.swing.JSpinner();
-        feeField = new javax.swing.JTextField();
-        feeLabel2 = new javax.swing.JLabel();
         addSessionButton = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         sessionsForInstructorTable = new javax.swing.JTable();
@@ -49,11 +48,6 @@ public class InstructorDetails extends javax.swing.JFrame {
 
         craftList.setBackground(new java.awt.Color(153, 181, 155));
         craftList.setForeground(new java.awt.Color(35, 39, 42));
-        craftList.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
         jScrollPane1.setViewportView(craftList);
 
         timeLabel.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
@@ -66,11 +60,6 @@ public class InstructorDetails extends javax.swing.JFrame {
         craftsLabel.setText("Öğretmenin eğitim verebileceği dersler:");
         craftsLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
-        feeLabel.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
-        feeLabel.setForeground(new java.awt.Color(51, 50, 44));
-        feeLabel.setText("Saatlik Eğitim Ücreti (Hafta içi):");
-        feeLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-
         timeList.setBackground(new java.awt.Color(153, 181, 155));
         timeList.setForeground(new java.awt.Color(35, 39, 42));
         timeList.setModel(new javax.swing.AbstractListModel<String>() {
@@ -81,16 +70,6 @@ public class InstructorDetails extends javax.swing.JFrame {
         jScrollPane2.setViewportView(timeList);
 
         daySpinner.setModel(new javax.swing.SpinnerListModel(new String[] {"Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi", "Pazar"}));
-
-        feeField.setBackground(new java.awt.Color(249, 249, 249));
-        feeField.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
-        feeField.setForeground(new java.awt.Color(125, 218, 114));
-        feeField.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("LingWai TC", 0, 18), new java.awt.Color(51, 50, 44))); // NOI18N
-
-        feeLabel2.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
-        feeLabel2.setForeground(new java.awt.Color(51, 50, 44));
-        feeLabel2.setText("TL");
-        feeLabel2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         addSessionButton.setBackground(new java.awt.Color(125, 218, 114));
         addSessionButton.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
@@ -172,45 +151,31 @@ public class InstructorDetails extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(saveAndGoBackButton, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(saveAndGoBackButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(65, 65, 65)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(timeLabel)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(timeLabel)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(daySpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(addSessionButton, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(addCraftButton, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(craftsLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 87, Short.MAX_VALUE)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 491, Short.MAX_VALUE)
-                                    .addComponent(jScrollPane5)))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(feeLabel)
+                                .addComponent(daySpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(feeField, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(feeLabel2)
-                                .addGap(0, 0, Short.MAX_VALUE)))))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(addSessionButton, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(addCraftButton, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(craftsLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 87, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 491, Short.MAX_VALUE)
+                            .addComponent(jScrollPane5))))
                 .addContainerGap(49, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(feeLabel)
-                    .addComponent(feeField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(feeLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(33, 33, 33)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(craftsLabel)
@@ -218,7 +183,7 @@ public class InstructorDetails extends javax.swing.JFrame {
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(addCraftButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(timeLabel)
@@ -232,11 +197,11 @@ public class InstructorDetails extends javax.swing.JFrame {
                                 .addComponent(addSessionButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(saveAndGoBackButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(17, 17, 17))
+                        .addComponent(saveAndGoBackButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 330, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(32, 32, 32))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -249,7 +214,7 @@ public class InstructorDetails extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 2, Short.MAX_VALUE))
+                .addGap(0, 4, Short.MAX_VALUE))
         );
 
         pack();
@@ -263,47 +228,32 @@ public class InstructorDetails extends javax.swing.JFrame {
         dispose();
         new Dashboard().setVisible(true);
     }//GEN-LAST:event_saveAndGoBackButtonActionPerformed
-
+    
     private void addSessionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addSessionButtonActionPerformed
-        // TODO add your handling code here:
-        String dayValue = (String) daySpinner.getValue(); // Veya uygun tipe dönüştürün
-        String feeText = feeField.getText();
-// JList'ten seçilen öğeleri al
-        String selectedTime = timeList.getSelectedValue() ;
-        System.out.println(dayValue + selectedTime);
-        // Haftanın günlerini temsil eden string değerler
+        String dayValue = (String) daySpinner.getValue();
+        String selectedTime = timeList.getSelectedValue();
+        
+        if (Instructor.updateDetailsControl(dayValue, dayValue, selectedTime)) return;
+        
         String[] daysOfWeek = {"Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi", "Pazar"};
-
-        // DayValue'yi haftanın günlerine karşılık gelen sayısal değere dönüştürme
-        int dayNumericValue = -1; // Varsayılan olarak -1 ayarlanmış
+        
+        int dayNumericValue = -1;
         for (int i = 0; i < daysOfWeek.length; i++) {
             if (dayValue.equals(daysOfWeek[i])) {
-                dayNumericValue = i + 1; // Haftanın 0'dan başlayan indeksi 1'den başlayan güne dönüştürüldü
+                dayNumericValue = i + 1;
                 break;
             }
         }
-
-        // SelectedTime'dan başlangıç saati kısmını alarak integer değere dönüştürme
+        
         String[] timeParts = selectedTime.split(" - ");
         String startTime = timeParts[0];
-        int startHour = Integer.parseInt(startTime.split("\\.")[0]); // Saati alırken "." karakterine göre ayırıyoruz
-
-        // İşlem sonuçlarını kontrol etme
-        //System.out.println("Day Numeric Value: " + dayNumericValue);
-        //System.out.println("Start Hour: " + startHour);
-        if(feeText.isEmpty()){
-            DatabaseHelper.addWorkingHours(instructorIDin, dayNumericValue, startHour,0);
-            dispose();
-            new InstructorDetails(instructorIDin).setVisible(true);
-        }else{
-            double feeValue = Double.parseDouble(feeText);
-            DatabaseHelper.addWorkingHours(instructorIDin, dayNumericValue, startHour, feeValue);
-            dispose();
-            new InstructorDetails(instructorIDin).setVisible(true);
-        }
         
+        int startHour = Integer.parseInt(startTime.split("\\.")[0]);
         
+        DatabaseHelper.addWorkingHour(instructorIDin, dayNumericValue, startHour);
         
+        dispose();
+        new InstructorDetails(instructorIDin).setVisible(true);
     }//GEN-LAST:event_addSessionButtonActionPerformed
 
     /**
@@ -349,9 +299,6 @@ public class InstructorDetails extends javax.swing.JFrame {
     private javax.swing.JTable craftsForInstructorTable;
     private javax.swing.JLabel craftsLabel;
     private javax.swing.JSpinner daySpinner;
-    private javax.swing.JTextField feeField;
-    private javax.swing.JLabel feeLabel;
-    private javax.swing.JLabel feeLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;

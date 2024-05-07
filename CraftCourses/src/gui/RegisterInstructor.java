@@ -1,11 +1,10 @@
 package gui;
 
-import database.*;
-import javax.swing.JOptionPane;
+import management.Instructor;
 
-public class Register extends javax.swing.JFrame {
+public class RegisterInstructor extends javax.swing.JFrame {
     
-    public Register() {
+    public RegisterInstructor() {
         initComponents();
     }
     
@@ -28,8 +27,8 @@ public class Register extends javax.swing.JFrame {
         emailField = new javax.swing.JTextField();
         mobilePhoneField = new javax.swing.JTextField();
         homePhoneField = new javax.swing.JTextField();
-        studentRadioButton = new javax.swing.JRadioButton();
-        instructorRadioButton = new javax.swing.JRadioButton();
+        weekdayFeeField = new javax.swing.JTextField();
+        backButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -88,13 +87,23 @@ public class Register extends javax.swing.JFrame {
         homePhoneField.setForeground(new java.awt.Color(125, 218, 114));
         homePhoneField.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Ev Telefonu", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("LingWai TC", 0, 18), new java.awt.Color(51, 50, 44))); // NOI18N
 
-        buttonGroup1.add(studentRadioButton);
-        studentRadioButton.setForeground(new java.awt.Color(51, 50, 44));
-        studentRadioButton.setText("Kursiyer");
+        weekdayFeeField.setBackground(new java.awt.Color(249, 249, 249));
+        weekdayFeeField.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
+        weekdayFeeField.setForeground(new java.awt.Color(125, 218, 114));
+        weekdayFeeField.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Hafta İçi Ücreti", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("LingWai TC", 0, 18), new java.awt.Color(51, 50, 44))); // NOI18N
+        weekdayFeeField.setName("Hafta İçi Ücreti"); // NOI18N
 
-        buttonGroup1.add(instructorRadioButton);
-        instructorRadioButton.setForeground(new java.awt.Color(51, 50, 44));
-        instructorRadioButton.setText("Öğretmen");
+        backButton.setBackground(new java.awt.Color(125, 218, 114));
+        backButton.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
+        backButton.setForeground(new java.awt.Color(51, 50, 44));
+        backButton.setText("Geri");
+        backButton.setBorder(null);
+        backButton.setBorderPainted(false);
+        backButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout registerPanelLayout = new javax.swing.GroupLayout(registerPanel);
         registerPanel.setLayout(registerPanelLayout);
@@ -103,44 +112,41 @@ public class Register extends javax.swing.JFrame {
             .addGroup(registerPanelLayout.createSequentialGroup()
                 .addGroup(registerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(registerPanelLayout.createSequentialGroup()
-                        .addGap(380, 380, 380)
+                        .addGap(431, 431, 431)
+                        .addComponent(titleLabel))
+                    .addGroup(registerPanelLayout.createSequentialGroup()
+                        .addGap(374, 374, 374)
                         .addComponent(registerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(registerPanelLayout.createSequentialGroup()
-                        .addGap(255, 255, 255)
-                        .addGroup(registerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(registerPanelLayout.createSequentialGroup()
-                                .addComponent(homePhoneField, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(addressField, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(registerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(252, 252, 252)
+                        .addGroup(registerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(weekdayFeeField, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(registerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addGroup(registerPanelLayout.createSequentialGroup()
-                                    .addComponent(emailField, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(28, 28, 28)
-                                    .addComponent(mobilePhoneField, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(registerPanelLayout.createSequentialGroup()
-                                    .addComponent(nameField, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(28, 28, 28)
-                                    .addComponent(surnameField, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                    .addGroup(registerPanelLayout.createSequentialGroup()
-                        .addGap(417, 417, 417)
-                        .addComponent(studentRadioButton)
-                        .addGap(18, 18, 18)
-                        .addComponent(instructorRadioButton))
-                    .addGroup(registerPanelLayout.createSequentialGroup()
-                        .addGap(431, 431, 431)
-                        .addComponent(titleLabel)))
-                .addContainerGap(263, Short.MAX_VALUE))
+                                    .addComponent(homePhoneField, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(addressField, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(registerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(registerPanelLayout.createSequentialGroup()
+                                        .addComponent(emailField, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(28, 28, 28)
+                                        .addComponent(mobilePhoneField, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(registerPanelLayout.createSequentialGroup()
+                                        .addComponent(nameField, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(28, 28, 28)
+                                        .addComponent(surnameField, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
+                .addContainerGap(266, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, registerPanelLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(backButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(73, 73, 73))
         );
         registerPanelLayout.setVerticalGroup(
             registerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, registerPanelLayout.createSequentialGroup()
-                .addContainerGap(56, Short.MAX_VALUE)
+            .addGroup(registerPanelLayout.createSequentialGroup()
+                .addGap(25, 25, 25)
                 .addComponent(titleLabel)
-                .addGap(30, 30, 30)
-                .addGroup(registerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(studentRadioButton)
-                    .addComponent(instructorRadioButton))
-                .addGap(18, 18, 18)
+                .addGap(27, 27, 27)
                 .addGroup(registerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(nameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(surnameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -152,10 +158,16 @@ public class Register extends javax.swing.JFrame {
                 .addGroup(registerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(addressField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(homePhoneField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(63, 63, 63)
+                .addGap(18, 18, 18)
+                .addComponent(weekdayFeeField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(37, 37, 37)
                 .addComponent(registerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(113, 113, 113))
+                .addGap(18, 18, 18)
+                .addComponent(backButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(83, Short.MAX_VALUE))
         );
+
+        weekdayFeeField.getAccessibleContext().setAccessibleName("Hafta İçi Ücret");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -178,19 +190,18 @@ public class Register extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowOpened
     
     private void registerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerButtonActionPerformed
-        if (studentRadioButton.isSelected()) {
-            DatabaseHelper.registerStudent(nameField.getText(), surnameField.getText(), emailField.getText(), 
-                    mobilePhoneField.getText(), homePhoneField.getText(), addressField.getText());
-        } else if (instructorRadioButton.isSelected()) {
-            DatabaseHelper.registerInstructor(nameField.getText(), surnameField.getText(), emailField.getText(), 
-                    mobilePhoneField.getText(), homePhoneField.getText(), addressField.getText());
-        }
-        else {
-            JOptionPane.showMessageDialog(this, "Lütfen tüm bilgileri giriniz!");
-        }
+        Instructor.registerControl(nameField.getText(), surnameField.getText(), emailField.getText(), 
+                    mobilePhoneField.getText(), homePhoneField.getText(), 
+                    addressField.getText(), weekdayFeeField.getText());
+        
         dispose();
         new Dashboard().setVisible(true);
     }//GEN-LAST:event_registerButtonActionPerformed
+    
+    private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
+        dispose();
+        new Dashboard().setVisible(true);
+    }//GEN-LAST:event_backButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -204,36 +215,37 @@ public class Register extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Register.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RegisterInstructor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Register.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RegisterInstructor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Register.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RegisterInstructor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Register.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RegisterInstructor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
         
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Register().setVisible(true);
+                new RegisterInstructor().setVisible(true);
             }
         });
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField addressField;
+    private javax.swing.JButton backButton;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JTextField emailField;
     private javax.swing.JTextField homePhoneField;
-    private javax.swing.JRadioButton instructorRadioButton;
     private javax.swing.JTextField mobilePhoneField;
     private javax.swing.JTextField nameField;
     private javax.swing.JButton registerButton;
     private javax.swing.JPanel registerPanel;
-    private javax.swing.JRadioButton studentRadioButton;
     private javax.swing.JTextField surnameField;
     private javax.swing.JLabel titleLabel;
+    private javax.swing.JTextField weekdayFeeField;
     // End of variables declaration//GEN-END:variables
 }
