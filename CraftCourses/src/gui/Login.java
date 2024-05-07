@@ -1,5 +1,6 @@
 package gui;
 
+import database.DatabaseHelper;
 import javax.swing.JOptionPane;
 
 public class Login extends javax.swing.JFrame {
@@ -145,6 +146,7 @@ public class Login extends javax.swing.JFrame {
     public static void main(String args[]) {
         String username = "admin";
         String password = "1234";
+        DatabaseHelper.connectDB();
         
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {

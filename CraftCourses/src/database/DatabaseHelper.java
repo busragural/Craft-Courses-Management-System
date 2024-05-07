@@ -15,7 +15,17 @@ public class DatabaseHelper {
     private static final String dbUrl = "jdbc:postgresql://localhost/postgres";
     private static final String dbUsername = "postgres";
     private static final String dbPassword = "mudafer69";
+    private static Connection conn;
     
+    //Veri tabanına bağlantı oluşturan fonksiyon
+    public static void connectDB(){
+        try {
+            conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     // Tum dersleri veri tabanindan ceken ve ara yuzdeki ders tablosuna ekleyen fonksiyon
     public static void displayAllCrafts(JTable table) {
         String checkSession;
@@ -23,7 +33,6 @@ public class DatabaseHelper {
         model.setRowCount(0);
         
         try {
-            Connection conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
             String query = "SELECT * FROM Craft ORDER BY craftID";
             PreparedStatement statement = conn.prepareStatement(query);
             ResultSet resultSet = statement.executeQuery();
@@ -58,7 +67,6 @@ public class DatabaseHelper {
         }
         
         try {
-            Connection conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
             String insertQuery = "INSERT INTO Craft (name, description, isWeekday, craftFee) VALUES (?, ?, ?, ?)";
             PreparedStatement insertStatement = conn.prepareStatement(insertQuery);
             
@@ -77,7 +85,6 @@ public class DatabaseHelper {
     // Ara yuzde guncellenen ders bilgilerini veri tabaninda guncelleyen fonksiyon
     public static void updateCraft(int craftID, boolean isWeekday, double fee) {
         try {
-            Connection conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
             String updateQuery = "UPDATE Craft SET isWeekday = ?, craftFee = ? where craftID = ?";
             PreparedStatement insertStatement = conn.prepareStatement(updateQuery);
             
@@ -95,7 +102,6 @@ public class DatabaseHelper {
     // Ara yuzde silinen ders bilgilerini veri tabanindan silen fonksiyon
     public static void deleteCraft(int craftID) {
         try {
-            Connection conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
             String deleteQuery = "DELETE FROM Craft where craftID = ?";
             PreparedStatement deleteStatement = conn.prepareStatement(deleteQuery);
             
@@ -114,7 +120,6 @@ public class DatabaseHelper {
         model.setRowCount(0);
         
         try {
-            Connection conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
             String query = "SELECT * FROM Instructor ORDER BY instructorID";
             PreparedStatement statement = conn.prepareStatement(query);
             ResultSet resultSet = statement.executeQuery();
@@ -145,7 +150,6 @@ public class DatabaseHelper {
         }
         
         try {
-            Connection conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
             String insertQuery = "INSERT INTO Instructor (name, surname, email, mobilePhone, homePhone, address) VALUES (?, ?, ?, ?, ?, ?)";
             PreparedStatement insertStatement = conn.prepareStatement(insertQuery);
             
@@ -166,7 +170,6 @@ public class DatabaseHelper {
     // Ara yuzde guncellenen ogretmen bilgilerini veri tabaninda guncelleyen fonksiyon
     public static void updateInstructor(int instructorID, String mobilePhone, String homePhone, String address) {
         try {
-            Connection conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
             String updateQuery = "UPDATE Instructor SET mobilePhone = ?, homePhone = ?, address = ? where instructorID = ?";
             PreparedStatement insertStatement = conn.prepareStatement(updateQuery);
             
@@ -185,7 +188,6 @@ public class DatabaseHelper {
     // Ara yuzde silinen ogretmen bilgilerini veri tabanindan silen fonksiyon
     public static void deleteInstructor(int instructorID) {
         try {
-            Connection conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
             String deleteQuery = "DELETE FROM Instructor where instructorID = ?";
             PreparedStatement deleteStatement = conn.prepareStatement(deleteQuery);
             
@@ -204,7 +206,6 @@ public class DatabaseHelper {
         model.setRowCount(0);
         
         try {
-            Connection conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
             String query = "SELECT * FROM Student ORDER BY studentID";
             PreparedStatement statement = conn.prepareStatement(query);
             ResultSet resultSet = statement.executeQuery();
@@ -235,7 +236,6 @@ public class DatabaseHelper {
         }
         
         try {
-            Connection conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
             String insertQuery = "INSERT INTO Student (name, surname, email, mobilePhone, homePhone, address) VALUES (?, ?, ?, ?, ?, ?)";
             PreparedStatement insertStatement = conn.prepareStatement(insertQuery);
             
@@ -256,7 +256,6 @@ public class DatabaseHelper {
     // Ara yuzde guncellenen ogrenci bilgilerini veri tabaninda guncelleyen fonksiyon
     public static void updateStudent(int studentID, String mobilePhone, String homePhone, String address) {
         try {
-            Connection conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
             String updateQuery = "UPDATE Student SET mobilePhone = ?, homePhone = ?, address = ? where studentID = ?";
             PreparedStatement insertStatement = conn.prepareStatement(updateQuery);
             
@@ -275,7 +274,6 @@ public class DatabaseHelper {
     // Ara yuzde silinen ogrenci bilgilerini veri tabanindan silen fonksiyon
     public static void deleteStudent(int studentID) {
         try {
-            Connection conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
             String deleteQuery = "DELETE FROM Student where studentID = ?";
             PreparedStatement deleteStatement = conn.prepareStatement(deleteQuery);
             
@@ -294,7 +292,6 @@ public class DatabaseHelper {
         return;
         } 
         try {
-            Connection conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
             String insertQuery = "INSERT INTO workinghour (instructorid, day, starthour, isbusy) VALUES (?, ?, ?, ?)";
             PreparedStatement insertStatement = conn.prepareStatement(insertQuery);
             
@@ -327,7 +324,6 @@ public class DatabaseHelper {
         String[] daysOfWeek = {"Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi", "Pazar"};
 
         try {
-            Connection conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
             String query = "SELECT * FROM workinghour WHERE instructorid = ? ORDER BY workinghourid";
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setInt(1, instructorID);
@@ -352,5 +348,5 @@ public class DatabaseHelper {
                 JOptionPane.showMessageDialog(null, "Öğrenciler getirilirken bir hata oluştu!");
             }
         }
-
+    
 }
