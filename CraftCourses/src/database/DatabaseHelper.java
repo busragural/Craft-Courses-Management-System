@@ -47,10 +47,10 @@ public class DatabaseHelper {
         ResultSet resultSet = null;
         try {
             String query = "SELECT t.craftID, c.name " +
-                       "FROM Teach t " +
-                       "INNER JOIN Craft c ON t.craftID = c.craftID " +
-                       "WHERE t.instructorID = ? " +
-                       "ORDER BY t.craftID";
+                           "FROM Teach t " +
+                           "INNER JOIN Craft c ON t.craftID = c.craftID " +
+                           "WHERE t.instructorID = ? " +
+                           "ORDER BY t.craftID";
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setInt(1, instructorID);
             resultSet = statement.executeQuery();
@@ -242,6 +242,60 @@ public class DatabaseHelper {
         }
     }
     
+    // Tum calisma saatlerini veri tabanindan ceken ve ara yuzdeki tabloya ekleyen fonksiyon
+    public static void displayAllWorkingHours(JTable table, int instructorID) {
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        model.setRowCount(0);
+        
+        String[] daysOfWeek = {"Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi", "Pazar"};
+        
+        try {
+            String query = "SELECT * FROM WorkingHour WHERE instructorID = ? ORDER BY workingHourID";
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setInt(1, instructorID);
+            ResultSet resultSet = statement.executeQuery();
+            
+            while (resultSet.next()) {
+                Integer dayIndex = resultSet.getInt("day") - 1;
+                String day = daysOfWeek[dayIndex];
+
+                Integer startHour = resultSet.getInt("startHour");
+                Integer endHour = startHour + 1;
+                
+                String timeSlot = startHour + ":00 - " + endHour + ":00";
+                
+                model.addRow(new Object[]{day, timeSlot});
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Çalışma saatleri getirilirken bir hata oluştu!");
+        }
+    }
+    
+    // Calisma saati kaydini veri tabanina ekleyen fonksiyon
+    public static void addWorkingHourForInstructor(int instructorID, int day, int startHour){
+        if (day < 1 || day > 7 || startHour < 0 || startHour > 23) {
+            JOptionPane.showMessageDialog(null, "Lütfen gün (1-7) ve saat (0-23) bilgilerini uygun şekilde giriniz!");
+            return;
+        }
+        
+        try {
+            String insertQuery = "INSERT INTO WorkingHour (instructorID, day, startHour, isBusy) VALUES (?, ?, ?, ?)";
+            PreparedStatement insertStatement = conn.prepareStatement(insertQuery);
+            
+            insertStatement.setInt(1, instructorID);
+            insertStatement.setInt(2, day);
+            insertStatement.setInt(3, startHour);
+            insertStatement.setBoolean(4, false);
+            insertStatement.executeUpdate();
+            
+            JOptionPane.showMessageDialog(null, "Kayıt başarılı!");
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, ex);
+        }  
+    }
+    
     // Tum ogrencileri veri tabanindan ceken ve ara yuzdeki ogrenci tablosuna ekleyen fonksiyon
     public static void displayAllStudents(JTable table) {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
@@ -328,57 +382,39 @@ public class DatabaseHelper {
         }
     }
     
-    // Tum calisma saatlerini veri tabanindan ceken ve ara yuzdeki tabloya ekleyen fonksiyon
-    public static void displayAllWorkingHours(JTable table, int instructorID) {
-        DefaultTableModel model = (DefaultTableModel) table.getModel();
-        model.setRowCount(0);
-        
-        String[] daysOfWeek = {"Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi", "Pazar"};
-        
+    // Istenen zaman bilgisine ait tum dersleri veri tabanindan ceken fonksiyon
+    public static ResultSet selectCraftsForCourseCreation(boolean isWeekday) {
+        ResultSet resultSet = null;
         try {
-            String query = "SELECT * FROM WorkingHour WHERE instructorID = ? ORDER BY workingHourID";
+            String query = "SELECT craftID, name " +
+                           "FROM Craft " +
+                           "WHERE isWeekday = ?";
             PreparedStatement statement = conn.prepareStatement(query);
-            statement.setInt(1, instructorID);
-            ResultSet resultSet = statement.executeQuery();
-            
-            while (resultSet.next()) {
-                Integer dayIndex = resultSet.getInt("day") - 1;
-                String day = daysOfWeek[dayIndex];
-
-                Integer startHour = resultSet.getInt("startHour");
-                Integer endHour = startHour + 1;
-                
-                String timeSlot = startHour + ":00 - " + endHour + ":00";
-                
-                model.addRow(new Object[]{day, timeSlot});
-            }
-            
+            statement.setBoolean(1, isWeekday);
+            resultSet = statement.executeQuery();
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(null, "Çalışma saatleri getirilirken bir hata oluştu!");
+            JOptionPane.showMessageDialog(null, "Dersler getirilirken bir hata oluştu!");
         }
+        return resultSet;
     }
     
-    // Calisma saati kaydini veri tabanina ekleyen fonksiyon
-    public static void addWorkingHour(int instructorID, int day, int startHour){
-        if (day < 1 || day > 7 || startHour < 0 || startHour > 23) {
-            JOptionPane.showMessageDialog(null, "Lütfen gün (1-7) ve saat (0-23) bilgilerini uygun şekilde giriniz!");
-            return;
-        }
-        
+    // Kurs olusturma islemi icin secilen dersi verebilen ogretmenleri veri tabanindan ceken fonksiyon
+    public static ResultSet selectInstructorsForCourseCreation(int craftID, boolean isWeekday) {
+        ResultSet resultSet = null;
         try {
-            String insertQuery = "INSERT INTO WorkingHour (instructorID, day, startHour, isBusy) VALUES (?, ?, ?, ?)";
-            PreparedStatement insertStatement = conn.prepareStatement(insertQuery);
-            
-            insertStatement.setInt(1, instructorID);
-            insertStatement.setInt(2, day);
-            insertStatement.setInt(3, startHour);
-            insertStatement.setBoolean(4, false);
-            insertStatement.executeUpdate();
-            
-            JOptionPane.showMessageDialog(null, "Kayıt başarılı!");
+            String query = "SELECT t.instructorID, i.name, i.surname, wh.day, wh.startHour " +
+                           "FROM Teach t " +
+                           "JOIN WorkingHour wh ON t.instructorID = wh.instructorID " +
+                           "JOIN Instructor i ON t.instructorID = i.instructorID " +
+                           "WHERE t.craftID = ? " +
+                           "AND " + (isWeekday ? "wh.day <= 5" : "wh.day > 5");
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setInt(1, craftID);
+            resultSet = statement.executeQuery();
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, ex);
-        }  
+        }
+        return resultSet;
     }
 }

@@ -4,7 +4,6 @@ import database.DatabaseHelper;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
 import management.Craft;
 import management.Instructor;
 
@@ -14,7 +13,7 @@ public class InstructorDetails extends javax.swing.JFrame {
     public InstructorDetails(int instructorID) {
         initComponents();
         InstructorDetails.instructorIDin = instructorID;
-        Craft.displayAllInstructor(craftTable);
+        Craft.displayAllCrafts(craftTable);
         Craft.displayAllCraftsOfInstructor(instructorIDin, craftsForInstructorTable);
         DatabaseHelper.displayAllWorkingHours(sessionsForInstructorTable, instructorID);
     }
@@ -318,7 +317,7 @@ public class InstructorDetails extends javax.swing.JFrame {
         
         int startHour = Integer.parseInt(startTime.split("\\.")[0]);
         
-        DatabaseHelper.addWorkingHour(instructorIDin, dayNumericValue, startHour);
+        DatabaseHelper.addWorkingHourForInstructor(instructorIDin, dayNumericValue, startHour);
         
         dispose();
         new InstructorDetails(instructorIDin).setVisible(true);

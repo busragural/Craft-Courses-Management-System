@@ -1,9 +1,68 @@
 package gui;
 
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import management.Course;
+
 public class CourseCreation extends javax.swing.JFrame {
     
     public CourseCreation() {
         initComponents();
+    }
+    
+    private int getCraftID() {
+        int selectedCraft = craftTable.getSelectedRow();
+        int craftID = -1;
+        
+        if (selectedCraft != -1) {
+            craftID = (int) craftTable.getValueAt(selectedCraft, 0);
+        }
+        
+        return craftID;
+    }
+    
+    private boolean getIsWeekday() {
+        String selectedOption = (String) weekComboBox.getSelectedItem();
+        
+        if (selectedOption.equals("Hafta içi")) {
+            return true;
+        }
+        
+        return false;
+    }
+    
+    public boolean getExistingCraft(String craftName) {
+        DefaultTableModel model = (DefaultTableModel) courseDetailsTable.getModel();
+        boolean isAlreadyExist = false;
+        
+        if (model.getRowCount() != 0) {
+            int rowIndex = 0;
+            while (rowIndex < model.getRowCount() && !isAlreadyExist) {
+                String existingCraftName = (String) model.getValueAt(rowIndex, 1);
+                if (existingCraftName.equals(craftName)) {
+                    isAlreadyExist = true;
+                }
+                rowIndex++;
+            }
+        }
+        
+        return isAlreadyExist;
+    }
+    
+    public void displayCourseDetails() {
+        int selectedCraft = craftTable.getSelectedRow();
+        int craftID = (int) craftTable.getValueAt(selectedCraft, 0);
+        String craftName = craftTable.getValueAt(selectedCraft, 1).toString();
+        
+        if (getExistingCraft(craftName)) return;
+        
+        int selectedInstructor = instructorsTable.getSelectedRow();
+        String instructorNS = instructorsTable.getValueAt(selectedInstructor, 1).toString();
+        String day = instructorsTable.getValueAt(selectedInstructor, 2).toString();
+        int startHour = (int) instructorsTable.getValueAt(selectedInstructor, 3);
+        
+        DefaultTableModel model = (DefaultTableModel) courseDetailsTable.getModel();
+        model.addRow(new Object[]{craftID, craftName, instructorNS , day, startHour});
     }
     
     /**
@@ -18,18 +77,16 @@ public class CourseCreation extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         chooseDateLabel = new javax.swing.JLabel();
         weekComboBox = new javax.swing.JComboBox<>();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        suggestionList = new javax.swing.JList<>();
-        expLabel2 = new javax.swing.JLabel();
-        showCraftSuggestsButton = new javax.swing.JButton();
+        craftLabel = new javax.swing.JLabel();
+        showCraftsButton = new javax.swing.JButton();
         startDateLabel = new javax.swing.JLabel();
         startDateField = new javax.swing.JTextField();
         finishDateLabel = new javax.swing.JLabel();
         choosenCraftLabel = new javax.swing.JLabel();
         choosenCraftField = new javax.swing.JTextField();
-        showSuggestsButton = new javax.swing.JButton();
+        showInstructorsButton = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
-        suggestionTable = new javax.swing.JTable();
+        instructorsTable = new javax.swing.JTable();
         addToCourseButton = new javax.swing.JButton();
         jScrollPane4 = new javax.swing.JScrollPane();
         courseDetailsTable = new javax.swing.JTable();
@@ -39,6 +96,9 @@ public class CourseCreation extends javax.swing.JFrame {
         feeLabel2 = new javax.swing.JLabel();
         saveCourseButton = new javax.swing.JButton();
         endDateField = new javax.swing.JTextField();
+        backButton = new javax.swing.JButton();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        craftTable = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -58,26 +118,22 @@ public class CourseCreation extends javax.swing.JFrame {
         weekComboBox.setForeground(new java.awt.Color(35, 39, 42));
         weekComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Hafta içi", "Hafta sonu" }));
 
-        suggestionList.setBackground(new java.awt.Color(153, 181, 155));
-        suggestionList.setForeground(new java.awt.Color(35, 39, 42));
-        suggestionList.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
+        craftLabel.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
+        craftLabel.setForeground(new java.awt.Color(51, 50, 44));
+        craftLabel.setText("Kursa eklenebilecekler dersler:");
+        craftLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        showCraftsButton.setBackground(new java.awt.Color(125, 218, 114));
+        showCraftsButton.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
+        showCraftsButton.setForeground(new java.awt.Color(51, 50, 44));
+        showCraftsButton.setText("⬇");
+        showCraftsButton.setBorder(null);
+        showCraftsButton.setBorderPainted(false);
+        showCraftsButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                showCraftsButtonActionPerformed(evt);
+            }
         });
-        jScrollPane1.setViewportView(suggestionList);
-
-        expLabel2.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
-        expLabel2.setForeground(new java.awt.Color(51, 50, 44));
-        expLabel2.setText("Kursa eklenebilecekler dersler:");
-        expLabel2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-
-        showCraftSuggestsButton.setBackground(new java.awt.Color(125, 218, 114));
-        showCraftSuggestsButton.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
-        showCraftSuggestsButton.setForeground(new java.awt.Color(51, 50, 44));
-        showCraftSuggestsButton.setText("⬇");
-        showCraftSuggestsButton.setBorder(null);
-        showCraftSuggestsButton.setBorderPainted(false);
 
         startDateLabel.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
         startDateLabel.setForeground(new java.awt.Color(51, 50, 44));
@@ -89,6 +145,11 @@ public class CourseCreation extends javax.swing.JFrame {
         startDateField.setForeground(new java.awt.Color(125, 218, 114));
         startDateField.setText("01.01.2000");
         startDateField.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("LingWai TC", 0, 18), new java.awt.Color(51, 50, 44))); // NOI18N
+        startDateField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                startDateFieldActionPerformed(evt);
+            }
+        });
 
         finishDateLabel.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
         finishDateLabel.setForeground(new java.awt.Color(51, 50, 44));
@@ -105,46 +166,25 @@ public class CourseCreation extends javax.swing.JFrame {
         choosenCraftField.setForeground(new java.awt.Color(125, 218, 114));
         choosenCraftField.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("LingWai TC", 0, 18), new java.awt.Color(51, 50, 44))); // NOI18N
 
-        showSuggestsButton.setBackground(new java.awt.Color(125, 218, 114));
-        showSuggestsButton.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
-        showSuggestsButton.setForeground(new java.awt.Color(51, 50, 44));
-        showSuggestsButton.setText("⬇");
-        showSuggestsButton.setBorder(null);
-        showSuggestsButton.setBorderPainted(false);
-
-        suggestionTable.setBackground(new java.awt.Color(153, 181, 155));
-        suggestionTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Öğretmen", "Gün", "Saat"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                true, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
+        showInstructorsButton.setBackground(new java.awt.Color(125, 218, 114));
+        showInstructorsButton.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
+        showInstructorsButton.setForeground(new java.awt.Color(51, 50, 44));
+        showInstructorsButton.setText("⬇");
+        showInstructorsButton.setBorder(null);
+        showInstructorsButton.setBorderPainted(false);
+        showInstructorsButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                showInstructorsButtonActionPerformed(evt);
             }
         });
-        jScrollPane3.setViewportView(suggestionTable);
 
-        addToCourseButton.setBackground(new java.awt.Color(125, 218, 114));
-        addToCourseButton.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
-        addToCourseButton.setForeground(new java.awt.Color(51, 50, 44));
-        addToCourseButton.setText("Kursa Ekle");
-        addToCourseButton.setBorder(null);
-        addToCourseButton.setBorderPainted(false);
-
-        courseDetailsTable.setBackground(new java.awt.Color(153, 181, 155));
-        courseDetailsTable.setModel(new javax.swing.table.DefaultTableModel(
+        instructorsTable.setBackground(new java.awt.Color(153, 181, 155));
+        instructorsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Ders", "Öğretmen", "Gün", "Saat"
+                "Öğretmen ID", "Ad Soyad", "Gün", "Saat"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -155,11 +195,42 @@ public class CourseCreation extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        jScrollPane3.setViewportView(instructorsTable);
+
+        addToCourseButton.setBackground(new java.awt.Color(125, 218, 114));
+        addToCourseButton.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
+        addToCourseButton.setForeground(new java.awt.Color(51, 50, 44));
+        addToCourseButton.setText("Dersi Ekle");
+        addToCourseButton.setBorder(null);
+        addToCourseButton.setBorderPainted(false);
+        addToCourseButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addToCourseButtonActionPerformed(evt);
+            }
+        });
+
+        courseDetailsTable.setBackground(new java.awt.Color(153, 181, 155));
+        courseDetailsTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Ders ID", "Ders", "Öğretmen", "Gün", "Saat"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                true, true, true, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane4.setViewportView(courseDetailsTable);
 
         expLabel6.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
         expLabel6.setForeground(new java.awt.Color(51, 50, 44));
-        expLabel6.setText("Oluşturulan kurs:");
+        expLabel6.setText("Eklenen dersler:");
         expLabel6.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         feeField.setBackground(new java.awt.Color(249, 249, 249));
@@ -194,34 +265,76 @@ public class CourseCreation extends javax.swing.JFrame {
         endDateField.setForeground(new java.awt.Color(125, 218, 114));
         endDateField.setText("31.12.2000");
         endDateField.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("LingWai TC", 0, 18), new java.awt.Color(51, 50, 44))); // NOI18N
+        endDateField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                endDateFieldActionPerformed(evt);
+            }
+        });
+
+        backButton.setBackground(new java.awt.Color(125, 218, 114));
+        backButton.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
+        backButton.setForeground(new java.awt.Color(51, 50, 44));
+        backButton.setText("Geri");
+        backButton.setBorder(null);
+        backButton.setBorderPainted(false);
+        backButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backButtonActionPerformed(evt);
+            }
+        });
+
+        craftTable.setBackground(new java.awt.Color(153, 181, 155));
+        craftTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "Ders İsmi"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        craftTable.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        craftTable.setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        craftTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                craftTableMouseClicked(evt);
+            }
+        });
+        jScrollPane5.setViewportView(craftTable);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(56, 56, 56)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(addToCourseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addComponent(choosenCraftLabel)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(choosenCraftField, javax.swing.GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)
-                            .addGap(18, 18, 18)
-                            .addComponent(showSuggestsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(expLabel2)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addComponent(chooseDateLabel)
-                            .addGap(18, 18, 18)
-                            .addComponent(weekComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addComponent(showCraftSuggestsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(jScrollPane1)))
+                .addGap(58, 58, 58)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(addToCourseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                        .addGap(94, 94, 94)
+                        .addComponent(choosenCraftLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(choosenCraftField, javax.swing.GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(showInstructorsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(craftLabel, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(chooseDateLabel)
+                        .addGap(18, 18, 18)
+                        .addComponent(weekComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(showCraftsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addGap(94, 94, 94)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(startDateLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(startDateField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -229,62 +342,63 @@ public class CourseCreation extends javax.swing.JFrame {
                         .addComponent(finishDateLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(endDateField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                        .addGap(96, 96, 96)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 456, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(expLabel6)))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 456, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(expLabel6))
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(feeLabel)
+                        .addGap(18, 18, 18)
+                        .addComponent(feeField, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(feeLabel)
-                                .addGap(18, 18, 18)
-                                .addComponent(feeField, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(feeLabel2))
-                            .addComponent(saveCourseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(feeLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(backButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(saveCourseButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE))))
                 .addContainerGap(65, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(53, 53, 53)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(chooseDateLabel)
-                    .addComponent(weekComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(showCraftSuggestsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(startDateLabel)
-                    .addComponent(startDateField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(finishDateLabel)
-                    .addComponent(endDateField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(26, 26, 26)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(expLabel2)
-                    .addComponent(expLabel6))
-                .addGap(4, 4, 4)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGap(23, 23, 23)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(chooseDateLabel)
+                            .addComponent(weekComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(showCraftsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(26, 26, 26)
+                        .addComponent(craftLabel)
+                        .addGap(4, 4, 4)
+                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(choosenCraftLabel)
                             .addComponent(choosenCraftField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(showSuggestsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(showInstructorsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(33, 33, 33)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(addToCourseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(backButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(expLabel6)
+                        .addGap(4, 4, 4)
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(startDateLabel)
+                            .addComponent(startDateField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(finishDateLabel)
+                            .addComponent(endDateField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(36, 36, 36)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(saveCourseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(feeLabel)
                             .addComponent(feeField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(feeLabel2))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(addToCourseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(saveCourseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addContainerGap(48, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -309,6 +423,53 @@ public class CourseCreation extends javax.swing.JFrame {
         dispose();
         new Dashboard().setVisible(true);
     }//GEN-LAST:event_saveCourseButtonActionPerformed
+    
+    private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
+        dispose();
+        new Dashboard().setVisible(true);
+    }//GEN-LAST:event_backButtonActionPerformed
+    
+    private void showCraftsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showCraftsButtonActionPerformed
+        boolean isWeekday = getIsWeekday();
+        Course.displayCraftsForCourseCreation(craftTable, isWeekday);
+    }//GEN-LAST:event_showCraftsButtonActionPerformed
+    
+    private void craftTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_craftTableMouseClicked
+        int selectedRow = craftTable.getSelectedRow();
+        if (selectedRow != -1) {
+            String selectedCraft = craftTable.getValueAt(selectedRow, 1).toString();
+            choosenCraftField.setText(selectedCraft);
+        }
+    }//GEN-LAST:event_craftTableMouseClicked
+    
+    private void showInstructorsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showInstructorsButtonActionPerformed
+        int craftID = getCraftID();
+        boolean isWeekday = getIsWeekday();
+        
+        if (craftID != -1) {
+            Course.displayInstructorsForCourseCreation(instructorsTable, craftID, isWeekday);
+        } else {
+            JOptionPane.showMessageDialog(null, "Lütfen bir ders seçiniz!");
+        }
+    }//GEN-LAST:event_showInstructorsButtonActionPerformed
+    
+    private void addToCourseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addToCourseButtonActionPerformed
+        int selectedInstructor = instructorsTable.getSelectedRow();
+        
+        if (selectedInstructor != -1) {
+            displayCourseDetails();    
+        } else {
+            JOptionPane.showMessageDialog(null, "Lütfen bir öğretmen seçiniz!");
+        }
+    }//GEN-LAST:event_addToCourseButtonActionPerformed
+    
+    private void startDateFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startDateFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_startDateFieldActionPerformed
+    
+    private void endDateFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_endDateFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_endDateFieldActionPerformed
 
     /**
      * @param args the command line arguments
@@ -348,28 +509,29 @@ public class CourseCreation extends javax.swing.JFrame {
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addToCourseButton;
+    private javax.swing.JButton backButton;
     private javax.swing.JLabel chooseDateLabel;
     private javax.swing.JTextField choosenCraftField;
     private javax.swing.JLabel choosenCraftLabel;
     private javax.swing.JTable courseDetailsTable;
+    private javax.swing.JLabel craftLabel;
+    private javax.swing.JTable craftTable;
     private javax.swing.JTextField endDateField;
-    private javax.swing.JLabel expLabel2;
     private javax.swing.JLabel expLabel6;
     private javax.swing.JTextField feeField;
     private javax.swing.JLabel feeLabel;
     private javax.swing.JLabel feeLabel2;
     private javax.swing.JLabel finishDateLabel;
+    private javax.swing.JTable instructorsTable;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JButton saveCourseButton;
-    private javax.swing.JButton showCraftSuggestsButton;
-    private javax.swing.JButton showSuggestsButton;
+    private javax.swing.JButton showCraftsButton;
+    private javax.swing.JButton showInstructorsButton;
     private javax.swing.JTextField startDateField;
     private javax.swing.JLabel startDateLabel;
-    private javax.swing.JList<String> suggestionList;
-    private javax.swing.JTable suggestionTable;
     private javax.swing.JComboBox<String> weekComboBox;
     // End of variables declaration//GEN-END:variables
 }

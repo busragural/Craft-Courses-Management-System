@@ -74,11 +74,9 @@ public class Craft {
     public static void displayAllDashboard(JTable table){
         String checkSession;
         DefaultTableModel model = (DefaultTableModel) table.getModel();
-        model.setRowCount(0);
-        
-        ResultSet resultSet = DatabaseHelper.selectAllCrafts();
         
         try {
+            ResultSet resultSet = DatabaseHelper.selectAllCrafts();
             while (resultSet.next()) {
                 int craftID = resultSet.getInt("craftID");
                 String name = resultSet.getString("name");
@@ -100,13 +98,12 @@ public class Craft {
         }
     }
     
-    public static void displayAllInstructor(JTable table){
+    public static void displayAllCrafts(JTable table){
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.setRowCount(0);
         
-        ResultSet resultSet = DatabaseHelper.selectAllCrafts();
-        
         try {
+            ResultSet resultSet = DatabaseHelper.selectAllCrafts();
             while (resultSet.next()) {
                 int craftID = resultSet.getInt("craftID");
                 String name = resultSet.getString("name");
@@ -122,9 +119,8 @@ public class Craft {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.setRowCount(0);
         
-        ResultSet resultSet = DatabaseHelper.selectAllCraftsOfInstructor(instructorID);
-        
         try {
+            ResultSet resultSet = DatabaseHelper.selectAllCraftsOfInstructor(instructorID);
             while (resultSet.next()) {
                 int craftID = resultSet.getInt("craftID");
                 String craftName = resultSet.getString("name");

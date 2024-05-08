@@ -664,6 +664,11 @@ public class Dashboard extends javax.swing.JFrame {
         addCourseButton.setText("Kurs Oluştur");
         addCourseButton.setBorder(null);
         addCourseButton.setBorderPainted(false);
+        addCourseButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addCourseButtonActionPerformed(evt);
+            }
+        });
 
         deleteCourseButton.setBackground(new java.awt.Color(153, 181, 155));
         deleteCourseButton.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
@@ -1075,6 +1080,11 @@ public class Dashboard extends javax.swing.JFrame {
         stdHomePhoneField.setText((String) studentsTable.getValueAt(selectedRowIndex, 4));
         stdAddressField.setText((String) studentsTable.getValueAt(selectedRowIndex, 5));
     }//GEN-LAST:event_studentsTableMouseClicked
+    
+    private void addCourseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addCourseButtonActionPerformed
+        dispose();
+        new CourseCreation().setVisible(true);
+    }//GEN-LAST:event_addCourseButtonActionPerformed
 
     /**
      * @param args the command line arguments
