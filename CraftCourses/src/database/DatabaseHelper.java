@@ -27,68 +27,24 @@ public class DatabaseHelper {
         }
     }
     
-    // Tum dersleri veri tabanindan ceken ve ara yuzdeki ders tablosuna ekleyen fonksiyon
-    public static void displayAllCrafts1(JTable table) {
-        String checkSession;
-        DefaultTableModel model = (DefaultTableModel) table.getModel();
-        model.setRowCount(0);
-        
+    // Tum dersleri veri tabanindan ceken fonksiyon
+    public static ResultSet selectAllCrafts() {
+        ResultSet resultSet = null;
         try {
             String query = "SELECT * FROM Craft ORDER BY craftID";
             PreparedStatement statement = conn.prepareStatement(query);
-            ResultSet resultSet = statement.executeQuery();
-            
-            while (resultSet.next()) {
-                int craftID = resultSet.getInt("craftID");
-                String name = resultSet.getString("name");
-                String description = resultSet.getString("description");
-                boolean isWeekday = resultSet.getBoolean("isWeekday");
-                double fee = resultSet.getDouble("craftFee");
-                
-                if (isWeekday) {
-                    checkSession = "Hafta içi";
-                } else {
-                    checkSession = "Hafta sonu";
-                }
-                
-                model.addRow(new Object[]{craftID, name, description, checkSession, fee});
-            }
+            resultSet = statement.executeQuery();
             
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, "Dersler getirilirken bir hata oluştu!");
         }
+        return resultSet;
     }
     
-    // Tum dersleri veri tabanindan ceken ve detay ekleme ara yuzundeki ders tablosuna ekleyen fonksiyon
-    public static void displayAllCrafts2(JTable table) {
-        String checkSession;
-        DefaultTableModel model = (DefaultTableModel) table.getModel();
-        model.setRowCount(0);
-        
-        try {
-            String query = "SELECT * FROM Craft ORDER BY craftID";
-            PreparedStatement statement = conn.prepareStatement(query);
-            ResultSet resultSet = statement.executeQuery();
-            
-            while (resultSet.next()) {
-                int craftID = resultSet.getInt("craftID");
-                String name = resultSet.getString("name");
-                model.addRow(new Object[]{craftID, name});
-            }
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(null, "Dersler getirilirken bir hata oluştu!");
-        }
-    }
-    
-    // Bir ogretmenin verdigi tum dersleri veri tabanindan ceken ve detay ekleme ara yuzundeki ogretmen-ders tablosuna ekleyen fonksiyon
-    public static void displayAllCrafts3(int instructorID, JTable table) {
-        String checkSession;
-        DefaultTableModel model = (DefaultTableModel) table.getModel();
-        model.setRowCount(0);
-        
+    // Bir ogretmenin verdigi tum dersleri veri tabanindan ceken fonksiyon
+    public static ResultSet selectAllCraftsOfInstructor(int instructorID) {
+        ResultSet resultSet = null;
         try {
             String query = "SELECT t.craftID, c.name " +
                        "FROM Teach t " +
@@ -97,20 +53,13 @@ public class DatabaseHelper {
                        "ORDER BY t.craftID";
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setInt(1, instructorID);
-            ResultSet resultSet = statement.executeQuery();
-            
-            while (resultSet.next()) {
-                int craftID = resultSet.getInt("craftID");
-                String craftName = resultSet.getString("name");
-
-                // craftID ve craftName'i tabloya ekle
-                model.addRow(new Object[]{craftID, craftName});
-            }
+            resultSet = statement.executeQuery();
             
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, "Dersler getirilirken bir hata oluştu!");
         }
+        return resultSet;
     }
     
     // Ders bilgilerini veri tabanina ekleyen fonksiyon

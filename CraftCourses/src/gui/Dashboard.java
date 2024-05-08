@@ -11,7 +11,7 @@ public class Dashboard extends javax.swing.JFrame {
     public Dashboard() {
         initComponents();
         DatabaseHelper.displayAllInstructors(instructorsTable);
-        DatabaseHelper.displayAllCrafts1(craftsTable);
+        Craft.displayAllDashboard(craftsTable);
         DatabaseHelper.displayAllStudents(studentsTable);
     }
     
@@ -1000,7 +1000,7 @@ public class Dashboard extends javax.swing.JFrame {
         String tmpIsWeekday = timeField.getText();
         String tmpFee = feeField.getText();
         Craft.updateInfoControl(craftID, tmpIsWeekday, tmpFee);
-        DatabaseHelper.displayAllCrafts1(craftsTable);
+        Craft.displayAllDashboard(craftsTable);
     }//GEN-LAST:event_updateCraftButtonActionPerformed
     
     private void deleteCraftButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteCraftButtonActionPerformed
@@ -1009,7 +1009,7 @@ public class Dashboard extends javax.swing.JFrame {
         
         int craftID = (int) craftsTable.getModel().getValueAt(selectedRow, 0);
         DatabaseHelper.deleteCraft(craftID);
-        DatabaseHelper.displayAllCrafts1(craftsTable);
+        Craft.displayAllDashboard(craftsTable);
         
         timeField.setText("");
         feeField.setText("");

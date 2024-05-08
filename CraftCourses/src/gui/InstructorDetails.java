@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import management.Craft;
 import management.Instructor;
 
 public class InstructorDetails extends javax.swing.JFrame {
@@ -13,8 +14,8 @@ public class InstructorDetails extends javax.swing.JFrame {
     public InstructorDetails(int instructorID) {
         initComponents();
         InstructorDetails.instructorIDin = instructorID;
-        DatabaseHelper.displayAllCrafts2(craftTable);
-        DatabaseHelper.displayAllCrafts3(instructorIDin, craftsForInstructorTable);
+        Craft.displayAllInstructor(craftTable);
+        Craft.displayAllCraftsOfInstructor(instructorIDin, craftsForInstructorTable);
         DatabaseHelper.displayAllWorkingHours(sessionsForInstructorTable, instructorID);
     }
     
