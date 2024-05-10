@@ -697,31 +697,31 @@ public class DatabaseHelper {
     public static void DisplayAllCourses(JTable table){
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.setRowCount(0);
-
+        int counter = 0;
         try {
-            String query = "SELECT r.date, r.registrationFee, r.courseID, string_agg(cr.name, ', ') AS courses " +
-                           "FROM Registration r " +
-                           "JOIN Course c ON r.courseID = c.courseID " +
+            String query = "SELECT c.courseID, string_agg(cr.name, ', ') AS courses, c.startDate AS date, c.courseFee " +
+                           "FROM Course c " +
                            "JOIN Section s ON c.courseID = s.courseID " +
                            "JOIN Craft cr ON s.craftID = cr.craftID " +
-                           "GROUP BY r.date, r.registrationFee, r.courseID";
+                           "GROUP BY c.courseID, c.startDate, c.courseFee";
             PreparedStatement statement = conn.prepareStatement(query);
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
-                Date registrationDate = resultSet.getDate("date");
-                double registrationFee = resultSet.getDouble("registrationFee");
                 int courseID = resultSet.getInt("courseID");
                 String courses = resultSet.getString("courses");
-
-                // Tabloya ekleme yapmak için bir dizi kullanabilirsiniz
-                Object[] row = { courseID,courses, registrationDate, registrationFee};
+                Date startDate = resultSet.getDate("date");
+                double courseFee = resultSet.getDouble("courseFee");
+                counter++;
+                Object[] row = { courseID, courses, startDate, courseFee };
                 model.addRow(row);
             }
+            System.out.println(counter);
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
     }
+
     
     public static void deleteCourse(int courseID) {
         try {
