@@ -1056,13 +1056,19 @@ public class Dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_deleteStudentButtonActionPerformed
     
     private void showNewCoursesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showNewCoursesButtonActionPerformed
+        int selectedRow = studentsTable.getSelectedRow();
+        if (choiceControl(selectedRow, "ders")) return;
+        int studentID = (int) studentsTable.getModel().getValueAt(selectedRow, 0);   
         dispose();
-        new StudentCourses().setVisible(true);
+        new StudentCourses(studentID,0).setVisible(true);
     }//GEN-LAST:event_showNewCoursesButtonActionPerformed
     
     private void showOldCoursesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showOldCoursesButtonActionPerformed
+        int selectedRow = studentsTable.getSelectedRow();
+        if (choiceControl(selectedRow, "ders")) return;
+        int studentID = (int) studentsTable.getModel().getValueAt(selectedRow, 0);   
         dispose();
-        new StudentCourses().setVisible(true);
+        new StudentCourses(studentID,1).setVisible(true);
     }//GEN-LAST:event_showOldCoursesButtonActionPerformed
     
     private void instructorsTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_instructorsTableMouseClicked

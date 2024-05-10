@@ -1,9 +1,18 @@
 package gui;
 
+import database.DatabaseHelper;
+
 public class StudentCourses extends javax.swing.JFrame {
-    
-    public StudentCourses() {
+    private static int ID;
+    public StudentCourses(int studentID, int par) {
         initComponents();
+        ID = studentID;
+        if(par == 0){
+            DatabaseHelper.DisplayCurrentCourses(ID, courseDetailsTable);
+        }else{
+            DatabaseHelper.DisplayPastCourses(ID, courseDetailsTable);
+        }
+        
     }
     
     /**
@@ -129,7 +138,7 @@ public class StudentCourses extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new StudentCourses().setVisible(true);
+                new StudentCourses(ID, 0).setVisible(true);
             }
         });
     }

@@ -477,4 +477,65 @@ public class DatabaseHelper {
             Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    public static void DisplayCurrentCourses(int studentID, JTable table){
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        model.setRowCount(0);
+
+        try {
+            String query = "SELECT r.date, r.registrationFee, r.courseID, string_agg(cr.name, ', ') AS courses " +
+                           "FROM Registration r " +
+                           "JOIN Course c ON r.courseID = c.courseID " +
+                           "JOIN Section s ON c.courseID = s.courseID " +
+                           "JOIN Craft cr ON s.craftID = cr.craftID " +
+                           "WHERE r.studentID = ? AND r.isActive = true " +
+                           "GROUP BY r.date, r.registrationFee, r.courseID";
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setInt(1, studentID);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                Date registrationDate = resultSet.getDate("date");
+                double registrationFee = resultSet.getDouble("registrationFee");
+                int courseID = resultSet.getInt("courseID");
+                String courses = resultSet.getString("courses");
+
+                // Tabloya ekleme yapmak için bir dizi kullanabilirsiniz
+                Object[] row = { courseID,courses, registrationDate, registrationFee};
+                model.addRow(row);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+    public static void DisplayPastCourses(int studentID, JTable table){
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        model.setRowCount(0);
+
+        try {
+            String query = "SELECT r.date, r.registrationFee, r.courseID, string_agg(cr.name, ', ') AS courses " +
+                           "FROM Registration r " +
+                           "JOIN Course c ON r.courseID = c.courseID " +
+                           "JOIN Section s ON c.courseID = s.courseID " +
+                           "JOIN Craft cr ON s.craftID = cr.craftID " +
+                           "WHERE r.studentID = ? AND r.isActive = false " +
+                           "GROUP BY r.date, r.registrationFee, r.courseID";
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setInt(1, studentID);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                Date registrationDate = resultSet.getDate("date");
+                double registrationFee = resultSet.getDouble("registrationFee");
+                int courseID = resultSet.getInt("courseID");
+                String courses = resultSet.getString("courses");
+
+                // Tabloya ekleme yapmak için bir dizi kullanabilirsiniz
+                Object[] row = { courseID,courses, registrationDate, registrationFee};
+                model.addRow(row);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
 }
