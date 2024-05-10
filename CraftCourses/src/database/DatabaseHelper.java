@@ -680,6 +680,19 @@ public class DatabaseHelper {
         System.out.println("Registration added successfully!");
        
         }
+    
+    public static boolean checkIfItsCompatible(String craftName) throws SQLException {
+        boolean isWeekDay = false;
+        String sql = "SELECT isWeekday FROM Craft WHERE name = ?";
+        
+        PreparedStatement stmt = conn.prepareStatement(sql); 
+        stmt.setString(1, craftName);
+        ResultSet rs = stmt.executeQuery();
+        if (rs.next()) {
+            isWeekDay = rs.getBoolean("isWeekday");
+        }
+        return isWeekDay;
+    }
 
 
 

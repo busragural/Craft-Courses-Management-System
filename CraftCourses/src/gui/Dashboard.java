@@ -23,6 +23,24 @@ public class Dashboard extends javax.swing.JFrame {
         DatabaseHelper.displayAllStudents(studentsTable);
     }
     
+    public boolean getExistingCraft(String craftName) {
+        DefaultTableModel model = (DefaultTableModel) craftTableSellChoosen.getModel();
+        boolean isAlreadyExist = false;
+        
+        if (model.getRowCount() != 0) {
+            int rowIndex = 0;
+            while (rowIndex < model.getRowCount() && !isAlreadyExist) {
+                String existingCraftName = (String) model.getValueAt(rowIndex, 1);
+                if (existingCraftName.equals(craftName)) {
+                    isAlreadyExist = true;
+                }
+                rowIndex++;
+            }
+        }
+        
+        return isAlreadyExist;
+    }
+    
     private boolean choiceControl(int selectedRow, String object) {
         if (selectedRow < 0) {
             String message = String.format("Lütfen tablodan bir %s seçiniz!", object);
@@ -50,23 +68,7 @@ public class Dashboard extends javax.swing.JFrame {
         
         return craftID;
     }
-    public boolean getExistingCraft(String craftName) {
-        DefaultTableModel model = (DefaultTableModel) craftTableSellChoosen.getModel();
-        boolean isAlreadyExist = false;
-        
-        if (model.getRowCount() != 0) {
-            int rowIndex = 0;
-            while (rowIndex < model.getRowCount() && !isAlreadyExist) {
-                String existingCraftName = (String) model.getValueAt(rowIndex, 1);
-                if (existingCraftName.equals(craftName)) {
-                    isAlreadyExist = true;
-                }
-                rowIndex++;
-            }
-        }
-        
-        return isAlreadyExist;
-    }
+    
     public void displayCourseDetails() {
         int selectedCraft = craftTableSellToChoose.getSelectedRow();
         int craftID = (int) craftTableSellToChoose.getValueAt(selectedCraft, 0);
@@ -1285,8 +1287,22 @@ public class Dashboard extends javax.swing.JFrame {
 
     private void addLessonButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addLessonButtonActionPerformed
         int selectedInstructor = craftTableSellToChoose.getSelectedRow();
-        
         if (selectedInstructor != -1) {
+            String craftName = craftTableSellToChoose.getValueAt(selectedInstructor, 1).toString();
+            if(craftTableSellChoosen.getRowCount()>0){
+                String example = craftTableSellChoosen.getValueAt(0, 1).toString();
+                try {
+                    if(DatabaseHelper.checkIfItsCompatible(example) != DatabaseHelper.checkIfItsCompatible(craftName)){
+                       JOptionPane.showMessageDialog(null, "Haftasonu ve haftaiçi dersleri aynı kursta bulunamaz!");  
+                       return;
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(Dashboard.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+            }
+            if (getExistingCraft(craftName)) return;
+             
             displayCourseDetails();    
         } else {
             JOptionPane.showMessageDialog(null, "Lütfen bir öğretmen seçiniz!");

@@ -2,8 +2,11 @@ package gui;
 
 import database.DatabaseHelper;
 import java.sql.Date;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import management.Course;
@@ -461,7 +464,6 @@ public class CourseCreation extends javax.swing.JFrame {
         
     private void craftTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_craftTableMouseClicked
         int selectedRow = craftTable.getSelectedRow();
-        
         if (selectedRow != -1) {
             String selectedCraft = craftTable.getValueAt(selectedRow, 1).toString();
             choosenCraftField.setText(selectedCraft);
@@ -473,8 +475,36 @@ public class CourseCreation extends javax.swing.JFrame {
     }//GEN-LAST:event_craftTableMouseClicked
         
     private void addToCourseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addToCourseButtonActionPerformed
-        int selectedInstructor = instructorsTable.getSelectedRow();
-        
+        int selectedInstructor = craftTable.getSelectedRow();
+        int selectedInstructor1 = instructorsTable.getSelectedRow();
+        System.out.println(selectedInstructor1);
+        if (selectedInstructor != -1 && selectedInstructor1 != -1) {
+       
+            String craftName = craftTable.getValueAt(selectedInstructor, 1).toString();
+            if(courseDetailsTable.getRowCount()>0){
+                String example = courseDetailsTable.getValueAt(0, 1).toString();
+                try {
+                    if(DatabaseHelper.checkIfItsCompatible(example) != DatabaseHelper.checkIfItsCompatible(craftName)){
+                       JOptionPane.showMessageDialog(null, "Haftasonu ve haftaiçi dersleri aynı kursta bulunamaz!");  
+                       return;
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(Dashboard.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+            }
+            if (getExistingCraft(craftName)) return;
+             
+            displayCourseDetails();    
+        } else {
+            if(selectedInstructor==-1) {
+                JOptionPane.showMessageDialog(null, "Lütfen bir ders seçiniz!");
+            }else{
+                JOptionPane.showMessageDialog(null, "Lütfen bir öğretmen seçiniz!");
+            }
+            
+            return;
+        }
         if (selectedInstructor != -1) {
             displayCourseDetails();    
         } else {
