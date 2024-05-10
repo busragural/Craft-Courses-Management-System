@@ -44,11 +44,11 @@ public class StudentCourses extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Kurs ID", "Kurs Adı", "Dersler", "Kayıt Tarihi", "Ödenen Tutar"
+                "Kurs ID", "Dersler", "Kayıt Tarihi", "Ödenen Tutar"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {

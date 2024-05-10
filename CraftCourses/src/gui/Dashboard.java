@@ -21,6 +21,7 @@ public class Dashboard extends javax.swing.JFrame {
         DatabaseHelper.displayAllInstructors(instructorsTable);
         Craft.displayAllDashboard(craftsTable);
         DatabaseHelper.displayAllStudents(studentsTable);
+        DatabaseHelper.DisplayAllCourses(coursesTable1);
     }
     
     public boolean getExistingCraft(String craftName) {
@@ -748,6 +749,11 @@ public class Dashboard extends javax.swing.JFrame {
         deleteCourseButton.setText("Kurs Sil");
         deleteCourseButton.setBorder(null);
         deleteCourseButton.setBorderPainted(false);
+        deleteCourseButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteCourseButtonActionPerformed(evt);
+            }
+        });
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
@@ -1340,6 +1346,17 @@ public class Dashboard extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_paymentButtonActionPerformed
+
+    private void deleteCourseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteCourseButtonActionPerformed
+        int selectedRow = coursesTable1.getSelectedRow();
+        if (choiceControl(selectedRow, "kurs")) return;
+        
+        int courseID = (int) coursesTable1.getModel().getValueAt(selectedRow, 0);
+        System.out.println(selectedRow);
+        System.out.println(courseID);
+        DatabaseHelper.deleteCourse(courseID);
+        DatabaseHelper.DisplayAllCourses(coursesTable1);
+    }//GEN-LAST:event_deleteCourseButtonActionPerformed
 
     /**
      * @param args the command line arguments
