@@ -131,4 +131,20 @@ public class Craft {
             JOptionPane.showMessageDialog(null, "Dersler getirilirken bir hata oluştu!");
         }
     }
+    
+    public static void displayAllCraftsDependingDays(boolean isWeekDay, JTable table){
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        model.setRowCount(0);
+        
+        try {
+            ResultSet resultSet = DatabaseHelper.selectAllCraftsDependingDays(isWeekDay);
+            while (resultSet.next()) {
+                int craftID = resultSet.getInt("craftID");
+                String craftName = resultSet.getString("name");
+                model.addRow(new Object[]{craftID, craftName});
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Craft.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

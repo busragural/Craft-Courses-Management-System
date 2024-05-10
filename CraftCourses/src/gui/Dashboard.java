@@ -988,6 +988,11 @@ public class Dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_addInstructorDetailsButtonActionPerformed
     
     private void showScheduleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showScheduleButtonActionPerformed
+        int selectedRow = instructorsTable.getSelectedRow();
+        if (choiceControl(selectedRow, "öğretmen")) return;
+        
+        int instructorID = (int) instructorsTable.getModel().getValueAt(selectedRow, 0);
+        
         dispose();
         new Schedule().setVisible(true);
     }//GEN-LAST:event_showScheduleButtonActionPerformed

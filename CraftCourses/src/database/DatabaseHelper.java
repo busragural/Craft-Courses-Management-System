@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -61,6 +62,22 @@ public class DatabaseHelper {
         }
         return resultSet;
     }
+    
+    public static ResultSet selectAllCraftsDependingDays(boolean isWeekDay) {
+        ResultSet resultSet = null;
+        try {
+            String query = "SELECT * FROM Craft WHERE isWeekday = ? ORDER BY craftID";
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setBoolean(1, isWeekDay);
+            resultSet = statement.executeQuery();
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Dersler getirilirken bir hata oluştu!");
+        }
+        return resultSet;
+    }
+    
     
     // Ders bilgilerini veri tabanina ekleyen fonksiyon
     public static void addCraft(String name, String description, boolean isWeekday, double fee) {
@@ -403,7 +420,7 @@ public class DatabaseHelper {
     public static ResultSet selectInstructorsForCourseCreation(int craftID, boolean isWeekday) {
         ResultSet resultSet = null;
         try {
-            String query = "SELECT t.instructorID, i.name, i.surname, wh.day, wh.startHour " +
+            String query = "SELECT t.instructorID, i.name, i.surname, wh.day, wh.startHour, wh.workingHourID " +
                            "FROM Teach t " +
                            "JOIN WorkingHour wh ON t.instructorID = wh.instructorID " +
                            "JOIN Instructor i ON t.instructorID = i.instructorID " +
@@ -416,5 +433,48 @@ public class DatabaseHelper {
             Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, ex);
         }
         return resultSet;
+    }
+    
+    public static int insertCourse(Date startDate, Date endDate, boolean isWeekday, double fee ){
+        int id = -1;
+        try {
+            String insertQuery = "INSERT INTO Course (startDate, endDate, isWeekday, courseFee) VALUES (?, ?, ?, ?)";
+            PreparedStatement insertStatement = conn.prepareStatement(insertQuery, PreparedStatement.RETURN_GENERATED_KEYS);
+            
+            insertStatement.setDate(1, startDate);
+            insertStatement.setDate(2, endDate);
+            insertStatement.setBoolean(3, isWeekday);
+            insertStatement.setDouble(4, fee);
+            int affectedRows = insertStatement.executeUpdate();
+            
+            if(affectedRows>0){
+                ResultSet generatedKeys = insertStatement.getGeneratedKeys();
+                
+                JOptionPane.showMessageDialog(null, "Kurs ekleme başarılı!");
+
+                if (generatedKeys.next()) {
+                    id = generatedKeys.getInt(1); 
+                }
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return id;
+    }
+    
+    public static void insertSection(int instructorID, int workingHourID, int craftID, int courseID){
+        try {
+            String insertQuery = "INSERT INTO Section (instructorID, workingHourID, craftID, courseID) VALUES (?, ?, ?, ?)";
+            PreparedStatement insertStatement = conn.prepareStatement(insertQuery);
+            
+            insertStatement.setInt(1, instructorID);
+            insertStatement.setInt(2, workingHourID);
+            insertStatement.setInt(3, craftID);
+            insertStatement.setInt(4, courseID);
+            insertStatement.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

@@ -1,13 +1,19 @@
 package gui;
 
+import database.DatabaseHelper;
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import management.Course;
+import management.Craft;
 
 public class CourseCreation extends javax.swing.JFrame {
     
     public CourseCreation() {
         initComponents();
+        Craft.displayAllCraftsDependingDays(true, craftTable);
     }
     
     private int getCraftID() {
@@ -57,12 +63,14 @@ public class CourseCreation extends javax.swing.JFrame {
         if (getExistingCraft(craftName)) return;
         
         int selectedInstructor = instructorsTable.getSelectedRow();
-        String instructorNS = instructorsTable.getValueAt(selectedInstructor, 1).toString();
+        String instructorFullName = instructorsTable.getValueAt(selectedInstructor, 1).toString();
         String day = instructorsTable.getValueAt(selectedInstructor, 2).toString();
         int startHour = (int) instructorsTable.getValueAt(selectedInstructor, 3);
+        int workingHourID = (int) instructorsTable.getValueAt(selectedInstructor, 4);
+        int instructorID = (int) instructorsTable.getValueAt(selectedInstructor, 0);
         
         DefaultTableModel model = (DefaultTableModel) courseDetailsTable.getModel();
-        model.addRow(new Object[]{craftID, craftName, instructorNS , day, startHour});
+        model.addRow(new Object[]{craftID, craftName, instructorFullName , day, startHour, workingHourID, instructorID});
     }
     
     /**
@@ -78,13 +86,11 @@ public class CourseCreation extends javax.swing.JFrame {
         chooseDateLabel = new javax.swing.JLabel();
         weekComboBox = new javax.swing.JComboBox<>();
         craftLabel = new javax.swing.JLabel();
-        showCraftsButton = new javax.swing.JButton();
         startDateLabel = new javax.swing.JLabel();
         startDateField = new javax.swing.JTextField();
         finishDateLabel = new javax.swing.JLabel();
         choosenCraftLabel = new javax.swing.JLabel();
         choosenCraftField = new javax.swing.JTextField();
-        showInstructorsButton = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         instructorsTable = new javax.swing.JTable();
         addToCourseButton = new javax.swing.JButton();
@@ -117,23 +123,16 @@ public class CourseCreation extends javax.swing.JFrame {
         weekComboBox.setBackground(new java.awt.Color(153, 181, 155));
         weekComboBox.setForeground(new java.awt.Color(35, 39, 42));
         weekComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Hafta içi", "Hafta sonu" }));
+        weekComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                weekComboBoxActionPerformed(evt);
+            }
+        });
 
         craftLabel.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
         craftLabel.setForeground(new java.awt.Color(51, 50, 44));
         craftLabel.setText("Kursa eklenebilecekler dersler:");
         craftLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-
-        showCraftsButton.setBackground(new java.awt.Color(125, 218, 114));
-        showCraftsButton.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
-        showCraftsButton.setForeground(new java.awt.Color(51, 50, 44));
-        showCraftsButton.setText("⬇");
-        showCraftsButton.setBorder(null);
-        showCraftsButton.setBorderPainted(false);
-        showCraftsButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                showCraftsButtonActionPerformed(evt);
-            }
-        });
 
         startDateLabel.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
         startDateLabel.setForeground(new java.awt.Color(51, 50, 44));
@@ -166,29 +165,17 @@ public class CourseCreation extends javax.swing.JFrame {
         choosenCraftField.setForeground(new java.awt.Color(125, 218, 114));
         choosenCraftField.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("LingWai TC", 0, 18), new java.awt.Color(51, 50, 44))); // NOI18N
 
-        showInstructorsButton.setBackground(new java.awt.Color(125, 218, 114));
-        showInstructorsButton.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
-        showInstructorsButton.setForeground(new java.awt.Color(51, 50, 44));
-        showInstructorsButton.setText("⬇");
-        showInstructorsButton.setBorder(null);
-        showInstructorsButton.setBorderPainted(false);
-        showInstructorsButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                showInstructorsButtonActionPerformed(evt);
-            }
-        });
-
         instructorsTable.setBackground(new java.awt.Color(153, 181, 155));
         instructorsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Öğretmen ID", "Ad Soyad", "Gün", "Saat"
+                "Öğretmen ID", "Ad Soyad", "Gün", "Saat", "WH ID"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                true, true, false, false
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -215,11 +202,11 @@ public class CourseCreation extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Ders ID", "Ders", "Öğretmen", "Gün", "Saat"
+                "Ders ID", "Ders", "Öğretmen", "Gün", "Saat", "WH ID", "Öğ. ID"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                true, true, true, false, false
+                false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -322,15 +309,12 @@ public class CourseCreation extends javax.swing.JFrame {
                         .addComponent(choosenCraftLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(choosenCraftField, javax.swing.GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)
-                        .addComponent(showInstructorsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(48, 48, 48))
                     .addComponent(craftLabel, javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                         .addComponent(chooseDateLabel)
                         .addGap(18, 18, 18)
-                        .addComponent(weekComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(showCraftsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(weekComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addGap(94, 94, 94)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -365,8 +349,7 @@ public class CourseCreation extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(chooseDateLabel)
-                            .addComponent(weekComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(showCraftsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(weekComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(26, 26, 26)
                         .addComponent(craftLabel)
                         .addGap(4, 4, 4)
@@ -374,8 +357,7 @@ public class CourseCreation extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(choosenCraftLabel)
-                            .addComponent(choosenCraftField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(showInstructorsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(choosenCraftField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -398,7 +380,7 @@ public class CourseCreation extends javax.swing.JFrame {
                             .addComponent(feeLabel)
                             .addComponent(feeField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(feeLabel2))))
-                .addContainerGap(48, Short.MAX_VALUE))
+                .addContainerGap(50, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -420,39 +402,76 @@ public class CourseCreation extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowOpened
     
     private void saveCourseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveCourseButtonActionPerformed
-        dispose();
-        new Dashboard().setVisible(true);
+        
+        String startDateString = startDateField.getText();
+        String endDateString = endDateField.getText();
+        java.sql.Date startDate;
+        java.sql.Date endDate;
+        double fee;
+        int rowCount = courseDetailsTable.getRowCount();
+        
+        if(rowCount == 0){
+            JOptionPane.showMessageDialog(null, "Kursu oluşturmak için ders eklemelisiniz!");
+        }
+        else{
+            SimpleDateFormat sdf = new SimpleDateFormat("dd.mm.yyyy");
+
+            try{
+                fee = Double.parseDouble(feeField.getText());
+            }
+            catch(NumberFormatException e){
+                JOptionPane.showMessageDialog(null, "Lütfen geçerli bir ücret giriniz!");
+                return;
+            }
+
+            try{
+                java.util.Date parsedStartDate = sdf.parse(startDateString);
+                java.util.Date parsedEndDate = sdf.parse(endDateString);
+                startDate = new Date(parsedStartDate.getTime());
+                endDate = new Date(parsedEndDate.getTime());
+
+                int courseID = DatabaseHelper.insertCourse(startDate, endDate, getIsWeekday(), fee);
+                
+                for (int i = 0; i < rowCount; i++) {
+                    String craftIDStr = courseDetailsTable.getValueAt(i, 0).toString();
+                    String workingHourIDStr = courseDetailsTable.getValueAt(i, 5).toString();
+                    String instructorIDStr = (courseDetailsTable.getValueAt(i, 6)).toString();
+                    
+                    
+                    int craftID = Integer.parseInt(craftIDStr);
+                    int workingHourID = Integer.parseInt(workingHourIDStr);
+                    int instructorID = Integer.parseInt(instructorIDStr);
+                    
+                    DatabaseHelper.insertSection(instructorID , workingHourID, craftID, courseID);
+                }
+
+                dispose();
+                new Dashboard().setVisible(true);
+            }
+            catch(ParseException e){
+                JOptionPane.showMessageDialog(null, "Lütfen GG.AA.YYYY formatında tarihler giriniz!");
+            }
+        }
     }//GEN-LAST:event_saveCourseButtonActionPerformed
     
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
         dispose();
         new Dashboard().setVisible(true);
     }//GEN-LAST:event_backButtonActionPerformed
-    
-    private void showCraftsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showCraftsButtonActionPerformed
-        boolean isWeekday = getIsWeekday();
-        Course.displayCraftsForCourseCreation(craftTable, isWeekday);
-    }//GEN-LAST:event_showCraftsButtonActionPerformed
-    
+        
     private void craftTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_craftTableMouseClicked
         int selectedRow = craftTable.getSelectedRow();
+        
         if (selectedRow != -1) {
             String selectedCraft = craftTable.getValueAt(selectedRow, 1).toString();
             choosenCraftField.setText(selectedCraft);
+            Course.displayInstructorsForCourseCreation(instructorsTable, getCraftID(), getIsWeekday());
         }
-    }//GEN-LAST:event_craftTableMouseClicked
-    
-    private void showInstructorsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showInstructorsButtonActionPerformed
-        int craftID = getCraftID();
-        boolean isWeekday = getIsWeekday();
-        
-        if (craftID != -1) {
-            Course.displayInstructorsForCourseCreation(instructorsTable, craftID, isWeekday);
-        } else {
+        else {
             JOptionPane.showMessageDialog(null, "Lütfen bir ders seçiniz!");
         }
-    }//GEN-LAST:event_showInstructorsButtonActionPerformed
-    
+    }//GEN-LAST:event_craftTableMouseClicked
+        
     private void addToCourseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addToCourseButtonActionPerformed
         int selectedInstructor = instructorsTable.getSelectedRow();
         
@@ -470,6 +489,10 @@ public class CourseCreation extends javax.swing.JFrame {
     private void endDateFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_endDateFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_endDateFieldActionPerformed
+
+    private void weekComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_weekComboBoxActionPerformed
+        Craft.displayAllCraftsDependingDays(getIsWeekday(), craftTable);
+    }//GEN-LAST:event_weekComboBoxActionPerformed
 
     /**
      * @param args the command line arguments
@@ -528,8 +551,6 @@ public class CourseCreation extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JButton saveCourseButton;
-    private javax.swing.JButton showCraftsButton;
-    private javax.swing.JButton showInstructorsButton;
     private javax.swing.JTextField startDateField;
     private javax.swing.JLabel startDateLabel;
     private javax.swing.JComboBox<String> weekComboBox;

@@ -100,9 +100,10 @@ public class Course {
                 String surname = resultSet.getString("surname");
                 int dayIndex = resultSet.getInt("day") - 1;
                 int startHour = resultSet.getInt("startHour");
+                int workingHourID = resultSet.getInt("workingHourID");
                 
                 String day = daysOfWeek[dayIndex];
-                model.addRow(new Object[]{instructorID, name + " " + surname, day, startHour});
+                model.addRow(new Object[]{instructorID, name + " " + surname, day, startHour, workingHourID});
             }
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, ex);
