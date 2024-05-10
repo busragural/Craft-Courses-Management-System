@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -538,4 +539,148 @@ public class DatabaseHelper {
             ex.printStackTrace();
         }
     }
+    
+    public static String getStudentNameandSurname(String mail) {
+        String fullName = "";
+        try {
+            String query = "SELECT name, surname FROM Student WHERE email = ?";
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setString(1, mail);
+            ResultSet result = statement.executeQuery();
+
+            if (result.next()) {
+                String name = result.getString("name");
+                String surname = result.getString("surname");
+                fullName = name + " " + surname;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return fullName;
+    }
+    public static String getCraftsByCourseID(int ID) {
+        String crafts = "";
+
+        // SQL sorgusu oluşturma
+        String sql = "SELECT c.name " +
+                     "FROM Craft c " +
+                     "INNER JOIN Section s ON c.craftID = s.craftID " +
+                     "WHERE s.courseID = ?";
+
+        try {
+            // SQL sorgusunu hazırlama
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setInt(1, ID);
+
+            // Sorguyu çalıştırma ve sonuçları alıp işleme
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                // Her bir sonuç için craft adını alıp crafts stringine ekleme
+                crafts += resultSet.getString("name") + ", ";
+            }
+
+            // Son virgülü kaldırma
+            if (!crafts.isEmpty()) {
+                crafts = crafts.substring(0, crafts.length() - 2);
+            }
+
+            // Kaynakları temizleme
+            resultSet.close();
+            statement.close();
+
+        } catch (SQLException e) {
+            // Hata durumunda işlem
+            e.printStackTrace();
+        }
+
+        // Elde edilen crafts'ı döndürme
+        return crafts;
+    }
+    
+    public static void displayFilteredCourses(JTable table, double fee, List<Integer> IDs) {
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        try {
+            StringBuilder sql = new StringBuilder();
+            sql.append("SELECT DISTINCT co.courseID, co.startDate, co.endDate, co.courseFee ");
+            sql.append("FROM Course co ");
+            sql.append("INNER JOIN Section s ON s.courseID = co.courseID ");
+            sql.append("INNER JOIN Craft c ON c.craftID = s.craftID ");
+            sql.append("WHERE EXISTS (SELECT 1 FROM Section s2 WHERE s2.courseID = co.courseID ");
+            sql.append("AND s2.craftID IN (");
+            for (int i = 0; i < IDs.size(); i++) {
+                if (i != 0) sql.append(",");
+                sql.append("?");
+            }
+            sql.append(") GROUP BY s2.courseID HAVING COUNT(DISTINCT s2.craftID) = ?) ");
+            sql.append("AND co.courseFee < ?");
+
+            stmt = conn.prepareStatement(sql.toString());
+            int parameterIndex = 1;
+            for (int craftID : IDs) {
+                stmt.setInt(parameterIndex++, craftID);
+            }
+            stmt.setInt(parameterIndex++, IDs.size()); // Number of IDs should match craft count
+            stmt.setDouble(parameterIndex, fee);
+            rs = stmt.executeQuery();
+
+            // Tabloya verileri ekle
+            DefaultTableModel model = (DefaultTableModel) table.getModel();
+            model.setRowCount(0); // Tabloyu temizle
+
+            while (rs.next()) {
+                Object[] row = {
+                    rs.getInt("courseID"),
+                    getCraftsByCourseID(rs.getInt("courseID")),
+                    rs.getDate("startDate"),
+                    rs.getDate("endDate"),
+                    rs.getDouble("courseFee")
+                };
+                model.addRow(row);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (stmt != null) stmt.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    
+    public static Integer getStudentID(String mail) {
+        Integer ID = 0;
+        try {
+            String query = "SELECT studentID FROM Student WHERE email = ?";
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setString(1, mail);
+            ResultSet result = statement.executeQuery();
+            result.next();
+            ID = result.getInt("studentID");
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return ID;
+    }
+    
+    public static void addRegistration(int ID, boolean isCash,String mail,double fee) throws SQLException{
+        Integer studentID = getStudentID(mail);
+        LocalDate currentDate = LocalDate.now();
+        String sql = "INSERT INTO Registration (studentID, courseID, date, registrationFee, isActive, isCash) VALUES (?, ?, ?, ?, true, ?)";
+        
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setInt(1, studentID);
+        stmt.setInt(2, ID);
+        stmt.setDate(3, java.sql.Date.valueOf(currentDate));
+        stmt.setDouble(4, fee);
+        stmt.setBoolean(5, isCash);
+        stmt.executeUpdate();
+        System.out.println("Registration added successfully!");
+       
+        }
+
+
+
 }

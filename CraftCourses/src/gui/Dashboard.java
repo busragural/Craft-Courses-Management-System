@@ -1,7 +1,15 @@
 package gui;
 
 import database.DatabaseHelper;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import management.Course;
 import management.Craft;
 import management.Instructor;
 import management.Student;
@@ -23,7 +31,66 @@ public class Dashboard extends javax.swing.JFrame {
         }
         return false;
     }
-    
+    private boolean getIsWeekday() {
+        String selectedOption = (String) weekComboBox.getSelectedItem();
+        
+        if (selectedOption.equals("Hafta içi")) {
+            return true;
+        }
+        
+        return false;
+    }
+    private int getCraftID() {
+        int selectedCraft = craftTableSellChoosen.getSelectedRow();
+        int craftID = -1;
+        
+        if (selectedCraft != -1) {
+            craftID = (int) craftTableSellChoosen.getValueAt(selectedCraft, 0);
+        }
+        
+        return craftID;
+    }
+    public boolean getExistingCraft(String craftName) {
+        DefaultTableModel model = (DefaultTableModel) craftTableSellChoosen.getModel();
+        boolean isAlreadyExist = false;
+        
+        if (model.getRowCount() != 0) {
+            int rowIndex = 0;
+            while (rowIndex < model.getRowCount() && !isAlreadyExist) {
+                String existingCraftName = (String) model.getValueAt(rowIndex, 1);
+                if (existingCraftName.equals(craftName)) {
+                    isAlreadyExist = true;
+                }
+                rowIndex++;
+            }
+        }
+        
+        return isAlreadyExist;
+    }
+    public void displayCourseDetails() {
+        int selectedCraft = craftTableSellToChoose.getSelectedRow();
+        int craftID = (int) craftTableSellToChoose.getValueAt(selectedCraft, 0);
+        String craftName = craftTableSellToChoose.getValueAt(selectedCraft, 1).toString();
+        
+        if (getExistingCraft(craftName)) return;
+        
+        
+        
+        DefaultTableModel model = (DefaultTableModel) craftTableSellChoosen.getModel();
+        model.addRow(new Object[]{craftID, craftName});
+    }
+    private static List<Integer> getIDs(JTable table) {
+        List<Integer> integerValues = new ArrayList<>();
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        int rowCount = model.getRowCount();
+        for (int i = 0; i < rowCount; i++) {
+            Object value = model.getValueAt(i, 0);
+            if (value instanceof Integer integer) {
+                integerValues.add(integer);
+            }
+        }
+        return integerValues;
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -91,8 +158,6 @@ public class Dashboard extends javax.swing.JFrame {
         showNameButton = new javax.swing.JButton();
         nameSurnameLabel = new javax.swing.JLabel();
         nameSurnameField = new javax.swing.JTextField();
-        jScrollPane7 = new javax.swing.JScrollPane();
-        choosenCraftList = new javax.swing.JList<>();
         expLabel1 = new javax.swing.JLabel();
         maxBudgetLabel = new javax.swing.JLabel();
         budgetField = new javax.swing.JTextField();
@@ -104,6 +169,11 @@ public class Dashboard extends javax.swing.JFrame {
         cashRadioButton = new javax.swing.JRadioButton();
         cardRadioButton = new javax.swing.JRadioButton();
         expLabel2 = new javax.swing.JLabel();
+        jScrollPane9 = new javax.swing.JScrollPane();
+        craftTableSellChoosen = new javax.swing.JTable();
+        jScrollPane10 = new javax.swing.JScrollPane();
+        craftTableSellToChoose = new javax.swing.JTable();
+        addLessonButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -724,6 +794,11 @@ public class Dashboard extends javax.swing.JFrame {
         weekComboBox.setBackground(new java.awt.Color(153, 181, 155));
         weekComboBox.setForeground(new java.awt.Color(35, 39, 42));
         weekComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Hafta içi", "Hafta sonu" }));
+        weekComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                weekComboBoxActionPerformed(evt);
+            }
+        });
 
         emailLabel.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
         emailLabel.setForeground(new java.awt.Color(51, 50, 44));
@@ -741,6 +816,11 @@ public class Dashboard extends javax.swing.JFrame {
         showNameButton.setText("⬇");
         showNameButton.setBorder(null);
         showNameButton.setBorderPainted(false);
+        showNameButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                showNameButtonActionPerformed(evt);
+            }
+        });
 
         nameSurnameLabel.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
         nameSurnameLabel.setForeground(new java.awt.Color(51, 50, 44));
@@ -751,15 +831,6 @@ public class Dashboard extends javax.swing.JFrame {
         nameSurnameField.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
         nameSurnameField.setForeground(new java.awt.Color(125, 218, 114));
         nameSurnameField.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("LingWai TC", 0, 18), new java.awt.Color(51, 50, 44))); // NOI18N
-
-        choosenCraftList.setBackground(new java.awt.Color(153, 181, 155));
-        choosenCraftList.setForeground(new java.awt.Color(35, 39, 42));
-        choosenCraftList.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane7.setViewportView(choosenCraftList);
 
         expLabel1.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
         expLabel1.setForeground(new java.awt.Color(51, 50, 44));
@@ -787,6 +858,11 @@ public class Dashboard extends javax.swing.JFrame {
         searchButton.setText("Ara");
         searchButton.setBorder(null);
         searchButton.setBorderPainted(false);
+        searchButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchButtonActionPerformed(evt);
+            }
+        });
 
         coursesTable2.setBackground(new java.awt.Color(153, 181, 155));
         coursesTable2.setModel(new javax.swing.table.DefaultTableModel(
@@ -813,6 +889,11 @@ public class Dashboard extends javax.swing.JFrame {
         paymentButton.setText("Ödeme Yap");
         paymentButton.setBorder(null);
         paymentButton.setBorderPainted(false);
+        paymentButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                paymentButtonActionPerformed(evt);
+            }
+        });
 
         buttonGroup1.add(cashRadioButton);
         cashRadioButton.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
@@ -829,13 +910,77 @@ public class Dashboard extends javax.swing.JFrame {
         expLabel2.setText("Ödeme Yöntemi:");
         expLabel2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
+        craftTableSellChoosen.setBackground(new java.awt.Color(153, 181, 155));
+        craftTableSellChoosen.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "Ders İsmi"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        craftTableSellChoosen.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        craftTableSellChoosen.setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        craftTableSellChoosen.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                craftTableSellChoosenMouseClicked(evt);
+            }
+        });
+        jScrollPane9.setViewportView(craftTableSellChoosen);
+
+        craftTableSellToChoose.setBackground(new java.awt.Color(153, 181, 155));
+        craftTableSellToChoose.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "Ders İsmi"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        craftTableSellToChoose.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        craftTableSellToChoose.setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        craftTableSellToChoose.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                craftTableSellToChooseMouseClicked(evt);
+            }
+        });
+        jScrollPane10.setViewportView(craftTableSellToChoose);
+
+        addLessonButton.setBackground(new java.awt.Color(125, 218, 114));
+        addLessonButton.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
+        addLessonButton.setForeground(new java.awt.Color(51, 50, 44));
+        addLessonButton.setText("⬇");
+        addLessonButton.setBorder(null);
+        addLessonButton.setBorderPainted(false);
+        addLessonButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addLessonButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout salesPanelLayout = new javax.swing.GroupLayout(salesPanel);
         salesPanel.setLayout(salesPanelLayout);
         salesPanelLayout.setHorizontalGroup(
             salesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(salesPanelLayout.createSequentialGroup()
-                .addGroup(salesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, salesPanelLayout.createSequentialGroup()
+                .addGroup(salesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(salesPanelLayout.createSequentialGroup()
                         .addGap(46, 46, 46)
                         .addGroup(salesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(salesPanelLayout.createSequentialGroup()
@@ -852,19 +997,30 @@ public class Dashboard extends javax.swing.JFrame {
                                 .addComponent(chooseDateLabel)
                                 .addGap(18, 18, 18)
                                 .addComponent(weekComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(expLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 414, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(salesPanelLayout.createSequentialGroup()
-                        .addGap(66, 66, 66)
-                        .addGroup(salesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(expLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(49, 49, 49))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, salesPanelLayout.createSequentialGroup()
+                        .addContainerGap(27, Short.MAX_VALUE)
+                        .addGroup(salesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(salesPanelLayout.createSequentialGroup()
-                                .addComponent(maxBudgetLabel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(budgetField, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(feeLabel2))
-                            .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(47, 47, 47)
+                                .addComponent(addLessonButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                            .addGroup(salesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, salesPanelLayout.createSequentialGroup()
+                                    .addGroup(salesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addGroup(salesPanelLayout.createSequentialGroup()
+                                            .addComponent(maxBudgetLabel)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(budgetField, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(feeLabel2))
+                                        .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGap(47, 47, 47))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, salesPanelLayout.createSequentialGroup()
+                                    .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))))))
                 .addGroup(salesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(paymentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -881,6 +1037,7 @@ public class Dashboard extends javax.swing.JFrame {
             .addGroup(salesPanelLayout.createSequentialGroup()
                 .addGap(42, 42, 42)
                 .addGroup(salesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 354, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(salesPanelLayout.createSequentialGroup()
                         .addGroup(salesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(emailLabel)
@@ -896,10 +1053,13 @@ public class Dashboard extends javax.swing.JFrame {
                             .addComponent(weekComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(30, 30, 30)
                         .addComponent(expLabel1)
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 354, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(24, 24, 24)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(salesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(addLessonButton, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(salesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(maxBudgetLabel)
                     .addComponent(budgetField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -907,7 +1067,7 @@ public class Dashboard extends javax.swing.JFrame {
                     .addComponent(expLabel2)
                     .addComponent(cashRadioButton)
                     .addComponent(cardRadioButton))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
                 .addGroup(salesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(paymentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -1097,6 +1257,74 @@ public class Dashboard extends javax.swing.JFrame {
         new CourseCreation().setVisible(true);
     }//GEN-LAST:event_addCourseButtonActionPerformed
 
+    private void showNameButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showNameButtonActionPerformed
+        String mail = emailField.getText();
+        String nameSurname = DatabaseHelper.getStudentNameandSurname(mail);  
+        nameSurnameField.setText(nameSurname);
+    }//GEN-LAST:event_showNameButtonActionPerformed
+
+    private void weekComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_weekComboBoxActionPerformed
+        Craft.displayAllCraftsDependingDays(getIsWeekday(), craftTableSellToChoose);
+    }//GEN-LAST:event_weekComboBoxActionPerformed
+
+    private void craftTableSellChoosenMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_craftTableSellChoosenMouseClicked
+        int selectedRow = craftTableSellChoosen.getSelectedRow();
+
+        if (selectedRow != -1) {
+            String selectedCraft = craftTableSellChoosen.getValueAt(selectedRow, 1).toString();
+            System.out.println(selectedCraft);
+        }
+        else {
+            JOptionPane.showMessageDialog(null, "Lütfen bir ders seçiniz!");
+        }
+    }//GEN-LAST:event_craftTableSellChoosenMouseClicked
+
+    private void craftTableSellToChooseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_craftTableSellToChooseMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_craftTableSellToChooseMouseClicked
+
+    private void addLessonButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addLessonButtonActionPerformed
+        int selectedInstructor = craftTableSellToChoose.getSelectedRow();
+        
+        if (selectedInstructor != -1) {
+            displayCourseDetails();    
+        } else {
+            JOptionPane.showMessageDialog(null, "Lütfen bir öğretmen seçiniz!");
+        }
+    }//GEN-LAST:event_addLessonButtonActionPerformed
+
+    private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
+        // Arama kısmına basıldığında sonuçların listelenmesi
+        Double budget = Double.valueOf(budgetField.getText());
+        List<Integer> IDs = getIDs(craftTableSellChoosen);
+        DatabaseHelper.displayFilteredCourses(coursesTable2, budget, IDs);
+        
+    }//GEN-LAST:event_searchButtonActionPerformed
+
+    private void paymentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_paymentButtonActionPerformed
+        //registration
+        boolean isCash;
+        int selectedCourse = coursesTable2.getSelectedRow();
+        int courseID = (int) coursesTable2.getValueAt(selectedCourse, 0);
+        double fee = (double) coursesTable2.getValueAt(selectedCourse, 4);
+        if (cashRadioButton.isSelected()) {
+            isCash = true;
+        } else if (cardRadioButton.isSelected()) {
+            isCash = false;
+        }
+        else {
+            JOptionPane.showMessageDialog(null, "Lütfen ödeme yöntemini ( kart veya nakit) seçiniz!");
+            return;
+        }
+        String mail = emailField.getText();
+        try {
+            DatabaseHelper.addRegistration(courseID, isCash, mail, fee);
+        } catch (SQLException ex) {
+            Logger.getLogger(Dashboard.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_paymentButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1137,6 +1365,7 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JButton addCraftButton;
     private javax.swing.JButton addInstructorButton;
     private javax.swing.JButton addInstructorDetailsButton;
+    private javax.swing.JButton addLessonButton;
     private javax.swing.JButton addStudentButton;
     private javax.swing.JPanel addressLabel;
     private javax.swing.JTextField budgetField;
@@ -1144,10 +1373,11 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JRadioButton cardRadioButton;
     private javax.swing.JRadioButton cashRadioButton;
     private javax.swing.JLabel chooseDateLabel;
-    private javax.swing.JList<String> choosenCraftList;
     private javax.swing.JPanel courseOpPanel;
     private javax.swing.JTable coursesTable1;
     private javax.swing.JTable coursesTable2;
+    private javax.swing.JTable craftTableSellChoosen;
+    private javax.swing.JTable craftTableSellToChoose;
     private javax.swing.JTable craftsTable;
     private javax.swing.JPanel dashboardPanel;
     private javax.swing.JButton deleteCourseButton;
@@ -1171,12 +1401,13 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JTextField insWeekdayFeeField;
     private javax.swing.JTable instructorsTable;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane10;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
-    private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
+    private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JPanel lessonOpPanel;
