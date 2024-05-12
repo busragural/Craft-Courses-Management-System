@@ -18,15 +18,16 @@ public class DatabaseHelper {
     private static final String dbUrl = "jdbc:postgresql://localhost/postgres";
     private static final String dbUsername = "postgres";
     private static final String dbPassword = "mudafer69";
-    private static Connection conn;
+    public static Connection conn;
     
     // Veri tabanina baglanti olusturan fonksiyon
-    public static void connectDB(){
+    public static Connection connectDB(){
         try {
             conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return conn;
     }
     
     // Tum dersleri veri tabanindan ceken fonksiyon
@@ -558,6 +559,7 @@ public class DatabaseHelper {
         }
         return fullName;
     }
+    
     public static String getCraftsByCourseID(int ID) {
         String crafts = "";
 
@@ -679,7 +681,7 @@ public class DatabaseHelper {
         stmt.executeUpdate();
         System.out.println("Registration added successfully!");
        
-        }
+    }
     
     public static boolean checkIfItsCompatible(String craftName) throws SQLException {
         boolean isWeekDay = false;
@@ -716,15 +718,37 @@ public class DatabaseHelper {
                 Object[] row = { courseID, courses, startDate, courseFee };
                 model.addRow(row);
             }
-            System.out.println(counter);
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
     }
+    
+    public static void clearSectionsByCourseID(int courseID) throws SQLException {
+        String sql = "DELETE FROM Section WHERE courseID = ?";
 
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, courseID);
+            stmt.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public static void clearRegistrationsByCourseID(int courseID) throws SQLException {
+        String sql = "DELETE FROM Registration WHERE courseID = ?";
+
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, courseID);
+            stmt.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     
     public static void deleteCourse(int courseID) {
         try {
+            clearSectionsByCourseID(courseID);
+            clearRegistrationsByCourseID(courseID);
             String deleteQuery = "DELETE FROM course where courseID = ?";
             PreparedStatement deleteStatement = conn.prepareStatement(deleteQuery);
             

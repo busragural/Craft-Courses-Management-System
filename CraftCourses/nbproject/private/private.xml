@@ -3,17 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/MÜDAFERKAYMAK/Desktop/YazMühProje/Craft-Courses-Management-System/CraftCourses/src/management/Registration.java</file>
-            <file>file:/C:/Users/MÜDAFERKAYMAK/Desktop/YazMühProje/Craft-Courses-Management-System/CraftCourses/src/management/Course.java</file>
-            <file>file:/C:/Users/MÜDAFERKAYMAK/Desktop/YazMühProje/Craft-Courses-Management-System/CraftCourses/src/gui/RegisterInstructor.java</file>
-            <file>file:/C:/Users/MÜDAFERKAYMAK/Desktop/YazMühProje/Craft-Courses-Management-System/CraftCourses/src/gui/RegisterStudent.java</file>
-            <file>file:/C:/Users/MÜDAFERKAYMAK/Desktop/YazMühProje/Craft-Courses-Management-System/CraftCourses/src/database/DatabaseHelper.java</file>
-            <file>file:/C:/Users/MÜDAFERKAYMAK/Desktop/YazMühProje/Craft-Courses-Management-System/CraftCourses/src/management/Student.java</file>
-            <file>file:/C:/Users/MÜDAFERKAYMAK/Desktop/YazMühProje/Craft-Courses-Management-System/CraftCourses/src/gui/Schedule.java</file>
-            <file>file:/C:/Users/MÜDAFERKAYMAK/Desktop/YazMühProje/Craft-Courses-Management-System/CraftCourses/src/gui/CourseCreation.java</file>
-            <file>file:/C:/Users/MÜDAFERKAYMAK/Desktop/YazMühProje/Craft-Courses-Management-System/CraftCourses/src/gui/StudentCourses.java</file>
-            <file>file:/C:/Users/MÜDAFERKAYMAK/Desktop/YazMühProje/Craft-Courses-Management-System/CraftCourses/src/gui/CraftCreation.java</file>
-            <file>file:/C:/Users/MÜDAFERKAYMAK/Desktop/YazMühProje/Craft-Courses-Management-System/CraftCourses/src/gui/Dashboard.java</file>
+            <file>file:/C:/Users/omera/Desktop/Yeni%20klasör/Craft-Courses-Management-System/CraftCourses/test/database/DatabaseHelperTest.java</file>
+            <file>file:/C:/Users/omera/Desktop/Yeni%20klasör/Craft-Courses-Management-System/CraftCourses/src/database/DatabaseHelper.java</file>
+            <file>file:/C:/Users/omera/Desktop/Yeni%20klasör/Craft-Courses-Management-System/CraftCourses/src/gui/Dashboard.java</file>
         </group>
     </open-files>
 </project-private>

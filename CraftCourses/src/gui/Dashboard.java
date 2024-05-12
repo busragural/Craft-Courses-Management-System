@@ -1354,6 +1354,11 @@ public class Dashboard extends javax.swing.JFrame {
         int courseID = (int) coursesTable1.getModel().getValueAt(selectedRow, 0);
         System.out.println(selectedRow);
         System.out.println(courseID);
+        try {
+            DatabaseHelper.clearSectionsByCourseID(courseID);
+        } catch (SQLException ex) {
+            Logger.getLogger(Dashboard.class.getName()).log(Level.SEVERE, null, ex);
+        }
         DatabaseHelper.deleteCourse(courseID);
         DatabaseHelper.DisplayAllCourses(coursesTable1);
     }//GEN-LAST:event_deleteCourseButtonActionPerformed
