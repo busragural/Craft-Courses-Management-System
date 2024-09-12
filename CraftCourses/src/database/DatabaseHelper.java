@@ -17,11 +17,11 @@ import javax.swing.table.DefaultTableModel;
 public class DatabaseHelper {
     private static final String dbUrl = "jdbc:postgresql://localhost/postgres";
     private static final String dbUsername = "postgres";
-    private static final String dbPassword = "mudafer69";
+    private static final String dbPassword = "-0admindb0-";
     public static Connection conn;
     
-    // Veri tabanina baglanti olusturan fonksiyon
-    public static Connection connectDB(){
+    // Veritabanina baglanti olusturan fonksiyon
+    public static Connection connectDB() {
         try {
             conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
         } catch (SQLException ex) {
@@ -30,22 +30,21 @@ public class DatabaseHelper {
         return conn;
     }
     
-    // Tum dersleri veri tabanindan ceken fonksiyon
+    // Tum dersleri veritabanindan ceken fonksiyon
     public static ResultSet selectAllCrafts() {
         ResultSet resultSet = null;
         try {
             String query = "SELECT * FROM Craft ORDER BY craftID";
             PreparedStatement statement = conn.prepareStatement(query);
             resultSet = statement.executeQuery();
-            
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(null, "Dersler getirilirken bir hata oluştu!");
+            JOptionPane.showMessageDialog(null, "Dersler getirilirken bir hata olustu!");
         }
         return resultSet;
     }
     
-    // Bir ogretmenin verdigi tum dersleri veri tabanindan ceken fonksiyon
+    // Bir ogretmenin verdigi tum dersleri veritabanindan ceken fonksiyon
     public static ResultSet selectAllCraftsOfInstructor(int instructorID) {
         ResultSet resultSet = null;
         try {
@@ -57,14 +56,14 @@ public class DatabaseHelper {
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setInt(1, instructorID);
             resultSet = statement.executeQuery();
-            
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(null, "Dersler getirilirken bir hata oluştu!");
+            JOptionPane.showMessageDialog(null, "Dersler getirilirken bir hata olustu!");
         }
         return resultSet;
     }
     
+    // Gunlere bagli olarak tum dersleri veritabanindan ceken fonksiyon
     public static ResultSet selectAllCraftsDependingDays(boolean isWeekDay) {
         ResultSet resultSet = null;
         try {
@@ -72,19 +71,17 @@ public class DatabaseHelper {
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setBoolean(1, isWeekDay);
             resultSet = statement.executeQuery();
-            
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(null, "Dersler getirilirken bir hata oluştu!");
+            JOptionPane.showMessageDialog(null, "Dersler getirilirken bir hata olustu!");
         }
         return resultSet;
     }
     
-    
-    // Ders bilgilerini veri tabanina ekleyen fonksiyon
+    // Ders bilgilerini veritabanina ekleyen fonksiyon
     public static void addCraft(String name, String description, boolean isWeekday, double fee) {
         if (name.isBlank() || description.isBlank() || Double.isNaN(fee)) {
-            JOptionPane.showMessageDialog(null, "Lütfen tüm bilgileri giriniz!");
+            JOptionPane.showMessageDialog(null, "Lutfen tum bilgileri giriniz!");
             return;
         }
         
@@ -98,13 +95,13 @@ public class DatabaseHelper {
             insertStatement.setDouble(4, fee);
             insertStatement.executeUpdate();
             
-            JOptionPane.showMessageDialog(null, "Ders ekleme başarılı!");
+            JOptionPane.showMessageDialog(null, "Ders ekleme basarili!");
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
-    // Ara yuzde guncellenen ders bilgilerini veri tabaninda guncelleyen fonksiyon
+    // Arayuzde guncellenen ders bilgilerini veritabaninda guncelleyen fonksiyon
     public static void updateCraft(int craftID, boolean isWeekday, double fee) {
         try {
             String updateQuery = "UPDATE Craft SET isWeekday = ?, craftFee = ? where craftID = ?";
@@ -115,13 +112,13 @@ public class DatabaseHelper {
             insertStatement.setInt(3, craftID);
             insertStatement.executeUpdate();
             
-            JOptionPane.showMessageDialog(null, "Ders güncelleme başarılı!");
+            JOptionPane.showMessageDialog(null, "Ders guncelleme basarili!");
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
-    // Ara yuzde silinen ders bilgilerini veri tabanindan silen fonksiyon
+    // Arayuzde silinen ders bilgilerini veritabanindan silen fonksiyon
     public static void deleteCraft(int craftID) {
         try {
             String deleteQuery = "DELETE FROM Craft where craftID = ?";
@@ -130,13 +127,13 @@ public class DatabaseHelper {
             deleteStatement.setInt(1, craftID);
             deleteStatement.executeUpdate();
             
-            JOptionPane.showMessageDialog(null, "Ders silme başarılı!");
+            JOptionPane.showMessageDialog(null, "Ders silme basarili!");
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
-    // Tum ogretmenleri veri tabanindan ceken ve arayuzdeki ogretmen tablosuna ekleyen fonksiyon
+    // Tum ogretmenleri veritabanindan ceken ve arayuzdeki ogretmen tablosuna ekleyen fonksiyon
     public static void displayAllInstructors(JTable table) {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.setRowCount(0);
@@ -161,15 +158,15 @@ public class DatabaseHelper {
             
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(null, "Öğretmenler getirilirken bir hata oluştu!");
+            JOptionPane.showMessageDialog(null, "Ogretmenler getirilirken bir hata olustu!");
         }
     }
     
-    // Ogretmen kaydini veri tabanına ekleyen fonksiyon
+    // Ogretmen kaydini veritabanina ekleyen fonksiyon
     public static void registerInstructor(String name, String surname, String email, String mobilePhone, 
             String homePhone, String address, double weekdayFee) {
         if (name.isBlank() || surname.isBlank() || email.isBlank() || mobilePhone.isBlank() || homePhone.isBlank() || address.isBlank()) {
-            JOptionPane.showMessageDialog(null, "Lütfen tüm bilgileri giriniz!");
+            JOptionPane.showMessageDialog(null, "Lutfen tum bilgileri giriniz!");
             return;
         }
         
@@ -186,13 +183,13 @@ public class DatabaseHelper {
             insertStatement.setDouble(7, weekdayFee);
             insertStatement.executeUpdate();
             
-            JOptionPane.showMessageDialog(null, "Kayıt başarılı!");
+            JOptionPane.showMessageDialog(null, "Kayit basarili!");
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
-    // Ara yuzde guncellenen ogretmen bilgilerini veri tabaninda guncelleyen fonksiyon
+    // Arayuzde guncellenen ogretmen bilgilerini veritabaninda guncelleyen fonksiyon
     public static void updateInstructor(int instructorID, String mobilePhone, String homePhone, String address, double weekdayFee) {
         try {
             String updateQuery = "UPDATE Instructor SET mobilePhone = ?, homePhone = ?, address = ?, weekdayFee = ? where instructorID = ?";
@@ -205,13 +202,13 @@ public class DatabaseHelper {
             insertStatement.setInt(5, instructorID);
             insertStatement.executeUpdate();
             
-            JOptionPane.showMessageDialog(null, "Öğretmen güncelleme başarılı!");
+            JOptionPane.showMessageDialog(null, "Ogretmen guncelleme basarili!");
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
-    // Ara yuzde silinen ogretmen bilgilerini veri tabanindan silen fonksiyon
+    // Arayuzde silinen ogretmen bilgilerini veritabanindan silen fonksiyon
     public static void deleteInstructor(int instructorID) {
         try {
             String deleteWorkingHourQuery = "DELETE FROM WorkingHour WHERE instructorID = ?";
@@ -224,13 +221,13 @@ public class DatabaseHelper {
             deleteInstructorStatement.setInt(1, instructorID);
             deleteInstructorStatement.executeUpdate();
             
-            JOptionPane.showMessageDialog(null, "Öğretmen silme başarılı!");
+            JOptionPane.showMessageDialog(null, "Ogretmen silme basarili!");
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
-    // Ogretmenin verebildigi dersleri veri tabanina ekleyen fonksiyon
+    // Ogretmenin verebildigi dersleri veritabanina ekleyen fonksiyon
     public static void addCraftsForInstructor(int instructorID, List<Integer> craftID) {
         try {
             for (Integer tmpID : craftID) {
@@ -250,23 +247,23 @@ public class DatabaseHelper {
                     insertStatement.setInt(2, tmpID);
                     insertStatement.executeUpdate();
                 } else {
-                    JOptionPane.showMessageDialog(null, "Aynı ders bir daha eklenemez!");
+                    JOptionPane.showMessageDialog(null, "Ayni ders bir daha eklenemez!");
                     return;
                 }
             }
             
-            JOptionPane.showMessageDialog(null, "İlgili öğretmen için ders ekleme başarılı!");
+            JOptionPane.showMessageDialog(null, "Ilgili ogretmen icin ders ekleme basarili!");
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
-    // Tum calisma saatlerini veri tabanindan ceken ve ara yuzdeki tabloya ekleyen fonksiyon
+    // Tum calisma saatlerini veritabanindan ceken ve arayuzdeki tabloya ekleyen fonksiyon
     public static void displayAllWorkingHours(JTable table, int instructorID) {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.setRowCount(0);
         
-        String[] daysOfWeek = {"Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi", "Pazar"};
+        String[] daysOfWeek = {"Pazartesi", "Sali", "Carsamba", "Persembe", "Cuma", "Cumartesi", "Pazar"};
         
         try {
             String query = "SELECT * FROM WorkingHour WHERE instructorID = ? ORDER BY workingHourID";
@@ -288,14 +285,14 @@ public class DatabaseHelper {
             
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(null, "Çalışma saatleri getirilirken bir hata oluştu!");
+            JOptionPane.showMessageDialog(null, "Calisma saatleri getirilirken bir hata olustu!");
         }
     }
     
-    // Calisma saati kaydini veri tabanina ekleyen fonksiyon
-    public static void addWorkingHourForInstructor(int instructorID, int day, int startHour){
+    // Calisma saati kaydini veritabanina ekleyen fonksiyon
+    public static void addWorkingHourForInstructor(int instructorID, int day, int startHour) {
         if (day < 1 || day > 7 || startHour < 0 || startHour > 23) {
-            JOptionPane.showMessageDialog(null, "Lütfen gün (1-7) ve saat (0-23) bilgilerini uygun şekilde giriniz!");
+            JOptionPane.showMessageDialog(null, "Lutfen gun (1-7) ve saat (0-23) bilgilerini uygun sekilde giriniz!");
             return;
         }
         
@@ -309,13 +306,13 @@ public class DatabaseHelper {
             insertStatement.setBoolean(4, false);
             insertStatement.executeUpdate();
             
-            JOptionPane.showMessageDialog(null, "Kayıt başarılı!");
+            JOptionPane.showMessageDialog(null, "Kayit basarili!");
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, ex);
         }  
     }
     
-    // Tum ogrencileri veri tabanindan ceken ve ara yuzdeki ogrenci tablosuna ekleyen fonksiyon
+    // Tum ogrencileri veritabanindan ceken ve arayuzdeki ogrenci tablosuna ekleyen fonksiyon
     public static void displayAllStudents(JTable table) {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.setRowCount(0);
@@ -339,14 +336,14 @@ public class DatabaseHelper {
             
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(null, "Öğrenciler getirilirken bir hata oluştu!");
+            JOptionPane.showMessageDialog(null, "Ogrenciler getirilirken bir hata olustu!");
         }
     }
     
-    // Ogrenci kaydini veri tabanina ekleyen fonksiyon
+    // Ogrenci kaydini veritabanina ekleyen fonksiyon
     public static void registerStudent(String name, String surname, String email, String mobilePhone, String homePhone, String address) {
         if (name.isBlank() || surname.isBlank() || email.isBlank() || mobilePhone.isBlank() || homePhone.isBlank() || address.isBlank()) {
-            JOptionPane.showMessageDialog(null, "Lütfen tüm bilgileri giriniz!");
+            JOptionPane.showMessageDialog(null, "Lutfen tum bilgileri giriniz!");
             return;
         }
         
@@ -362,13 +359,13 @@ public class DatabaseHelper {
             insertStatement.setString(6, address);
             insertStatement.executeUpdate();
             
-            JOptionPane.showMessageDialog(null, "Kayıt başarılı!");
+            JOptionPane.showMessageDialog(null, "Kayit basarili!");
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
-    // Ara yuzde guncellenen ogrenci bilgilerini veri tabaninda guncelleyen fonksiyon
+    // Arayuzde guncellenen ogrenci bilgilerini veritabaninda guncelleyen fonksiyon
     public static void updateStudent(int studentID, String mobilePhone, String homePhone, String address) {
         try {
             String updateQuery = "UPDATE Student SET mobilePhone = ?, homePhone = ?, address = ? where studentID = ?";
@@ -380,13 +377,13 @@ public class DatabaseHelper {
             insertStatement.setInt(4, studentID);
             insertStatement.executeUpdate();
             
-            JOptionPane.showMessageDialog(null, "Öğrenci güncelleme başarılı!");
+            JOptionPane.showMessageDialog(null, "Ogrenci guncelleme basarili!");
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
-    // Ara yuzde silinen ogrenci bilgilerini veri tabanindan silen fonksiyon
+    // Arayuzde silinen ogrenci bilgilerini veritabanindan silen fonksiyon
     public static void deleteStudent(int studentID) {
         try {
             String deleteQuery = "DELETE FROM Student where studentID = ?";
@@ -395,13 +392,13 @@ public class DatabaseHelper {
             deleteStatement.setInt(1, studentID);
             deleteStatement.executeUpdate();
             
-            JOptionPane.showMessageDialog(null, "Öğrenci silme başarılı!");
+            JOptionPane.showMessageDialog(null, "Ogrenci silme basarili!");
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
-    // Istenen zaman bilgisine ait tum dersleri veri tabanindan ceken fonksiyon
+    // Istenen zaman bilgisine ait tum dersleri veritabanindan ceken fonksiyon
     public static ResultSet selectCraftsForCourseCreation(boolean isWeekday) {
         ResultSet resultSet = null;
         try {
@@ -413,12 +410,12 @@ public class DatabaseHelper {
             resultSet = statement.executeQuery();
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(null, "Dersler getirilirken bir hata oluştu!");
+            JOptionPane.showMessageDialog(null, "Dersler getirilirken bir hata olustu!");
         }
         return resultSet;
     }
     
-    // Kurs olusturma islemi icin secilen dersi verebilen ogretmenleri veri tabanindan ceken fonksiyon
+    // Kurs olusturma islemi icin secilen dersi verebilen ogretmenleri veritabanindan ceken fonksiyon
     public static ResultSet selectInstructorsForCourseCreation(int craftID, boolean isWeekday) {
         ResultSet resultSet = null;
         try {
@@ -437,7 +434,8 @@ public class DatabaseHelper {
         return resultSet;
     }
     
-    public static int insertCourse(Date startDate, Date endDate, boolean isWeekday, double fee ){
+    // Kurs bilgilerini veritabanina ekleyen ve olusturulan kursun ID'sini donduren fonksiyon
+    public static int insertCourse(Date startDate, Date endDate, boolean isWeekday, double fee) {
         int id = -1;
         try {
             String insertQuery = "INSERT INTO Course (startDate, endDate, isWeekday, courseFee) VALUES (?, ?, ?, ?)";
@@ -449,10 +447,10 @@ public class DatabaseHelper {
             insertStatement.setDouble(4, fee);
             int affectedRows = insertStatement.executeUpdate();
             
-            if(affectedRows>0){
+            if (affectedRows > 0) {
                 ResultSet generatedKeys = insertStatement.getGeneratedKeys();
                 
-                JOptionPane.showMessageDialog(null, "Kurs ekleme başarılı!");
+                JOptionPane.showMessageDialog(null, "Kurs ekleme basarili!");
 
                 if (generatedKeys.next()) {
                     id = generatedKeys.getInt(1); 
@@ -465,7 +463,8 @@ public class DatabaseHelper {
         return id;
     }
     
-    public static void insertSection(int instructorID, int workingHourID, int craftID, int courseID){
+    // Bolum bilgilerini veritabanina ekleyen fonksiyon
+    public static void insertSection(int instructorID, int workingHourID, int craftID, int courseID) {
         try {
             String insertQuery = "INSERT INTO Section (instructorID, workingHourID, craftID, courseID) VALUES (?, ?, ?, ?)";
             PreparedStatement insertStatement = conn.prepareStatement(insertQuery);
@@ -480,7 +479,8 @@ public class DatabaseHelper {
         }
     }
     
-    public static void DisplayCurrentCourses(int studentID, JTable table){
+    // Ogrencinin kayitli oldugu guncel kurslari arayuzdeki tabloya ekleyen fonksiyon
+    public static void DisplayCurrentCourses(int studentID, JTable table) {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.setRowCount(0);
 
@@ -501,16 +501,17 @@ public class DatabaseHelper {
                 double registrationFee = resultSet.getDouble("registrationFee");
                 int courseID = resultSet.getInt("courseID");
                 String courses = resultSet.getString("courses");
-
-                // Tabloya ekleme yapmak için bir dizi kullanabilirsiniz
-                Object[] row = { courseID,courses, registrationDate, registrationFee};
+                
+                Object[] row = { courseID, courses, registrationDate, registrationFee };
                 model.addRow(row);
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
     }
-    public static void DisplayPastCourses(int studentID, JTable table){
+    
+    // Ogrencinin kayitli oldugu gecmis kurslari arayuzdeki tabloya ekleyen fonksiyon
+    public static void DisplayPastCourses(int studentID, JTable table) {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.setRowCount(0);
 
@@ -532,8 +533,7 @@ public class DatabaseHelper {
                 int courseID = resultSet.getInt("courseID");
                 String courses = resultSet.getString("courses");
 
-                // Tabloya ekleme yapmak için bir dizi kullanabilirsiniz
-                Object[] row = { courseID,courses, registrationDate, registrationFee};
+                Object[] row = { courseID, courses, registrationDate, registrationFee };
                 model.addRow(row);
             }
         } catch (SQLException ex) {
@@ -541,6 +541,7 @@ public class DatabaseHelper {
         }
     }
     
+    // Verilen e-posta adresine gore ogrencinin ad ve soyadini donduren fonksiyon
     public static String getStudentNameandSurname(String mail) {
         String fullName = "";
         try {
@@ -560,48 +561,44 @@ public class DatabaseHelper {
         return fullName;
     }
     
+    // Verilen kurs ID'sine gore ilgili dersleri donduren fonksiyon
     public static String getCraftsByCourseID(int ID) {
         String crafts = "";
-
-        // SQL sorgusu oluşturma
+        
         String sql = "SELECT c.name " +
                      "FROM Craft c " +
                      "INNER JOIN Section s ON c.craftID = s.craftID " +
                      "WHERE s.courseID = ?";
 
         try {
-            // SQL sorgusunu hazırlama
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setInt(1, ID);
-
-            // Sorguyu çalıştırma ve sonuçları alıp işleme
+            
             ResultSet resultSet = statement.executeQuery();
+            
             while (resultSet.next()) {
-                // Her bir sonuç için craft adını alıp crafts stringine ekleme
                 crafts += resultSet.getString("name") + ", ";
             }
-
-            // Son virgülü kaldırma
+            
             if (!crafts.isEmpty()) {
                 crafts = crafts.substring(0, crafts.length() - 2);
             }
-
-            // Kaynakları temizleme
+            
             resultSet.close();
             statement.close();
 
         } catch (SQLException e) {
-            // Hata durumunda işlem
             e.printStackTrace();
         }
-
-        // Elde edilen crafts'ı döndürme
+        
         return crafts;
     }
     
+    // Ucret ve Craft ID'lerine gore filtrelenen kurslari arayuzdeki tabloya ekleyen fonksiyon
     public static void displayFilteredCourses(JTable table, double fee, List<Integer> IDs) {
         PreparedStatement stmt = null;
         ResultSet rs = null;
+        
         try {
             StringBuilder sql = new StringBuilder();
             sql.append("SELECT DISTINCT co.courseID, co.startDate, co.endDate, co.courseFee ");
@@ -615,20 +612,19 @@ public class DatabaseHelper {
                 sql.append("?");
             }
             sql.append(") GROUP BY s2.courseID HAVING COUNT(DISTINCT s2.craftID) = ?) ");
-            sql.append("AND co.courseFee < ?");
+            sql.append("AND co.courseFee <= ?");
 
             stmt = conn.prepareStatement(sql.toString());
             int parameterIndex = 1;
             for (int craftID : IDs) {
                 stmt.setInt(parameterIndex++, craftID);
             }
-            stmt.setInt(parameterIndex++, IDs.size()); // Number of IDs should match craft count
+            stmt.setInt(parameterIndex++, IDs.size());
             stmt.setDouble(parameterIndex, fee);
             rs = stmt.executeQuery();
-
-            // Tabloya verileri ekle
+            
             DefaultTableModel model = (DefaultTableModel) table.getModel();
-            model.setRowCount(0); // Tabloyu temizle
+            model.setRowCount(0);
 
             while (rs.next()) {
                 Object[] row = {
@@ -652,6 +648,7 @@ public class DatabaseHelper {
         }
     }
     
+    // Verilen e-posta adresine gore ogrenci ID'sini donduren fonksiyon
     public static Integer getStudentID(String mail) {
         Integer ID = 0;
         try {
@@ -667,7 +664,8 @@ public class DatabaseHelper {
         return ID;
     }
     
-    public static void addRegistration(int ID, boolean isCash,String mail,double fee) throws SQLException{
+    // Kurs kaydini veritabanina ekleyen fonksiyon
+    public static void addRegistration(int ID, boolean isCash, String mail, double fee) throws SQLException {
         Integer studentID = getStudentID(mail);
         LocalDate currentDate = LocalDate.now();
         String sql = "INSERT INTO Registration (studentID, courseID, date, registrationFee, isActive, isCash) VALUES (?, ?, ?, ?, true, ?)";
@@ -679,10 +677,9 @@ public class DatabaseHelper {
         stmt.setDouble(4, fee);
         stmt.setBoolean(5, isCash);
         stmt.executeUpdate();
-        System.out.println("Registration added successfully!");
-       
     }
     
+    // Verilen dersin hafta ici olup olmadigini kontrol eden fonksiyon
     public static boolean checkIfItsCompatible(String craftName) throws SQLException {
         boolean isWeekDay = false;
         String sql = "SELECT isWeekday FROM Craft WHERE name = ?";
@@ -696,7 +693,8 @@ public class DatabaseHelper {
         return isWeekDay;
     }
     
-    public static void DisplayAllCourses(JTable table){
+    // Tum kurslari veritabanindan ceken ve arayuzdeki tabloya ekleyen fonksiyon
+    public static void displayAllCourses(JTable table) {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.setRowCount(0);
         int counter = 0;
@@ -723,6 +721,7 @@ public class DatabaseHelper {
         }
     }
     
+    // Verilen kurs ID'sine gore bolum bilgilerini temizleyen fonksiyon
     public static void clearSectionsByCourseID(int courseID) throws SQLException {
         String sql = "DELETE FROM Section WHERE courseID = ?";
 
@@ -734,6 +733,7 @@ public class DatabaseHelper {
         }
     }
     
+    // Verilen kurs ID'sine gore kayit bilgilerini temizleyen fonksiyon
     public static void clearRegistrationsByCourseID(int courseID) throws SQLException {
         String sql = "DELETE FROM Registration WHERE courseID = ?";
 
@@ -745,6 +745,7 @@ public class DatabaseHelper {
         }
     }
     
+    // Verilen kurs ID'sine gore kursu silen fonksiyon
     public static void deleteCourse(int courseID) {
         try {
             clearSectionsByCourseID(courseID);
@@ -755,10 +756,9 @@ public class DatabaseHelper {
             deleteStatement.setInt(1, courseID);
             deleteStatement.executeUpdate();
             
-            JOptionPane.showMessageDialog(null, "Kurs silme başarılı!");
+            JOptionPane.showMessageDialog(null, "Kurs silme basarili!");
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
 }

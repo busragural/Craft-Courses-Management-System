@@ -421,8 +421,7 @@ public class CourseCreation extends javax.swing.JFrame {
 
             try{
                 fee = Double.parseDouble(feeField.getText());
-            }
-            catch(NumberFormatException e){
+            } catch(NumberFormatException e){
                 JOptionPane.showMessageDialog(null, "Lütfen geçerli bir ücret giriniz!");
                 return;
             }
@@ -450,8 +449,7 @@ public class CourseCreation extends javax.swing.JFrame {
 
                 dispose();
                 new Dashboard().setVisible(true);
-            }
-            catch(ParseException e){
+            } catch(ParseException e){
                 JOptionPane.showMessageDialog(null, "Lütfen GG.AA.YYYY formatında tarihler giriniz!");
             }
         }
@@ -475,40 +473,36 @@ public class CourseCreation extends javax.swing.JFrame {
     }//GEN-LAST:event_craftTableMouseClicked
         
     private void addToCourseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addToCourseButtonActionPerformed
-        int selectedInstructor = craftTable.getSelectedRow();
-        int selectedInstructor1 = instructorsTable.getSelectedRow();
-        System.out.println(selectedInstructor1);
-        if (selectedInstructor != -1 && selectedInstructor1 != -1) {
-       
-            String craftName = craftTable.getValueAt(selectedInstructor, 1).toString();
-            if(courseDetailsTable.getRowCount()>0){
+        int selectedCraft = craftTable.getSelectedRow();
+        int selectedInstructor = instructorsTable.getSelectedRow();
+        
+        if (selectedCraft != -1 && selectedInstructor != -1) {
+            String craftName = craftTable.getValueAt(selectedCraft, 1).toString();
+            
+            if (courseDetailsTable.getRowCount() > 0){
                 String example = courseDetailsTable.getValueAt(0, 1).toString();
                 try {
-                    if(DatabaseHelper.checkIfItsCompatible(example) != DatabaseHelper.checkIfItsCompatible(craftName)){
+                    if (DatabaseHelper.checkIfItsCompatible(example) != DatabaseHelper.checkIfItsCompatible(craftName)){
                        JOptionPane.showMessageDialog(null, "Haftasonu ve haftaiçi dersleri aynı kursta bulunamaz!");  
                        return;
                     }
                 } catch (SQLException ex) {
                     Logger.getLogger(Dashboard.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                
             }
+            
             if (getExistingCraft(craftName)) return;
-             
-            displayCourseDetails();    
-        } else {
-            if(selectedInstructor==-1) {
+            displayCourseDetails();  
+        }
+        else {
+            if (selectedCraft==-1) {
                 JOptionPane.showMessageDialog(null, "Lütfen bir ders seçiniz!");
-            }else{
+            }
+            else {
                 JOptionPane.showMessageDialog(null, "Lütfen bir öğretmen seçiniz!");
             }
             
             return;
-        }
-        if (selectedInstructor != -1) {
-            displayCourseDetails();    
-        } else {
-            JOptionPane.showMessageDialog(null, "Lütfen bir öğretmen seçiniz!");
         }
     }//GEN-LAST:event_addToCourseButtonActionPerformed
     

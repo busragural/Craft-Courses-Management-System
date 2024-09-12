@@ -24,12 +24,8 @@ public class Student extends Person {
         return upcomingCourses;
     }
     
-    public static void registerControl(String name, String surname, String email, String mobilePhone, 
-            String homePhone, String address){
-        double weekdayFee;
-        
-        if (name.isBlank() || surname.isBlank() || email.isBlank() || mobilePhone.isBlank() || 
-                homePhone.isBlank() || address.isBlank()) {
+    public static void registerControl(String name, String surname, String email, String mobilePhone, String homePhone, String address) {
+        if (name.isBlank() || surname.isBlank() || email.isBlank() || mobilePhone.isBlank() || homePhone.isBlank() || address.isBlank()) {
             JOptionPane.showMessageDialog(null, "Lütfen tüm bilgileri giriniz!");
             return;
         }
@@ -37,7 +33,7 @@ public class Student extends Person {
         DatabaseHelper.registerStudent(name, surname, email, mobilePhone, homePhone, address);
     }
     
-    public static void updateInfoControl(int studentID, String mobilePhone, String homePhone, String address){
+    public static void updateInfoControl(int studentID, String mobilePhone, String homePhone, String address) {
         if (mobilePhone.isBlank() || mobilePhone.isBlank() || homePhone.isBlank() || address.isBlank()) {
             JOptionPane.showMessageDialog(null, "Lütfen tüm bilgileri giriniz!");
             return;
@@ -45,6 +41,4 @@ public class Student extends Person {
         
         DatabaseHelper.updateStudent(studentID, mobilePhone, homePhone, address);
     }
-    
-    
 }

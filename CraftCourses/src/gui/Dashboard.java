@@ -21,7 +21,7 @@ public class Dashboard extends javax.swing.JFrame {
         DatabaseHelper.displayAllInstructors(instructorsTable);
         Craft.displayAllDashboard(craftsTable);
         DatabaseHelper.displayAllStudents(studentsTable);
-        DatabaseHelper.DisplayAllCourses(coursesTable1);
+        DatabaseHelper.displayAllCourses(coursesTable1);
     }
     
     public boolean getExistingCraft(String craftName) {
@@ -50,6 +50,7 @@ public class Dashboard extends javax.swing.JFrame {
         }
         return false;
     }
+    
     private boolean getIsWeekday() {
         String selectedOption = (String) weekComboBox.getSelectedItem();
         
@@ -59,6 +60,7 @@ public class Dashboard extends javax.swing.JFrame {
         
         return false;
     }
+    
     private int getCraftID() {
         int selectedCraft = craftTableSellChoosen.getSelectedRow();
         int craftID = -1;
@@ -77,23 +79,27 @@ public class Dashboard extends javax.swing.JFrame {
         
         if (getExistingCraft(craftName)) return;
         
-        
-        
         DefaultTableModel model = (DefaultTableModel) craftTableSellChoosen.getModel();
         model.addRow(new Object[]{craftID, craftName});
     }
+    
     private static List<Integer> getIDs(JTable table) {
         List<Integer> integerValues = new ArrayList<>();
         DefaultTableModel model = (DefaultTableModel) table.getModel();
+        
         int rowCount = model.getRowCount();
+        
         for (int i = 0; i < rowCount; i++) {
             Object value = model.getValueAt(i, 0);
+            
             if (value instanceof Integer integer) {
                 integerValues.add(integer);
             }
         }
+        
         return integerValues;
     }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -151,8 +157,6 @@ public class Dashboard extends javax.swing.JFrame {
         coursesTable1 = new javax.swing.JTable();
         addCourseButton = new javax.swing.JButton();
         deleteCourseButton = new javax.swing.JButton();
-        jScrollPane6 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
         salesPanel = new javax.swing.JPanel();
         chooseDateLabel = new javax.swing.JLabel();
         weekComboBox = new javax.swing.JComboBox<>();
@@ -177,6 +181,7 @@ public class Dashboard extends javax.swing.JFrame {
         jScrollPane10 = new javax.swing.JScrollPane();
         craftTableSellToChoose = new javax.swing.JTable();
         addLessonButton = new javax.swing.JButton();
+        expLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -348,7 +353,7 @@ public class Dashboard extends javax.swing.JFrame {
                         .addGroup(addressLabelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(insAddressLabel)
                             .addComponent(insFeeLabel))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
                         .addGroup(addressLabelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(insWeekdayFeeField, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(insAddressField, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -495,7 +500,7 @@ public class Dashboard extends javax.swing.JFrame {
                         .addComponent(feeLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(feeField, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(80, Short.MAX_VALUE))
+                .addContainerGap(82, Short.MAX_VALUE))
         );
         lessonOpPanelLayout.setVerticalGroup(
             lessonOpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -675,7 +680,7 @@ public class Dashboard extends javax.swing.JFrame {
                                         .addComponent(stdMobilePhoneLabel)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(stdMobilePhoneField, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
-                .addContainerGap(81, Short.MAX_VALUE))
+                .addContainerGap(82, Short.MAX_VALUE))
         );
         studentOpPanelLayout.setVerticalGroup(
             studentOpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -755,11 +760,6 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jTextArea1.setText("buraya kurs secince kurs icindeki\ndersleri ve ogretmenleri gosterme\nbutonu falan ekleyebiliriz ama \nsimdilik kalsin acil degil\n");
-        jScrollPane6.setViewportView(jTextArea1);
-
         javax.swing.GroupLayout courseOpPanelLayout = new javax.swing.GroupLayout(courseOpPanel);
         courseOpPanel.setLayout(courseOpPanelLayout);
         courseOpPanelLayout.setHorizontalGroup(
@@ -768,12 +768,10 @@ public class Dashboard extends javax.swing.JFrame {
                 .addGap(56, 56, 56)
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 514, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(112, 112, 112)
-                .addGroup(courseOpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(courseOpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(deleteCourseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(addCourseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(49, Short.MAX_VALUE))
+                .addGroup(courseOpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(deleteCourseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(addCourseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(84, Short.MAX_VALUE))
         );
         courseOpPanelLayout.setVerticalGroup(
             courseOpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -783,9 +781,7 @@ public class Dashboard extends javax.swing.JFrame {
                     .addGroup(courseOpPanelLayout.createSequentialGroup()
                         .addComponent(addCourseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(deleteCourseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(deleteCourseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(76, Short.MAX_VALUE))
         );
@@ -842,7 +838,7 @@ public class Dashboard extends javax.swing.JFrame {
 
         expLabel1.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
         expLabel1.setForeground(new java.awt.Color(51, 50, 44));
-        expLabel1.setText("Talep edilen el sanatları:");
+        expLabel1.setText("Talep edilen dersler:");
         expLabel1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         maxBudgetLabel.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
@@ -982,15 +978,24 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
+        expLabel3.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
+        expLabel3.setForeground(new java.awt.Color(51, 50, 44));
+        expLabel3.setText("Seçilmiş dersler:");
+        expLabel3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
         javax.swing.GroupLayout salesPanelLayout = new javax.swing.GroupLayout(salesPanel);
         salesPanel.setLayout(salesPanelLayout);
         salesPanelLayout.setHorizontalGroup(
             salesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(salesPanelLayout.createSequentialGroup()
-                .addGroup(salesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(salesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(salesPanelLayout.createSequentialGroup()
                         .addGap(46, 46, 46)
                         .addGroup(salesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(salesPanelLayout.createSequentialGroup()
+                                .addComponent(chooseDateLabel)
+                                .addGap(18, 18, 18)
+                                .addComponent(weekComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(salesPanelLayout.createSequentialGroup()
                                 .addGroup(salesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(emailLabel)
@@ -1001,51 +1006,48 @@ public class Dashboard extends javax.swing.JFrame {
                                     .addComponent(nameSurnameField))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(showNameButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(salesPanelLayout.createSequentialGroup()
-                                .addComponent(chooseDateLabel)
-                                .addGap(18, 18, 18)
-                                .addComponent(weekComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(expLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(49, 49, 49))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, salesPanelLayout.createSequentialGroup()
+                                .addComponent(expLabel1)
+                                .addGap(269, 269, 269)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, salesPanelLayout.createSequentialGroup()
-                        .addContainerGap(27, Short.MAX_VALUE)
+                        .addContainerGap(48, Short.MAX_VALUE)
                         .addGroup(salesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(addLessonButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(salesPanelLayout.createSequentialGroup()
-                                .addComponent(addLessonButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                            .addGroup(salesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, salesPanelLayout.createSequentialGroup()
-                                    .addGroup(salesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addGroup(salesPanelLayout.createSequentialGroup()
-                                            .addComponent(maxBudgetLabel)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                            .addComponent(budgetField, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                            .addComponent(feeLabel2))
-                                        .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGap(47, 47, 47))
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, salesPanelLayout.createSequentialGroup()
-                                    .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))))))
-                .addGroup(salesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addGroup(salesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(expLabel3)))
+                            .addGroup(salesPanelLayout.createSequentialGroup()
+                                .addGroup(salesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(salesPanelLayout.createSequentialGroup()
+                                        .addComponent(maxBudgetLabel)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(budgetField, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(feeLabel2)))
+                        .addGap(23, 23, 23)))
+                .addGroup(salesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(paymentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, salesPanelLayout.createSequentialGroup()
+                    .addGroup(salesPanelLayout.createSequentialGroup()
                         .addComponent(expLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(cashRadioButton)
                         .addGap(18, 18, 18)
-                        .addComponent(cardRadioButton)))
+                        .addGroup(salesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(paymentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(salesPanelLayout.createSequentialGroup()
+                                .addComponent(cashRadioButton)
+                                .addGap(18, 18, 18)
+                                .addComponent(cardRadioButton)))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         salesPanelLayout.setVerticalGroup(
             salesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(salesPanelLayout.createSequentialGroup()
                 .addGap(42, 42, 42)
-                .addGroup(salesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 354, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(salesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(salesPanelLayout.createSequentialGroup()
                         .addGroup(salesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(emailLabel)
@@ -1060,26 +1062,33 @@ public class Dashboard extends javax.swing.JFrame {
                             .addComponent(chooseDateLabel)
                             .addComponent(weekComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(30, 30, 30)
-                        .addComponent(expLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(salesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGroup(salesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(expLabel1)
+                            .addComponent(expLabel3))
+                        .addGap(18, 18, 18)
+                        .addGroup(salesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane10, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
+                            .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                    .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 373, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(addLessonButton, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(salesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(maxBudgetLabel)
-                    .addComponent(budgetField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(feeLabel2)
-                    .addComponent(expLabel2)
-                    .addComponent(cashRadioButton)
-                    .addComponent(cardRadioButton))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
-                .addGroup(salesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(paymentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(38, 38, 38))
+                .addGap(18, 18, 18)
+                .addGroup(salesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(salesPanelLayout.createSequentialGroup()
+                        .addGroup(salesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(maxBudgetLabel)
+                            .addComponent(budgetField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(feeLabel2))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(salesPanelLayout.createSequentialGroup()
+                        .addGroup(salesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(expLabel2)
+                            .addComponent(cashRadioButton)
+                            .addComponent(cardRadioButton))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(paymentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("SATIŞ İŞLEMLERİ", salesPanel);
@@ -1292,59 +1301,67 @@ public class Dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_craftTableSellToChooseMouseClicked
 
     private void addLessonButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addLessonButtonActionPerformed
-        int selectedInstructor = craftTableSellToChoose.getSelectedRow();
-        if (selectedInstructor != -1) {
-            String craftName = craftTableSellToChoose.getValueAt(selectedInstructor, 1).toString();
-            if(craftTableSellChoosen.getRowCount()>0){
+        int selectedCraft = craftTableSellToChoose.getSelectedRow();
+        
+        if (selectedCraft != -1) {
+            String craftName = craftTableSellToChoose.getValueAt(selectedCraft, 1).toString();
+            
+            if (craftTableSellChoosen.getRowCount() > 0){
                 String example = craftTableSellChoosen.getValueAt(0, 1).toString();
                 try {
-                    if(DatabaseHelper.checkIfItsCompatible(example) != DatabaseHelper.checkIfItsCompatible(craftName)){
+                    if (DatabaseHelper.checkIfItsCompatible(example) != DatabaseHelper.checkIfItsCompatible(craftName)){
                        JOptionPane.showMessageDialog(null, "Haftasonu ve haftaiçi dersleri aynı kursta bulunamaz!");  
                        return;
                     }
                 } catch (SQLException ex) {
                     Logger.getLogger(Dashboard.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                
             }
+            
             if (getExistingCraft(craftName)) return;
-             
-            displayCourseDetails();    
+            displayCourseDetails();
+            
         } else {
-            JOptionPane.showMessageDialog(null, "Lütfen bir öğretmen seçiniz!");
+            JOptionPane.showMessageDialog(null, "Lütfen bir ders seçiniz!");
         }
     }//GEN-LAST:event_addLessonButtonActionPerformed
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
-        // Arama kısmına basıldığında sonuçların listelenmesi
-        Double budget = Double.valueOf(budgetField.getText());
-        List<Integer> IDs = getIDs(craftTableSellChoosen);
-        DatabaseHelper.displayFilteredCourses(coursesTable2, budget, IDs);
+        String nameSurname = nameSurnameField.getText();
+        String budgetText = budgetField.getText();
         
+        try {
+            Double budget = Double.valueOf(budgetText);
+            List<Integer> IDs = getIDs(craftTableSellChoosen);
+            DatabaseHelper.displayFilteredCourses(coursesTable2, budget, IDs);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Lütfen bütçe için sayısal bir değer giriniz!");
+        }
     }//GEN-LAST:event_searchButtonActionPerformed
 
     private void paymentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_paymentButtonActionPerformed
-        //registration
         boolean isCash;
         int selectedCourse = coursesTable2.getSelectedRow();
         int courseID = (int) coursesTable2.getValueAt(selectedCourse, 0);
         double fee = (double) coursesTable2.getValueAt(selectedCourse, 4);
+        
         if (cashRadioButton.isSelected()) {
             isCash = true;
-        } else if (cardRadioButton.isSelected()) {
+        }
+        else if (cardRadioButton.isSelected()) {
             isCash = false;
         }
         else {
-            JOptionPane.showMessageDialog(null, "Lütfen ödeme yöntemini ( kart veya nakit) seçiniz!");
+            JOptionPane.showMessageDialog(null, "Lütfen ödeme yöntemini (kart veya nakit) seçiniz!");
             return;
         }
+        
         String mail = emailField.getText();
         try {
             DatabaseHelper.addRegistration(courseID, isCash, mail, fee);
         } catch (SQLException ex) {
             Logger.getLogger(Dashboard.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
     }//GEN-LAST:event_paymentButtonActionPerformed
 
     private void deleteCourseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteCourseButtonActionPerformed
@@ -1352,15 +1369,15 @@ public class Dashboard extends javax.swing.JFrame {
         if (choiceControl(selectedRow, "kurs")) return;
         
         int courseID = (int) coursesTable1.getModel().getValueAt(selectedRow, 0);
-        System.out.println(selectedRow);
-        System.out.println(courseID);
+        
         try {
             DatabaseHelper.clearSectionsByCourseID(courseID);
         } catch (SQLException ex) {
             Logger.getLogger(Dashboard.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
         DatabaseHelper.deleteCourse(courseID);
-        DatabaseHelper.DisplayAllCourses(coursesTable1);
+        DatabaseHelper.displayAllCourses(coursesTable1);
     }//GEN-LAST:event_deleteCourseButtonActionPerformed
 
     /**
@@ -1426,6 +1443,7 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JLabel emailLabel;
     private javax.swing.JLabel expLabel1;
     private javax.swing.JLabel expLabel2;
+    private javax.swing.JLabel expLabel3;
     private javax.swing.JTextField feeField;
     private javax.swing.JLabel feeLabel;
     private javax.swing.JLabel feeLabel2;
@@ -1443,11 +1461,9 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JPanel lessonOpPanel;
     private javax.swing.JLabel maxBudgetLabel;
     private javax.swing.JTextField nameSurnameField;

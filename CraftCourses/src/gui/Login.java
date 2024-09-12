@@ -13,7 +13,7 @@ public class Login extends javax.swing.JFrame {
         String username = usernameField.getText();
         String password = new String(passwordField.getPassword());
         
-        if (username.equals("admin") && password.equals("1234")) {
+        if (username.equals("admin") && password.equals("12345")) {
             JOptionPane.showMessageDialog(this, "Giriş başarılı!");
             new Dashboard().setVisible(true);
             dispose();
@@ -144,8 +144,6 @@ public class Login extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        String username = "admin";
-        String password = "1234";
         DatabaseHelper.connectDB();
         
         try {
@@ -165,8 +163,6 @@ public class Login extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        
-        System.out.println("Uygulama baslatildi!");
         
         // Create and display the form
         java.awt.EventQueue.invokeLater(new Runnable() {

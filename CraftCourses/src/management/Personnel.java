@@ -1,8 +1,5 @@
 package management;
 
-import java.util.ArrayList;
-import database.DatabaseHelper;
-
 public class Personnel {
     private String username;
     private String password;

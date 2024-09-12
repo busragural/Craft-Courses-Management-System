@@ -4,15 +4,17 @@ import database.DatabaseHelper;
 
 public class StudentCourses extends javax.swing.JFrame {
     private static int ID;
+    
     public StudentCourses(int studentID, int par) {
         initComponents();
         ID = studentID;
-        if(par == 0){
+        
+        if (par == 0) {
             DatabaseHelper.DisplayCurrentCourses(ID, courseDetailsTable);
-        }else{
+        }
+        else {
             DatabaseHelper.DisplayPastCourses(ID, courseDetailsTable);
         }
-        
     }
     
     /**
